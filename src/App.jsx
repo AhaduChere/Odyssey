@@ -1,14 +1,12 @@
 import './App.css'
-import Loginform from './Components/LoginForm/Loginform.jsx'
-import Footer from './Components/Footer/Footer.jsx'
+import LoginPage from './Pages/LoginPage/LoginPage.jsx'
+import { createBrowserRouter } from 'react-router-dom'
+ 
 
 function App() {
-
-
   return (
     <>
-      <Loginform></Loginform>
-      <Footer></Footer>
+      <LoginPage></LoginPage>
     </>
   )
 }
