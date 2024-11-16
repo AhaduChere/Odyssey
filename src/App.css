@@ -1,0 +1,10 @@
+@font-face {
+  font-family: 'Caeser';
+  src: url('/CAESAR.TTF') format('truetype');
+}
+body {
+  height: 100%;
+  overflow-y: auto;
+  background: cadetblue;
+  background-attachment: fixed;
+}
