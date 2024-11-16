@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://AhaduChere.github.io/Odyssey",
+  "homepage": "https://ahaduchere.github.io/Odyssey",
   "scripts": {
     "dev": "vite",
     "start": "node open.js",
