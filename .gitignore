@@ -22,3 +22,8 @@ node_modules
 *.sw?
 package-lock.json
 open.js
+dist/CAESAR.TTF
+dist/index.html
+dist/Logo.svg
+dist/assets/index-BgmHZkR0.css
+dist/assets/index-D94qR8nI.js
