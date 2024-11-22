@@ -3,3 +3,4 @@ A fictional banking website I made to practice front-end development using React
 
 # Future Plans 
 Add a dashboard after logging in 
+Add multiple pages from login page
