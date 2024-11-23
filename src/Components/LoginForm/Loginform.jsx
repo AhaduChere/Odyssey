@@ -9,8 +9,8 @@ function Loginform() {
                     </div>
                 </div>
                 <div className="text-center text-black text-5xl font-Caeser select-none -mt-10 font-bold pb-5">
-                    <span className="block">Odyssey</span>
-                    <span className="block">Financial</span>
+                    <span className="block font-bold">Odyssey</span>
+                    <span className="block font-bold">Financial</span>
                 </div>
                 <div className="w-full flex justify-center items-center">
                     <input className="w-11/12 bg-transparent border-2 border-black/60 outline-none rounded-full text-black text-md font-serif placeholder-black px-5 py-2 mb-3" required="" placeholder="Username" type="text" />
@@ -23,7 +23,7 @@ function Loginform() {
                     <label htmlFor="remember-me" className="ml-3 block text-md text-black select-none">Remember me</label>
                 </div>
                 <div className="w-full flex justify-center pt-5">
-                    <button className="inline-flex w-10/12 items-center justify-center rounded-full bg-zinc-800 px-3.5 py-2.5 font-semibold leading-7 text-white">
+                    <button href="Dashboard" className="inline-flex w-10/12 items-center justify-center rounded-full bg-zinc-800 px-3.5 py-2.5 font-semibold leading-7 text-white">
                         Login
                     </button>
                 </div>
