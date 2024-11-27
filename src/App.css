@@ -5,6 +5,10 @@
 body {
   height: 100%;
   overflow-y: auto;
-  background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
+  background-image: linear-gradient(to top, #1A3A5D 0%, #4A90E2 100%);
   background-attachment: fixed;
 }
+
+
+/* old color   background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
+*/
