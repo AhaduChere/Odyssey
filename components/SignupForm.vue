@@ -68,7 +68,7 @@
               @click="() => props.onToggle('login')"
               class="text-black hover:underline select-none cursor-pointer ml-1 bg-transparent border-none p-0"
             >
-              Sign in
+              Log in
             </button>
           </p>
         </div>

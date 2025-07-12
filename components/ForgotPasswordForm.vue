@@ -33,7 +33,7 @@
           />
         </div>
 
-        <div class="w-full flex justify-center">
+        <div class="w-full flex justify-center pt-1">
           <button
             type="submit"
             class="inline-flex w-10/12 items-center justify-center rounded-full bg-black px-3.5 py-2.5 font-semibold leading-7 text-white"
@@ -42,15 +42,14 @@
           </button>
         </div>
 
-        <div class="text-center mt-5 -mb-2">
+        <div class="text-center mt-3 -mb-2">
           <p class="text-sm font-medium text-black">
-            Already have an account?
             <button
               type="button"
               @click="() => props.onToggle('login')"
               class="text-black hover:underline select-none cursor-pointer ml-1 bg-transparent border-none p-0"
             >
-              Sign in
+              Back to Login
             </button>
           </p>
         </div>

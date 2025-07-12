@@ -66,7 +66,6 @@
 
             <span
               @click="() => props.onToggle('forgot')"
-              @keydown.enter="() => props.onToggle('forgot')"
               role="button"
               tabindex="0"
               class="text-black hover:underline select-none block cursor-pointer pt-2"

@@ -53,7 +53,7 @@ const setForm = (formName) => {
   transform: rotateY(180deg);
 }
 .flip-cube.flippedForgot {
-  transform: rotateY(-180deg);
+  transform: rotateY(180deg);
 }
 
 .face {
@@ -71,7 +71,7 @@ const setForm = (formName) => {
 /* the three faces */
 .face.front { transform: rotateY(0deg); z-index: 2; }
 .face.back  { transform: rotateY(180deg); }
-.face.left  { transform: rotateY(-180deg); }
+.face.left  { transform: rotateY(180deg); }
 
 /* DEFAULT: hide back & left until explicitly flipped-to */
 .face.back,
