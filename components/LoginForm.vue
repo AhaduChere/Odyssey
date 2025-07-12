@@ -2,7 +2,7 @@
   <div class="flex items-center justify-center min-h-screen -mt-24">
     <div
       class="relative w-fit bg-gradient-to-b from-white to-[#c4c4c4] shadow-2xl flex rounded-3xl px-6 py-8 justify-center text-center drop-shadow-lg"
-      style="max-width: 100%; min-width: 280px"
+      style="max-width: 100%; min-width: 280px; height: 550px; "
     >
       <form>
         <div class="flex justify-center">
@@ -17,10 +17,10 @@
         </div>
 
         <div
-          class="text-center text-black text-5xl font-Caeser select-none -mt-10 font-bold pb-6"
+          class="text-center text-black text-5xl font-Caeser select-none -mt-10 font-bold pb-10"
         >
           <span class="block font-bold">Odyssey</span>
-          <span class="block text-xl font-normal mt-2">Track your goals,</span>
+          <span class="block text-xl font-normal mt-2">Track your goals</span>
           <span class="block text-xl font-normal">one journey at a time</span>
         </div>
 
@@ -42,7 +42,7 @@
           />
         </div>
 
-        <div class="w-full flex justify-center pt-5">
+        <div class="w-full flex justify-center pt-7">
           <NuxtLink
             to="/"
             class="inline-flex w-10/12 items-center justify-center rounded-full bg-black px-3.5 py-2.5 font-semibold leading-7 text-white"
