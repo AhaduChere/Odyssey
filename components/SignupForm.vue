@@ -2,7 +2,7 @@
   <div class="flex items-center justify-center min-h-screen -mt-24">
     <div
       class="relative w-fit bg-gradient-to-b from-white to-[#c4c4c4] shadow-2xl flex rounded-3xl px-6 py-8 justify-center text-center drop-shadow-lg"
-      style="max-width: 100%; min-width: 280px; height: 550px;"
+      style="max-width: 100%; min-width: 280px; height: 550px"
     >
       <form>
         <div class="flex justify-center">
@@ -62,10 +62,10 @@
 
         <div class="text-center mt-5 -mb-2">
           <p class="text-sm font-medium text-black">
-            Already have an account?
+            <span>Already have an account?</span>
             <button
               type="button"
-              @click="props.onToggle"
+              @click="() => props.onToggle('login')"
               class="text-black hover:underline select-none cursor-pointer ml-1 bg-transparent border-none p-0"
             >
               Sign in
