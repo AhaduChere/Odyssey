@@ -27,7 +27,7 @@
         <div class="w-full flex justify-center items-center pt-6 pb-2">
           <input
             required
-            placeholder="Enter your Email"
+            placeholder="Your Email"
             type="email"
             class="w-11/12 bg-white border-2 border-black outline-none rounded-full text-black text-md font-serif placeholder-black px-5 py-2 mb-3"
           />

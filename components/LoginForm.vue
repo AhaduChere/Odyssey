@@ -2,7 +2,7 @@
   <div class="flex items-center justify-center min-h-screen -mt-24">
     <div
       class="relative w-fit bg-gradient-to-b from-white to-[#c4c4c4] shadow-2xl flex rounded-3xl px-6 py-8 justify-center text-center drop-shadow-lg"
-      style="max-width: 100%; min-width: 280px; height: 550px"
+      style="max-width: 100%; min-width: 280px;"
     >
       <form>
         <div class="flex justify-center">
@@ -17,7 +17,7 @@
         </div>
 
         <div
-          class="text-center text-black text-5xl font-Caeser select-none -mt-10 font-bold pb-10"
+          class="text-center text-black text-5xl font-Caeser select-none -mt-10 font-bold pb-6"
         >
           <span class="block font-bold">Odyssey</span>
           <span class="block text-xl font-normal mt-2">Track your goals</span>
@@ -29,7 +29,7 @@
             required
             placeholder="Username"
             type="text"
-            class="w-11/12 bg-white border-2 border-black outline-none rounded-full text-black text-md font-serif placeholder-black px-5 py-2 mb-3"
+            class="w-11/12 bg-white border-2 border-black outline-none rounded-full text-black text-md font-serif placeholder-black px-5 py-2 mb-5"
           />
         </div>
 
@@ -42,16 +42,16 @@
           />
         </div>
 
-        <div class="w-full flex justify-center pt-7">
+        <div class="w-full flex justify-center pt-4">
           <NuxtLink
             to="/"
-            class="inline-flex w-10/12 items-center justify-center rounded-full bg-black px-3.5 py-2.5 font-semibold leading-7 text-white"
+            class="inline-flex w-10/12 items-center justify-center rounded-full bg-black px-3.5 py-2 font-semibold leading-7 text-white"
           >
             Login
           </NuxtLink>
         </div>
 
-        <div class="text-center mt-4">
+        <div class="text-center mt-2">
           <p class="text-sm font-medium text-black text-center">
 
             <span
@@ -68,7 +68,7 @@
               @click="() => props.onToggle('forgot')"
               role="button"
               tabindex="0"
-              class="text-black hover:underline select-none block cursor-pointer pt-2"
+              class="text-black hover:underline select-none block cursor-pointer pt-2 -mb-4"
             >
               Forgot Password?
             </span>
