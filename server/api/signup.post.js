@@ -20,7 +20,8 @@ export default defineEventHandler(async (event) => {
 
   // Insert user
   await db.run(
-    'INSERT INTO Users (email, hashed_password, created_at) VALUES (?, ?, datetime("now"))',
+    'INSERT INTO Users (username, email, hashed_password, created_at) VALUES (?, ?, ?, datetime("now"))',
+    username,
     email,
     hashedPassword,
   );

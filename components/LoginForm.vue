@@ -2,9 +2,9 @@
   <div class="flex items-center justify-center min-h-screen -mt-24">
     <div
       class="relative w-fit bg-gradient-to-b from-white to-[#c4c4c4] shadow-2xl flex rounded-3xl px-6 py-8 justify-center text-center drop-shadow-lg"
-      style="max-width: 100%; min-width: 424px;"
+      style="max-width: 100%; min-width: 424px"
     >
-      <form>
+      <form @submit.prevent="login">
         <div class="flex justify-center">
           <div class="w-[120px] h-[120px] mx-32 mb-4 select-none">
             <img
@@ -26,6 +26,7 @@
 
         <div class="w-full flex justify-center items-center">
           <input
+            v-model="username"
             required
             placeholder="Username"
             type="text"
@@ -35,6 +36,7 @@
 
         <div class="w-full flex justify-center items-center">
           <input
+            v-model="password"
             required
             placeholder="Password"
             type="password"
@@ -43,17 +45,16 @@
         </div>
 
         <div class="w-full flex justify-center pt-4">
-          <NuxtLink
-            to="/"
+          <button
+            type="submit"
             class="inline-flex w-10/12 items-center justify-center rounded-full bg-black px-3.5 py-2 font-semibold leading-7 text-white"
           >
             Login
-          </NuxtLink>
+          </button>
         </div>
 
         <div class="text-center mt-2">
           <p class="text-sm font-medium text-black text-center">
-
             <span
               @click="() => props.onToggle('signup')"
               role="button"
@@ -72,10 +73,8 @@
             >
               Forgot Password?
             </span>
-            
           </p>
         </div>
-
       </form>
     </div>
   </div>
@@ -83,7 +82,25 @@
 
 <script setup>
 import Logo from "~/assets/Logo.svg";
+import { navigateTo } from "#app";
+import { ref } from "vue";
+
 const props = defineProps({
   onToggle: Function,
 });
+
+const username = ref("");
+const password = ref("");
+
+const login = async () => {
+  try {
+    await $fetch("/api/login", {
+      method: "POST",
+      body: { username: username.value, password: password.value },
+    });
+    window.location.reload();
+  } catch (error) {
+    console.error("Login failed:", error);
+  }
+};
 </script>
