@@ -27,5 +27,5 @@ export default defineNuxtRouteMiddleware(async (to) => {
 const isAuthPage = to.path === "/Auth";
 
 if (!userState.value && !isAuthPage) return navigateTo("/Auth");
-if (userState.value && isAuthPage) return navigateTo("/Dashboard");
+if (userState.value && isAuthPage) return navigateTo("/");
 });
