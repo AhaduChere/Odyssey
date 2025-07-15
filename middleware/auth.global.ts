@@ -1,23 +1,22 @@
-// middleware/auth.global.ts
-import { useCookie } from '#app';
+import { useCookie } from "#app";
 
 export default defineNuxtRouteMiddleware(async (to) => {
-  const userState = useState('user');
+  const userState = useState("user");
 
-  // 1) Hydrate from cookie on the server
-  if (!userState.value && process.server) {
-    const token = useCookie('session_token').value;
+  if (!userState.value && import.meta.env.SSR) {
+    const token = useCookie("session_token").value;
     if (token) {
-      // only import and run DB code on the server
-      const sqlite3 = await import('sqlite3');
-      const { open } = await import('sqlite');
+      const sqlite3 = (await import("sqlite3")).default;
+      const { open } = await import("sqlite");
+
       const db = await open({
-        filename: './server/database/Odyssey.db',
+        filename: "./server/database/Odyssey.db",
         driver: sqlite3.Database,
       });
+
       const row = await db.get(
-        'SELECT user_id FROM Sessions WHERE token = ?',
-        token
+        "SELECT user_id FROM Sessions WHERE token = ?",
+        token,
       );
       if (row) {
         userState.value = { id: row.user_id };
@@ -25,14 +24,8 @@ export default defineNuxtRouteMiddleware(async (to) => {
     }
   }
 
-  // 2) Your existing public/auth redirect logic
-  const publicPages = ['/Auth'];
-  const isPublic = publicPages.includes(to.path);
+const isAuthPage = to.path === "/Auth";
 
-  if (!userState.value && !isPublic) {
-    return navigateTo('/Auth');
-  }
-  if (userState.value && isPublic) {
-    return navigateTo('/');
-  }
+if (!userState.value && !isAuthPage) return navigateTo("/Auth");
+if (userState.value && isAuthPage) return navigateTo("/Dashboard");
 });

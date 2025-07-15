@@ -20,23 +20,20 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, message: 'Invalid credentials' });
   }
 
-  // Create a secure session token
   const { randomUUID } = await import('crypto');
   const token = randomUUID();
 
-  // Store session in DB
   await db.run(
     'INSERT INTO Sessions (token, user_id) VALUES (?, ?)',
     token,
     user.user_id
   );
 
-  // Set HTTP-only cookie
   setCookie(event, 'session_token', token, {
     httpOnly: true,
     sameSite: 'lax',
     path: '/',
-    maxAge: 60 * 60 * 24 * 7, // 1 week
+    maxAge: 60 * 60 * 24 * 7, 
   });
 
   return { userId: user.user_id };

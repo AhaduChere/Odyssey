@@ -82,7 +82,6 @@
 
 <script setup>
 import Logo from "~/assets/Logo.svg";
-import { navigateTo } from "#app";
 import { ref } from "vue";
 
 const props = defineProps({
