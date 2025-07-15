@@ -2,7 +2,7 @@
   <div class="flex items-center justify-center min-h-screen -mt-24">
     <div
       class="relative w-fit bg-gradient-to-b from-white to-[#c4c4c4] shadow-2xl flex rounded-3xl px-6 py-8 justify-center text-center drop-shadow-lg"
-      style="max-width: 100%; min-width: 280px; /* height: 550px */"
+      style="max-width: 100%; min-width: 424px;"
     >
       <form>
         <div class="flex justify-center">
@@ -33,7 +33,7 @@
           />
         </div>
 
-        <div class="w-full flex justify-center pt-1">
+        <div class="w-full flex justify-center">
           <button
             type="submit"
             class="inline-flex w-10/12 items-center justify-center rounded-full bg-black px-3.5 py-2.5 font-semibold leading-7 text-white"

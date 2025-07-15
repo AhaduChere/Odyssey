@@ -2,9 +2,9 @@
   <div class="flex items-center justify-center min-h-screen -mt-24">
     <div
       class="relative w-fit bg-gradient-to-b from-white to-[#c4c4c4] shadow-2xl flex rounded-3xl px-6 py-8 justify-center text-center drop-shadow-lg"
-      style="max-width: 100%; min-width: 280px;"
+      style="max-width: 100%; min-width: 424px"
     >
-      <form>
+      <form @submit.prevent="signup">
         <div class="flex justify-center">
           <div class="w-[120px] h-[120px] mx-32 mb-4 select-none">
             <img
@@ -26,15 +26,17 @@
 
         <div class="w-full flex justify-center items-center">
           <input
+            v-model="username"
             required
             placeholder="Username"
-            type="username"
+            type="text"
             class="w-11/12 bg-white border-2 border-black outline-none rounded-full text-black text-md font-serif placeholder-black px-5 py-2 mb-3"
           />
         </div>
 
         <div class="w-full flex justify-center items-center">
           <input
+            v-model="email"
             required
             placeholder="Email"
             type="email"
@@ -44,6 +46,7 @@
 
         <div class="w-full flex justify-center items-center">
           <input
+            v-model="password"
             required
             placeholder="Password"
             type="password"
@@ -78,8 +81,24 @@
 </template>
 
 <script setup>
+import { ref } from "vue";
 import Logo from "~/assets/Logo.svg";
-const props = defineProps({
-  onToggle: Function,
-});
+const props = defineProps({ onToggle: Function });
+
+const username = ref("");
+const email = ref("");
+const password = ref("");
+
+const signup = async () => {
+  try {
+    const res = await $fetch('/api/signup', {
+      method: 'POST',
+      body: { username: username.value, email: email.value, password: password.value }
+    });
+    console.log('Signup success:', res);
+    props.onToggle('login');
+  } catch (error) {
+    console.error('Signup error:', error);
+  }
+};
 </script>

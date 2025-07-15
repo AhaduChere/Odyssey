@@ -2,7 +2,7 @@
   <div class="flex items-center justify-center min-h-screen -mt-24">
     <div
       class="relative w-fit bg-gradient-to-b from-white to-[#c4c4c4] shadow-2xl flex rounded-3xl px-6 py-8 justify-center text-center drop-shadow-lg"
-      style="max-width: 100%; min-width: 280px;"
+      style="max-width: 100%; min-width: 424px;"
     >
       <form>
         <div class="flex justify-center">
