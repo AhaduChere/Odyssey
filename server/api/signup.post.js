@@ -15,6 +15,18 @@ export default defineEventHandler(async (event) => {
     driver: sqlite3.Database,
   });
 
+  const existingUser = await db.get(
+    "SELECT 1 FROM Users WHERE username = ? OR email = ?",
+    username,
+    email,
+  );
+
+  if (existingUser) {
+    throw createError({
+      statusCode: 409,
+      message: "Username or email already taken",
+    });
+  }
   // Hash password
   const hashedPassword = await hash(password, 10);
 

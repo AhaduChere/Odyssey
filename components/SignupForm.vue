@@ -91,14 +91,22 @@ const password = ref("");
 
 const signup = async () => {
   try {
-    const res = await $fetch('/api/signup', {
-      method: 'POST',
-      body: { username: username.value, email: email.value, password: password.value }
+    const res = await $fetch("/api/signup", {
+      method: "POST",
+      body: {
+        username: username.value,
+        email: email.value,
+        password: password.value,
+      },
     });
-    console.log('Signup success:', res);
-    props.onToggle('login');
+    console.log("Signup success:", res);
+    props.onToggle("login");
   } catch (error) {
-    console.error('Signup error:', error);
+    if (error.status === 409) {
+      alert("Username or email already taken");
+    } else {
+      alert("Signup failed. Please try again.");
+    }
   }
 };
 </script>

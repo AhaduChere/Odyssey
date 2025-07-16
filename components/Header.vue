@@ -31,7 +31,7 @@
             :to="link.to"
             :class="{
               'text-black': selectedIndex === index,
-              'text-gray-600 hover:text-black': selectedIndex !== index,
+              'text-neutral-500 outline-black hover:text-black ': selectedIndex !== index,
             }"
           >
             {{ link.label }}

@@ -1,22 +1,43 @@
 <template>
-  <div
-    class="flex items-start justify-center min-h-screen mt-10 overflow-hidden"
-  >
-    <div class="relative h-[80vh] max-w-[90vw] min-w-[1200px] mx-auto bg-gradient-to-b from-white to-[#c4c4c4] shadow-2xl rounded-3xl flex justify-center drop-shadow-lg">
-      <div class="pt-20 w-full">
-        <h2 class="text-4xl mb-6 font-semibold">Account Info</h2>
+  <div class="flex items-center justify-center mt-10 px-6 overflow-hidden">
+    <div
+      class="relative min-h-[725px] w-full max-w-[90vw] min-w-[615px] bg-gradient-to-b from-white to-[#7a7a7a] rounded-3xl flex flex-col border border-gray-300/50 backdrop-blur-sm p-10 justify-between"
+    >
+      <div class="space-y-8">
+        <h2 class="text-5xl font-Caeser font-extrabold text-center text-neutral-800 tracking-tight">
+          My Account
+        </h2>
 
-        <p class="mb-4 text-gray-700 text-lg">
-          <span class="font-semibold capitalize">Username:</span> {{ username }}
-        </p>
-        <p class="mb-8 text-gray-700 text-lg">
-          <span class="font-semibold capitalize">Email:</span> {{ email }}
-        </p>
+        <div class="grid grid-cols-2 gap-6 text-neutral-800">
+          <div class="p-4 rounded-xl backdrop-blur-sm border border-neutral-300 shadow-sm">
+            <p class="text-sm font-medium text-neutral-500">Username</p>
+            <p class="font-semibold text-xl">{{ username }}</p>
+          </div>
+          <div class="p-4 rounded-xl backdrop-blur-sm border border-neutral-300 shadow-sm">
+            <p class="text-sm font-medium text-neutral-500">Email</p>
+            <p class="font-semibold text-xl">{{ email }}</p>
+          </div>
+          <div class="p-4 rounded-xl backdrop-blur-sm border border-neutral-300 shadow-sm">
+            <p class="text-sm font-medium text-neutral-500">Goals In Progress</p>
+            <p class="font-semibold text-xl">{{ goalsInProgress }}</p>
+          </div>
+          <div class="p-4 rounded-xl backdrop-blur-sm border border-neutral-300 shadow-sm">
+            <p class="text-sm font-medium text-neutral-500">Goals Completed</p>
+            <p class="font-semibold text-xl">{{ goalsCompleted }}</p>
+          </div>
+        </div>
+      </div>
 
+      <div class="flex gap-4 pt-4">
+        <button
+          @click="editProfile"
+          class="flex-1 py-3 rounded-xl text-base font-semibold border border-neutral-800 text-neutral-800 hover:bg-neutral-800 hover:text-white transition"
+        >
+          Edit Profile
+        </button>
         <button
           @click="logout"
-          type="button"
-          class="w-full text-lg px-6 py-3 rounded bg-stone-500 text-white hover:bg-stone-600 transition"
+          class="flex-1 py-3 rounded-xl text-base font-semibold border border-neutral-800 text-neutral-800 hover:bg-neutral-800 hover:text-white transition"
         >
           Logout
         </button>
@@ -31,18 +52,18 @@ import { useState } from "#app";
 
 const username = ref("");
 const email = ref("");
+const goalsInProgress = ref(0);
+const goalsCompleted = ref(0);
 
 onMounted(() => {
-  let UserID = useState("user").value.id;
-
-  // username.value = "john_doe";
-  // email.value = "john@example.com";
+  const Userid = useState("user").value;
+  username.value = "john_doe";
+  email.value = "john@example.com";
 });
 
 const logout = async () => {
   await $fetch("/api/logout", { method: "POST" });
-  const user = useState("user");
-  user.value = null;
+  useState("user").value = null;
   window.location.reload();
 };
 </script>
