@@ -27,10 +27,8 @@ export default defineEventHandler(async (event) => {
       message: "Username or email already taken",
     });
   }
-  // Hash password
   const hashedPassword = await hash(password, 10);
 
-  // Insert user
   await db.run(
     'INSERT INTO Users (username, email, hashed_password, created_at) VALUES (?, ?, ?, datetime("now"))',
     username,
