@@ -22,13 +22,14 @@
         <li
           v-for="link in links"
           :key="link.to"
-          class="cursor-pointer mr-4 last:mr-0"
+          class="cursor-pointer divide-x-2 "
         >
           <NuxtLink
             :to="link.to"
             :class="{
-              'text-black border-b-2 border-black pb-[25px]': route.path === link.to,
-              'text-neutral-500 hover:text-black': route.path !== link.to,
+              'text-black px-2 ':
+                route.path === link.to,
+              'text-neutral-500 px-2 hover:text-black': route.path !== link.to,
             }"
           >
             {{ link.label }}

@@ -16,6 +16,6 @@ export default defineEventHandler(async (event) => {
   });
 
   db.run("UPDATE Users SET email = ? WHERE user_id = ?", newemail, ID);
-
+  db.close();
   return { success: true };
 });

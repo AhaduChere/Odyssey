@@ -168,11 +168,10 @@ const saveChanges = async () => {
       body: {
         newemail: Tempemail.value,
         userid: userId,
-      }
+      },
     });
     email.value = Tempemail.value;
   } else {
-    console.log("no changes made");
   }
   Edit.value = !Edit.value;
 };
