@@ -148,7 +148,6 @@ const editProfile = () => {
 };
 const saveChanges = async () => {
   if (Tempusername.value != username.value) {
-    console.log("send api call to update username");
     await $fetch("api/user", {
       method: "PATCH",
       body: {
@@ -164,7 +163,13 @@ const saveChanges = async () => {
       Tempemail.value = email.value;
       return;
     }
-    console.log("send api call to update email");
+    await $fetch("api/email", {
+      method: "PATCH",
+      body: {
+        newemail: Tempemail.value,
+        userid: userId,
+      }
+    });
     email.value = Tempemail.value;
   } else {
     console.log("no changes made");
