@@ -48,20 +48,20 @@
           </div>
         </div>
       </div>
-<div class="flex gap-4 pt-4">
-  <button
-    @click="editProfile"
-    class="flex-1 py-3 rounded-2xl border border-neutral-800 text-neutral-900 bg-transparent hover:bg-neutral-800 hover:text-white transition duration-200"
-  >
-    Edit Profile
-  </button>
-  <button
-    @click="logout"
-    class="flex-1 py-3 rounded-2xl border border-neutral-800 text-neutral-900 bg-transparent hover:bg-neutral-800 hover:text-white transition duration-200"
-  >
-    Logout
-  </button>
-</div>
+      <div class="flex gap-4 pt-4">
+        <button
+          @click="editProfile"
+          class="flex-1 py-3 rounded-2xl border border-neutral-800 text-neutral-900 bg-transparent hover:bg-neutral-800 hover:text-white transition duration-200"
+        >
+          Edit Profile
+        </button>
+        <button
+          @click="logout"
+          class="flex-1 py-3 rounded-2xl border border-neutral-800 text-neutral-900 bg-transparent hover:bg-neutral-800 hover:text-white transition duration-200"
+        >
+          Logout
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -75,11 +75,15 @@ const email = ref("");
 const goalsInProgress = ref(0);
 const goalsCompleted = ref(0);
 
-onMounted(() => {
-  const Userid = useState("user").value;
-  username.value = "john_doe";
-  email.value = "john@example.com";
-});
+const userId = useState("user").value.id;
+
+try {
+  const data = await $fetch(`/api/user?id=${userId}`);
+  username.value = data.username;
+  email.value = data.email;
+} catch (err) {
+  console.error("Failed to fetch user data", err);
+}
 
 const logout = async () => {
   await $fetch("/api/logout", { method: "POST" });
