@@ -17,19 +17,19 @@
 
     <div class="overflow-visible w-full flex relative">
       <ul
-        class="flex items-center text-xl font-medium select-none ml-auto whitespace-nowrap relative"
+        class="flex items-center text-2xl font-medium select-none ml-auto whitespace-nowrap relative"
       >
         <li
           v-for="link in links"
           :key="link.to"
-          class="cursor-pointer divide-x-2 "
+          class="cursor-pointer divide-x-2 font-Caeser"
         >
           <NuxtLink
             :to="link.to"
             :class="{
-              'text-black px-2 ':
-                route.path === link.to,
-              'text-neutral-500 px-2 hover:text-black': route.path !== link.to,
+              'text-black px-2  drop-shadow-2xl': route.path === link.to,
+              'text-neutral-500 px-2 hover:text-black hover:drop-shadow-2xl':
+                route.path !== link.to,
             }"
           >
             {{ link.label }}

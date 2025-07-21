@@ -14,10 +14,11 @@
       ></div>
     </div>
   </section>
+
   <section v-else>
     <div class="flex items-center justify-center mt-10 px-6 overflow-hidden">
       <div
-        class="relative min-h-[725px] w-full max-w-[35vw] min-w-[615px] bg-gradient-to-b from-neutral-200 to-neutral-500 rounded-3xl flex flex-col backdrop-blur-sm p-10 justify-between"
+        class="relative min-h-[80px] w-full max-w-[35vw] min-w-[615px] bg-gradient-to-b from-neutral-200 to-neutral-500 rounded-3xl flex flex-col backdrop-blur-sm p-10 justify-between"
       >
         <div class="space-y-8">
           <h2
@@ -27,12 +28,14 @@
           </h2>
 
           <div
-            class="grid grid-cols-1 gap-6 max-w-4xl mx-auto text-neutral-900"
+            class="grid grid-cols-2 gap-6 max-w-4xl mx-auto text-neutral-900"
           >
             <div
               class="relative p-6 rounded-2xl border border-neutral-800 shadow-lg bg-transparent"
             >
-              <p class="text-xs uppercase tracking-wide text-neutral-600 mb-1">
+              <p
+                class="text-xs uppercase tracking-wide text-neutral-600 mb-1 select-none"
+              >
                 Username
               </p>
               <div v-if="Edit">
@@ -42,14 +45,16 @@
                 />
               </div>
               <div v-else>
-                <p class="text-2xl font-bold">{{ username }}</p>
+                <p class="text-2xl font-bold select-none">{{ username }}</p>
               </div>
             </div>
 
             <div
               class="relative p-6 rounded-2xl border border-neutral-800 shadow-lg bg-transparent"
             >
-              <p class="text-xs uppercase tracking-wide text-neutral-600 mb-1">
+              <p
+                class="text-xs uppercase tracking-wide text-neutral-600 mb-1 select-none"
+              >
                 Email
               </p>
               <div v-if="Edit">
@@ -60,26 +65,8 @@
                 />
               </div>
               <div v-else>
-                <p class="text-2xl font-bold">{{ email }}</p>
+                <p class="text-2xl font-bold select-none">{{ email }}</p>
               </div>
-            </div>
-
-            <div
-              class="relative p-6 rounded-2xl border border-neutral-800 shadow-lg bg-transparent"
-            >
-              <p class="text-xs uppercase tracking-wide text-neutral-600 mb-1">
-                Goals In Progress
-              </p>
-              <p class="text-2xl font-bold">{{ goalsInProgress }}</p>
-            </div>
-
-            <div
-              class="relative p-6 rounded-2xl border border-neutral-800 shadow-lg bg-transparent"
-            >
-              <p class="text-xs uppercase tracking-wide text-neutral-600 mb-1">
-                Goals Completed
-              </p>
-              <p class="text-2xl font-bold">{{ goalsCompleted }}</p>
             </div>
           </div>
         </div>
