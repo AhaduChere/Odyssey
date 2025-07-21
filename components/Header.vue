@@ -48,8 +48,8 @@ const route = useRoute();
 
 const links = [
   { to: "/", label: "Home" },
-  { to: "/filler1", label: "Filler" },
-  { to: "/filler2", label: "Filler" },
+  { to: "/Calendar", label: "Calendar" },
+  { to: "/Archive", label: "Archive" },
   { to: "/Account", label: "Account" },
 ];
 </script>
