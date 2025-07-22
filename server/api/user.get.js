@@ -31,11 +31,8 @@ export default defineEventHandler(async (event) => {
     }
     return user;
   } catch (err) {
-    return sendError(
-      event,
-      createError({ statusCode: 500, message: "DB error" }),
-    );
+    return sendError(event, createError({ statusCode: 500, message: err }));
   } finally {
-    await db.close();
+    db.close();
   }
 });

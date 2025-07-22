@@ -5,13 +5,13 @@
   >
     <!-- From Uiverse.io by Javierrocadev -->
     <div class="flex flex-row gap-2">
-      <div class="w-10 h-10 rounded-full bg-blue-50 animate-bounce"></div>
+      <div class="w-10 h-10 rounded-full bg-blue-50 animate-bounce" />
       <div
         class="w-10 h-10 rounded-full bg-blue-50 animate-bounce [animation-delay:-.3s]"
-      ></div>
+      />
       <div
         class="w-10 h-10 rounded-full bg-blue-50 animate-bounce [animation-delay:-.5s]"
-      ></div>
+      />
     </div>
   </section>
 
@@ -40,9 +40,9 @@
               </p>
               <div v-if="Edit">
                 <input
-                  class="text-2xl font-bold bg-transparent border-black border-b w-full focus:outline-none focus:shadow-none"
                   v-model="Tempusername"
-                />
+                  class="text-2xl font-bold bg-transparent border-black border-b w-full focus:outline-none focus:shadow-none"
+                >
               </div>
               <div v-else>
                 <p class="text-2xl font-bold select-none">{{ username }}</p>
@@ -59,10 +59,10 @@
               </p>
               <div v-if="Edit">
                 <input
-                  class="text-2xl font-bold bg-transparent border-black border-b w-full focus:outline-none focus:shadow-none"
                   v-model="Tempemail"
+                  class="text-2xl font-bold bg-transparent border-black border-b w-full focus:outline-none focus:shadow-none"
                   type="email"
-                />
+                >
               </div>
               <div v-else>
                 <p class="text-2xl font-bold select-none">{{ email }}</p>
@@ -73,22 +73,22 @@
         <div class="flex gap-4 pt-4">
           <button
             v-if="Edit"
-            @click="saveChanges"
             class="flex-1 py-3 rounded-2xl border border-neutral-800 text-neutral-900 bg-transparent hover:bg-neutral-800 hover:text-white transition duration-200"
+            @click="saveChanges"
           >
             Save Changes
           </button>
           <button
             v-else
-            @click="editProfile"
             class="flex-1 py-3 rounded-2xl border border-neutral-800 text-neutral-900 bg-transparent hover:bg-neutral-800 hover:text-white transition duration-200"
+            @click="editProfile"
           >
             Edit Profile
           </button>
 
           <button
-            @click="logout"
             class="flex-1 py-3 rounded-2xl border border-neutral-800 text-neutral-900 bg-transparent hover:bg-neutral-800 hover:text-white transition duration-200"
+            @click="logout"
           >
             Logout
           </button>
@@ -106,8 +106,6 @@ const Edit = ref(false);
 const loading = ref(true);
 const username = ref("");
 const email = ref("");
-const goalsInProgress = ref(0);
-const goalsCompleted = ref(0);
 const userId = useState("user").value.id;
 const Tempusername = ref();
 const Tempemail = ref();
@@ -115,11 +113,11 @@ const Tempemail = ref();
 onMounted(() => {
   const fetchData = async () => {
     try {
-      const data = await $fetch(`/api/user?id=${userId}`);
-      username.value = data.username;
-      email.value = data.email;
-      Tempusername.value = data.username;
-      Tempemail.value = data.email;
+      const userdata = await $fetch(`/api/user?id=${userId}`);
+      username.value = userdata.username;
+      email.value = userdata.email;
+      Tempusername.value = userdata.username;
+      Tempemail.value = userdata.email;
     } catch (err) {
       console.error("Failed to fetch user data", err);
     }
@@ -144,7 +142,7 @@ const saveChanges = async () => {
     });
     username.value = Tempusername.value;
   } else if (Tempemail.value != email.value) {
-    let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!regex.test(Tempemail.value)) {
       alert("Please enter a valid email address.");
       Tempemail.value = email.value;
@@ -158,7 +156,6 @@ const saveChanges = async () => {
       },
     });
     email.value = Tempemail.value;
-  } else {
   }
   Edit.value = !Edit.value;
 };
