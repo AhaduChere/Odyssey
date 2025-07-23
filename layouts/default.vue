@@ -1,12 +1,11 @@
 <template>
-  <Header v-if="!['/Auth'].includes(route.path)" />
-  <main>
+  <div>
+    <MainHeader v-if="!['/Auth'].includes(route.path)" />
     <slot />
-  </main>
+  </div>
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router'
-import Header from '~/components/Header.vue'
-const route = useRoute()
+import { useRoute } from "vue-router";
+const route = useRoute();
 </script>

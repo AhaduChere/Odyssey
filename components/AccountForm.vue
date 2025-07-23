@@ -3,7 +3,7 @@
     v-if="loading"
     class="flex items-center justify-center h-[80vh] overflow-hidden"
   >
-    <!-- From Uiverse.io by Javierrocadev -->
+    <!-- Loading Animation From Uiverse.io by Javierrocadev -->
     <div class="flex flex-row gap-2">
       <div class="w-10 h-10 rounded-full bg-blue-50 animate-bounce" />
       <div
@@ -18,11 +18,11 @@
   <section v-else>
     <div class="flex items-center justify-center mt-10 px-6 overflow-hidden">
       <div
-        class="relative min-h-[80px] w-full max-w-[35vw] min-w-[615px] bg-gradient-to-b from-neutral-200 to-neutral-500 rounded-3xl flex flex-col backdrop-blur-sm p-10 justify-between"
+        class="relative w-full max-w-[700px] min-w-[320px] min-h-[600px] bg-[#e3e9f3] rounded-3xl flex flex-col backdrop-blur-sm p-10 justify-between shadow-xl border border-white/10"
       >
         <div class="space-y-8">
           <h2
-            class="text-5xl font-Caeser font-extrabold text-center text-neutral-800 tracking-tight"
+            class="text-5xl font-Caeser font-extrabold text-center text-neutral-800 tracking-tight select-none"
           >
             My Account
           </h2>
@@ -30,47 +30,47 @@
           <div
             class="grid grid-cols-1 gap-6 max-w-4xl mx-auto text-neutral-900"
           >
-            <div
+            <!-- Username & Email Fields -->
+            <section
+              v-for="field in fields"
+              :key="field.key"
               class="relative p-6 rounded-2xl border border-neutral-800 shadow-lg bg-transparent"
             >
               <p
                 class="text-xs uppercase tracking-wide text-neutral-600 mb-1 select-none"
               >
-                Username
+                {{ field.label }}
               </p>
               <div v-if="Edit">
                 <input
-                  v-model="Tempusername"
+                  v-model="field.temp.value"
+                  :type="field.type"
                   class="text-2xl font-bold bg-transparent border-black border-b w-full focus:outline-none focus:shadow-none"
-                >
+                />
               </div>
               <div v-else>
-                <p class="text-2xl font-bold select-none">{{ username }}</p>
+                <p class="text-2xl font-bold select-none">
+                  {{ field.model.value }}
+                </p>
               </div>
-            </div>
-
-            <div
-              class="relative p-6 rounded-2xl border border-neutral-800 shadow-lg bg-transparent"
-            >
-              <p
-                class="text-xs uppercase tracking-wide text-neutral-600 mb-1 select-none"
-              >
-                Email
-              </p>
-              <div v-if="Edit">
-                <input
-                  v-model="Tempemail"
-                  class="text-2xl font-bold bg-transparent border-black border-b w-full focus:outline-none focus:shadow-none"
-                  type="email"
-                >
-              </div>
-              <div v-else>
-                <p class="text-2xl font-bold select-none">{{ email }}</p>
-              </div>
-            </div>
+            </section>
           </div>
+
+          <section
+            class="relative p-6 rounded-2xl border border-neutral-800 shadow-lg bg-transparent max-w-4xl mx-auto"
+          >
+            <p
+              class="text-xs uppercase tracking-wide text-neutral-600 mb-1 select-none"
+            >
+              Account Created
+            </p>
+            <p class="text-2xl font-bold select-none">
+              {{ created_at }}
+            </p>
+          </section>
         </div>
-        <div class="flex gap-4 pt-4">
+
+        <div class="flex gap-4 -mb-2">
           <button
             v-if="Edit"
             class="flex-1 py-3 rounded-2xl border border-neutral-800 text-neutral-900 bg-transparent hover:bg-neutral-800 hover:text-white transition duration-200"
@@ -106,9 +106,27 @@ const Edit = ref(false);
 const loading = ref(true);
 const username = ref("");
 const email = ref("");
+const created_at = ref("");
 const userId = useState("user").value.id;
-const Tempusername = ref();
-const Tempemail = ref();
+const Tempusername = ref("");
+const Tempemail = ref("");
+
+const fields = [
+  {
+    key: "username",
+    label: "Username",
+    model: username,
+    temp: Tempusername,
+    type: "text",
+  },
+  {
+    key: "email",
+    label: "Email",
+    model: email,
+    temp: Tempemail,
+    type: "email",
+  },
+];
 
 onMounted(() => {
   const fetchData = async () => {
@@ -116,6 +134,7 @@ onMounted(() => {
       const userdata = await $fetch(`/api/user?id=${userId}`);
       username.value = userdata.username;
       email.value = userdata.email;
+      created_at.value = formatDate(userdata.created_at);
       Tempusername.value = userdata.username;
       Tempemail.value = userdata.email;
     } catch (err) {
@@ -127,6 +146,12 @@ onMounted(() => {
   };
   fetchData();
 });
+
+const formatDate = (datetime) => {
+  const [datePart] = datetime.split(" ");
+  const [year, month, day] = datePart.split("-");
+  return `${month}-${day}-${year}`;
+};
 
 const editProfile = () => {
   Edit.value = !Edit.value;

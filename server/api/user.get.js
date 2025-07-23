@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
 
   try {
     const user = await db.get(
-      "SELECT username, email FROM Users WHERE user_id = ?",
+      "SELECT username, email, created_at FROM Users WHERE user_id = ?",
       id,
     );
     if (!user) {
