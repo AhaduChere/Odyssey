@@ -1,6 +1,7 @@
 import { hash } from "bcryptjs";
 import sqlite3 from "sqlite3";
 import { open } from "sqlite";
+import { createError, readBody, defineEventHandler } from "h3";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);

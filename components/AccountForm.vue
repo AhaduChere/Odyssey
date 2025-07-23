@@ -150,7 +150,11 @@ onMounted(() => {
 const formatDate = (datetime) => {
   const [datePart] = datetime.split(" ");
   const [year, month, day] = datePart.split("-");
-  return `${month}-${day}-${year}`;
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  return `${monthNames[parseInt(month) - 1]} ${parseInt(day)}, ${year}`;
 };
 
 const editProfile = () => {

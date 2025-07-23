@@ -14,26 +14,52 @@
       />
     </div>
   </section>
-  <section v-else>
-    <div class="flex items-center justify-center mt-2 px-6 overflow-hidden">
-      <div
-        class="relative min-h-[600px] w-full max-w-[75vw] min-w-[989px] bg-[#e3e9f3] rounded-3xl flex flex-col backdrop-blur-sm p-10 mt-10"
+  <section v-else class="flex flex-col items-center mt-8 px-6">
+    <div
+      class="relative min-h-[600px] w-full max-w-[75vw] min-w-[989px] bg-[#e3e9f3] rounded-3xl flex flex-col backdrop-blur-sm p-10"
+    >
+      <h2
+        class="text-5xl font-Caeser font-extrabold text-center text-neutral-800 tracking-tight select-none pb-10 -mt-4"
       >
-        <h2
-          class="text-5xl font-Caeser font-extrabold text-center text-neutral-800 tracking-tight select-none pb-10 -mt-4"
-        >
-          My Dashboard
-        </h2>
-        <div class="grid grid-cols-2 gap-4">
-          <div class="p-4 rounded-lg border-2 border-neutral-800">
-            <h3 class="text-lg font-semibold select-none">Goals In Progress</h3>
-            <p class="text-3xl select-none">{{ inProgressCount }}</p>
-          </div>
-          <div class="p-4 rounded-lg border-2 border-neutral-800">
-            <h3 class="text-lg font-semibold select-none">Goals Completed</h3>
-            <p class="text-3xl select-none">{{ completedCount }}</p>
-          </div>
+        My Dashboard
+      </h2>
+
+      <div class="grid grid-cols-3 gap-6 mb-8">
+        <div class="p-4 rounded-lg border-2 border-neutral-800">
+          <h3 class="text-lg font-semibold select-none">Incomplete Goals</h3>
+          <p class="text-3xl select-none">{{ incompleteGoals }}</p>
         </div>
+        <div class="p-4 rounded-lg border-2 border-neutral-800">
+          <h3 class="text-lg font-semibold select-none">Complete Goals</h3>
+          <p class="text-3xl select-none">{{ completedGoals }}</p>
+        </div>
+        <div class="p-4 rounded-lg border-2 border-neutral-800">
+          <h3 class="text-lg font-semibold select-none">Total Goals</h3>
+          <p class="text-3xl select-none">{{ totalGoals }}</p>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-2xl font-semibold mb-4">Upcoming Goals</h3>
+        <ul class="space-y-3 max-h-[200px] overflow-y-auto">
+          <li
+            v-for="(goal, index) in upcomingGoals"
+            :key="index"
+            class="flex justify-between items-center border-2 border-neutral-800 p-4 rounded-lg hover:shadow-md transition-shadow duration-200"
+          >
+            <div>
+              <p class="font-medium text-lg">{{ goal.name }}</p>
+              <p class="text-sm text-gray-500">
+                Deadline: <span class="font-semibold">{{ goal.deadline }}</span>
+              </p>
+            </div>
+            <button
+              class="px-3 py-1 bg-green-200 text-green-800 rounded text-sm select-none"
+            >
+              {{ goal.completed === "TRUE" ? "Done" : "Mark as Complete" }}
+            </button>
+          </li>
+        </ul>
       </div>
     </div>
   </section>
@@ -41,16 +67,32 @@
 
 <script setup>
 const loading = ref(true);
-const inProgressCount = ref(0);
-const completedCount = ref(0);
+const incompleteGoals = ref(0);
+const completedGoals = ref(0);
+const totalGoals = ref(0);
 const userId = useState("user").value.id;
+const upcomingGoals = ref({});
 
 onMounted(() => {
   const fetchData = async () => {
     try {
       const goalsdata = await $fetch(`/api/goals?id=${userId}`);
-      inProgressCount.value = goalsdata.inprogress;
-      completedCount.value = goalsdata.completed;
+      incompleteGoals.value = goalsdata.incomplete;
+      completedGoals.value = goalsdata.completed;
+      totalGoals.value = incompleteGoals.value + completedGoals.value;
+      for (let i = 0; i < goalsdata.upcoming.length; i++) {
+        const upcg = {
+          goalid: goalsdata.upcoming[i].goal_id,
+          name: goalsdata.upcoming[i].goal_name,
+          startD: formatDate(goalsdata.upcoming[i].start_date),
+          completed: goalsdata.upcoming[i].completed,
+          completedD: formatDate(goalsdata.upcoming[i].completed_date),
+          createdD: formatDate(goalsdata.upcoming[i].created_at),
+          deadline: formatDate(goalsdata.upcoming[i].deadline),
+          description: goalsdata.upcoming[i].description,
+        };
+        upcomingGoals.value[upcg.goalid] = upcg;
+      }
     } catch (err) {
       console.error("Failed to fetch data", err);
     }
@@ -60,4 +102,14 @@ onMounted(() => {
   };
   fetchData();
 });
+
+const formatDate = (datetime) => {
+  const [datePart] = datetime.split(" ");
+  const [year, month, day] = datePart.split("-");
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  return `${monthNames[parseInt(month) - 1]} ${parseInt(day)}, ${year}`;
+};
 </script>

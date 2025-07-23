@@ -1,5 +1,6 @@
 import sqlite3 from "sqlite3";
 import { open } from "sqlite";
+import { createError, readBody, defineEventHandler } from "h3";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -14,7 +15,6 @@ export default defineEventHandler(async (event) => {
     filename: "./server/database/Odyssey.db",
     driver: sqlite3.Database,
   });
-
 
   db.run("UPDATE Users SET email = ? WHERE user_id = ?", newemail, ID);
   db.close();

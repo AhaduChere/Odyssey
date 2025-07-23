@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
   });
 
   try {
-    const goalsIP = await db.get(
+    const goalsIC = await db.get(
       "SELECT COUNT(*) as count FROM Goals WHERE user_id = ? AND completed = 'FALSE'",
       id,
     );
@@ -28,11 +28,39 @@ export default defineEventHandler(async (event) => {
       id,
     );
 
-    let goalStats = { inprogress: goalsIP.count, completed: goalsC.count };
+    const today = new Date().toISOString().split("T")[0];
+    const deadlines = await db.all(
+      "SELECT DISTINCT deadline FROM Goals WHERE user_id = ? AND deadline >= ? ORDER BY deadline ASC LIMIT 5",
+      id,
+      today,
+    );
 
-    return goalStats;
+    if (deadlines.length === 0) {
+      // no upcoming goals
+      return [];
+    }
+
+    const maxDeadline = deadlines[deadlines.length - 1].deadline;
+
+    const upcomingGoals = await db.all(
+      "SELECT * FROM Goals WHERE user_id = ? AND deadline BETWEEN ? AND ? ORDER BY deadline ASC",
+      id,
+      today,
+      maxDeadline,
+    );
+
+    let goalsdata = {
+      incomplete: goalsIC.count,
+      completed: goalsC.count,
+      upcoming: upcomingGoals,
+    };
+
+    return goalsdata;
   } catch (err) {
-    return sendError(event, createError({ statusCode: 500, message: err }));
+    return sendError(
+      event,
+      createError({ statusCode: 500, message: "Error: " + err }),
+    );
   } finally {
     db.close();
   }

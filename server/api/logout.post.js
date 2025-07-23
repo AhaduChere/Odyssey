@@ -1,26 +1,26 @@
-import { getCookie, setCookie } from 'h3';
-import sqlite3 from 'sqlite3';
-import { open } from 'sqlite';
+import { getCookie, setCookie, defineEventHandler } from "h3";
+import sqlite3 from "sqlite3";
+import { open } from "sqlite";
 
 export default defineEventHandler(async (event) => {
   const db = await open({
-    filename: './server/database/Odyssey.db',
+    filename: "./server/database/Odyssey.db",
     driver: sqlite3.Database,
   });
 
-  const token = getCookie(event, 'session_token');
+  const token = getCookie(event, "session_token");
   if (token) {
-    // await db.run('DELETE FROM Sessions WHERE token = ?', token);
+    await db.run("DELETE FROM Sessions WHERE token = ?", token);
   }
 
-  // await db.run(
-  //   `DELETE FROM Sessions
-  //    WHERE created_at <= datetime('now', '-7 days')`
-  // );
+  await db.run(
+    `DELETE FROM Sessions
+     WHERE created_at <= datetime('now', '-7 days')`,
+  );
 
-  setCookie(event, 'session_token', '', {
+  setCookie(event, "session_token", "", {
     maxAge: 0,
-    path: '/',
+    path: "/",
   });
 
   return { success: true };
