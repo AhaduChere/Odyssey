@@ -1,6 +1,6 @@
 <template>
   <header
-  class="flex items-center justify-between bg-[#f5f5f5] shadow-xl px-6 rounded-3xl max-w-[98vw] min-w-[615px] min-h-[65px] mx-auto mt-4 border border-white/20"
+  class="flex items-center justify-between bg-[#f5f5f5] shadow-xl px-6 rounded-3xl max-w-[98vw] min-w-[1242px] min-h-[65px] mx-auto mt-4 border border-white/20"
   >
     <img
       :src="Logo"
