@@ -5,32 +5,14 @@
 </template>
 
 <style>
-.slide-left-enter-active,
-.slide-left-leave-active {
-  transition: transform 0.4s ease, opacity 0.4s ease;
-  position: absolute;
-  width: 100%;
-  top: 0;
-  left: 0;
+@font-face {
+  font-family: "Caeser";
+  src: url("/CAESAR.TTF") format("truetype");
 }
-
-.slide-left-enter-from {
-  transform: translateX(100%);
-  opacity: 0;
-}
-
-.slide-left-enter-to {
-  transform: translateX(0);
-  opacity: 1;
-}
-
-.slide-left-leave-from {
-  transform: translateX(0);
-  opacity: 1;
-}
-
-.slide-left-leave-to {
-  transform: translateX(-100%);
-  opacity: 0;
+body {
+  height: 100%;
+  overflow-y: auto;
+  background-image: linear-gradient(to top, #1a3a5d 0%, #4a90e2 100%);
+  background-attachment: fixed;
 }
 </style>

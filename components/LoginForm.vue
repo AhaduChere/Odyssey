@@ -56,20 +56,20 @@
         <div class="text-center mt-2">
           <p class="text-sm font-medium text-black text-center">
             <span
-              @click="() => props.onToggle('signup')"
               role="button"
               tabindex="0"
               class="text-black hover:underline select-none block cursor-pointer"
+              @click="() => props.onToggle('signup')"
               @keydown.enter="() => props.onToggle('signup')"
             >
               Sign Up
             </span>
 
             <span
-              @click="() => props.onToggle('forgot')"
               role="button"
               tabindex="0"
               class="text-black hover:underline select-none block cursor-pointer pt-2 -mb-4"
+              @click="() => props.onToggle('forgot')"
             >
               Forgot Password?
             </span>
@@ -91,6 +91,7 @@ const props = defineProps({
 const username = ref("");
 const password = ref("");
 
+// TODO: add a alert for when login fails
 const login = async () => {
   try {
     await $fetch("/api/login", {
