@@ -15,7 +15,7 @@
     </div>
   </section>
 
-  <section v-else>
+  <section v-else class="min-w-[1800px]">
     <div class="flex items-center justify-center mt-10 px-6 overflow-hidden">
       <div
         class="relative w-full max-w-[700px] min-w-[320px] min-h-[600px] bg-[#e3e9f3] rounded-3xl flex flex-col backdrop-blur-sm p-10 justify-between shadow-xl border border-white/10"

@@ -30,7 +30,7 @@ export default defineEventHandler(async (event) => {
 
     const today = new Date().toISOString().split("T")[0];
     const deadlines = await db.all(
-      "SELECT DISTINCT deadline FROM Goals WHERE user_id = ? AND deadline >= ? ORDER BY deadline ASC LIMIT 3",
+      "SELECT DISTINCT deadline FROM Goals WHERE user_id = ? AND deadline >= ? ORDER BY deadline ASC LIMIT 30",
       id,
       today,
     );
