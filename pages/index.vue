@@ -11,7 +11,7 @@
     <section class="flex items-center justify-center flex-row min-w-[1800px] w-[1800px] mx-auto">
       <MyStats v-show="!loading" @ready="MSloading = false"/>
       <HomeDashboard v-show="!loading" @ready="Dloading = false"/>
-      <Quickadd v-if="!loading"/>
+      <QuickAdd v-if="!loading"/>
     </section>
   </main>
 </template>

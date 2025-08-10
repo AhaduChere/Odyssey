@@ -2,9 +2,9 @@
   <section v-if="loading" class="flex items-center justify-center h-[80vh] overflow-hidden">
     <!-- Loading Animation From Uiverse.io by Javierrocadev -->
     <div class="flex flex-row gap-2">
-      <div class="w-10 h-10 rounded-full bg-blue-50 animate-bounce" />
-      <div class="w-10 h-10 rounded-full bg-blue-50 animate-bounce [animation-delay:-.3s]" />
-      <div class="w-10 h-10 rounded-full bg-blue-50 animate-bounce [animation-delay:-.5s]" />
+      <div class="w-10 h-10 rounded-full bg-blue-50 animate-bounce"/>
+      <div class="w-10 h-10 rounded-full bg-blue-50 animate-bounce [animation-delay:-.3s]"/>
+      <div class="w-10 h-10 rounded-full bg-blue-50 animate-bounce [animation-delay:-.5s]"/>
     </div>
   </section>
 
@@ -31,7 +31,7 @@
                 <input
                   v-model="field.temp.value"
                   :type="field.type"
-                  class="text-2xl font-bold bg-transparent border-black border-b w-full focus:outline-none focus:shadow-none" >
+                  class="text-2xl font-bold bg-transparent border-black border-b w-full focus:outline-none focus:shadow-none">
               </div>
               <div v-else>
                 <p class="text-2xl font-bold select-none">

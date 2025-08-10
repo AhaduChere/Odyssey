@@ -16,8 +16,10 @@
                 <span class="font-semibold">{{ goal.deadline }}</span>
               </p>
             </div>
-            <button class="px-3 py-1 bg-green-200 text-green-800 rounded text-sm select-none">
-              {{ goal.completed === "TRUE" ? "Done" : "Mark as Complete" }}
+            <button
+              class="px-3 py-1 bg-green-200 text-green-800 rounded text-sm select-none"
+              @click="Completegoal">
+               {{ goal.completed === "TRUE" ? "Done" : "Mark as Complete" }} 
             </button>
           </li>
         </ul>
@@ -30,6 +32,11 @@
   const emit = defineEmits(["ready"]);
   const userId = useState("user").value.id;
   const upcomingGoals = ref([]);
+
+  const Completegoal = () => {
+// TODO: Add API to update goal as done 
+    console.log("Goal Complete");
+}
 
   onMounted(() => {
     const fetchData = async () => {
