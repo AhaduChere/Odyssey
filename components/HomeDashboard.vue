@@ -3,7 +3,7 @@
     <div
       class="relative min-h-[600px] max-w-[35vw] min-w-[880px] bg-[#e3e9f3] rounded-3xl flex flex-col backdrop-blur-sm p-10">
       <div>
-        <h3 class="text-2xl font-semibold mb-4 text-center">UPCOMING GOALS</h3>
+        <h3 class="text-2xl font-semibold mb-4 -mt-5 text-center">UPCOMING GOALS</h3>
         <ul class="space-y-3 max-h-[200px] overflow-y-auto">
           <li
             v-for="(goal, index) in upcomingGoals.slice(0, 5)"

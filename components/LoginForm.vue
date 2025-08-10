@@ -2,8 +2,7 @@
   <div class="flex items-center justify-center min-h-screen -mt-24">
     <div
       class="relative w-fit bg-gradient-to-b from-white to-[#c4c4c4] shadow-2xl flex rounded-3xl px-6 py-8 justify-center text-center drop-shadow-lg"
-      style="max-width: 100%; min-width: 424px"
-    >
+      style="max-width: 100%; min-width: 424px">
       <form @submit.prevent="login">
         <div class="flex justify-center">
           <div class="w-[120px] h-[120px] mx-32 mb-4 select-none">
@@ -11,14 +10,12 @@
               draggable="false"
               :src="Logo"
               alt="Logo"
-              style="filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.25))"
-            />
+              style="filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.25))">
           </div>
         </div>
 
         <div
-          class="text-center text-black text-5xl font-Caeser select-none -mt-10 font-bold pb-6"
-        >
+          class="text-center text-black text-5xl font-Caeser select-none -mt-10 font-bold pb-6">
           <span class="block font-bold">Odyssey</span>
           <span class="block text-xl font-normal mt-2">Track your goals</span>
           <span class="block text-xl font-normal">one journey at a time</span>
@@ -30,8 +27,7 @@
             required
             placeholder="Username"
             type="text"
-            class="w-11/12 bg-white border-2 border-black outline-none rounded-full text-black text-md font-serif placeholder-black px-5 py-2 mb-5"
-          />
+            class="w-11/12 bg-white border-2 border-black outline-none rounded-full text-black text-md font-serif placeholder-black px-5 py-2 mb-5">
         </div>
 
         <div class="w-full flex justify-center items-center">
@@ -40,15 +36,13 @@
             required
             placeholder="Password"
             type="password"
-            class="w-11/12 bg-white border-2 border-black outline-none rounded-full text-black text-md font-serif placeholder-black px-5 py-2"
-          />
+            class="w-11/12 bg-white border-2 border-black outline-none rounded-full text-black text-md font-serif placeholder-black px-5 py-2">
         </div>
 
         <div class="w-full flex justify-center pt-4">
           <button
             type="submit"
-            class="inline-flex w-10/12 items-center justify-center rounded-full bg-black px-3.5 py-2 font-semibold leading-7 text-white"
-          >
+            class="inline-flex w-10/12 items-center justify-center rounded-full bg-black px-3.5 py-2 font-semibold leading-7 text-white">
             Login
           </button>
         </div>
@@ -60,8 +54,7 @@
               tabindex="0"
               class="text-black hover:underline select-none block cursor-pointer"
               @click="() => props.onToggle('signup')"
-              @keydown.enter="() => props.onToggle('signup')"
-            >
+              @keydown.enter="() => props.onToggle('signup')">
               Sign Up
             </span>
 
@@ -69,8 +62,7 @@
               role="button"
               tabindex="0"
               class="text-black hover:underline select-none block cursor-pointer pt-2 -mb-4"
-              @click="() => props.onToggle('forgot')"
-            >
+              @click="() => props.onToggle('forgot')">
               Forgot Password?
             </span>
           </p>
@@ -85,7 +77,7 @@ import Logo from "~/assets/Logo.svg";
 import { ref } from "vue";
 
 const props = defineProps({
-  onToggle: Function,
+  onToggle: Function(),
 });
 
 const username = ref("");

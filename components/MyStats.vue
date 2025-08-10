@@ -4,12 +4,12 @@
     <h3 class="text-2xl font-semibold mb-4 text-center">MY STATS</h3>
 
     <div class="mb-6">
-      <div class="h-36 rounded-lg flex items-center justify-center text-neutral-500 select-none">
-        <Doughnut :data="goaldata" :options="options" />
+      <div class="h-48 rounded-lg flex items-center justify-center text-neutral-500 select-none pb-10">
+        <Doughnut :data="goaldata" :options="options"/>
       </div>
     </div>
 
-    <div class="grid grid-cols-2 gap-4 mb-6">
+    <div class="grid grid-cols-2 gap-4">
       <div class="p-5 rounded-lg border border-neutral-600 bg-white/30">
         <h3 class="text-md font-semibold select-none mb-1">Incomplete Goals</h3>
         <p class="text-2xl select-none font-mono">{{ incompleteGoals }}</p>
@@ -23,6 +23,7 @@
         <p class="text-2xl select-none font-mono">{{ totalGoals }}</p>
       </div>
     </div>
+
   </div>
 </template>
 

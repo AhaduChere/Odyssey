@@ -7,10 +7,7 @@ export default defineEventHandler(async (event) => {
   const id = query.id;
 
   if (!id) {
-    return sendError(
-      event,
-      createError({ statusCode: 400, message: "Missing user ID" }),
-    );
+    return sendError(event, createError({ statusCode: 400, message: "Missing user ID" }));
   }
 
   const db = await open({
@@ -21,17 +18,14 @@ export default defineEventHandler(async (event) => {
   try {
     const user = await db.get(
       "SELECT username, email, created_at FROM Users WHERE user_id = ?",
-      id,
+      id
     );
     if (!user) {
-      return sendError(
-        event,
-        createError({ statusCode: 404, message: "User not found" }),
-      );
+      return sendError(event, createError({ statusCode: 404, message: "User not found" }));
     }
     return user;
   } catch (err) {
-    return sendError(event, createError({ statusCode: 500, message: ("Error: " + err) }));
+    return sendError(event, createError({ statusCode: 500, message: "Error: " + err }));
   } finally {
     db.close();
   }
