@@ -11,15 +11,15 @@
 
     <div class="grid grid-cols-2 gap-4">
       <div class="p-5 rounded-lg border border-neutral-600 bg-white/30">
-        <h3 class="text-md font-semibold select-none mb-1 text-center">Incomplete Goals</h3>
+        <h3 class="text-md font-semibold select-none mb-1">Incomplete Goals</h3>
         <p class="text-2xl select-none font-mono">{{ incompleteGoals }}</p>
       </div>
       <div class="p-5 rounded-lg border border-neutral-600">
-        <h3 class="text-md font-semibold select-none mb-1 text-center">Complete Goals</h3>
+        <h3 class="text-md font-semibold select-none mb-1">Complete Goals</h3>
         <p class="text-2xl select-none font-mono">{{ completedGoals }}</p>
       </div>
       <div class="p-5 rounded-lg border border-neutral-600 bg-white/30 col-span-2">
-        <h3 class="text-md font-semibold select-none mb-1 text-center">Total Goals</h3>
+        <h3 class="text-md font-semibold select-none mb-1">Total Goals</h3>
         <p class="text-2xl select-none font-mono">{{ totalGoals }}</p>
       </div>
     </div>
