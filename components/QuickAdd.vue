@@ -50,5 +50,4 @@ const AddGoal = async () => {
     console.error("Failed to add Goal:", error);
   }
 }
-
 </script>

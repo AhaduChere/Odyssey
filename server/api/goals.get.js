@@ -36,7 +36,6 @@ export default defineEventHandler(async (event) => {
     );
 
     if (deadlines.length === 0) {
-      // no upcoming goals
       return [];
     }
 
