@@ -43,7 +43,7 @@ export default defineEventHandler(async (event) => {
     const maxDeadline = deadlines[deadlines.length - 1].deadline;
 
     const upcomingGoals = await db.all(
-      "SELECT * FROM Goals WHERE user_id = ? AND deadline BETWEEN ? AND ? ORDER BY deadline ASC",
+      "SELECT * FROM Goals WHERE user_id = ? AND completed = 'FALSE' AND deadline BETWEEN ? AND ? ORDER BY deadline ASC",
       id,
       today,
       maxDeadline,
