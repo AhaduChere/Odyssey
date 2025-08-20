@@ -46,7 +46,6 @@
           goalid: g.goal_id,
           name: g.goal_name,
           completed: g.completed,
-          completedD: formatDate(g.completed_date),
           createdD: formatDate(g.created_at),
           deadline: formatDate(g.deadline),
           description: g.description,
