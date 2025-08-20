@@ -45,7 +45,6 @@
         upcomingGoals.value = goalsdata.upcoming.map((g) => ({
           goalid: g.goal_id,
           name: g.goal_name,
-          startD: formatDate(g.start_date),
           completed: g.completed,
           completedD: formatDate(g.completed_date),
           createdD: formatDate(g.created_at),

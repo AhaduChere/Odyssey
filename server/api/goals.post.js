@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
   try {
     const { userID, goalname, goaldesc, deadline } = await readBody(event);
     if (!userID || !goalname || !deadline) {
-      // Log the missing fields before throwing the error
+
       console.error("Validation Error: Missing required fields", { userID, goalname, deadline });
       throw createError({ statusCode: 400, message: "Missing required fields" });
     }
@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
     });
 
     const result = await db.run(
-      `INSERT INTO Goals (user_id, goal_name, description, start_date, deadline) 
+      `INSERT INTO Goals (user_id, goal_name, description, deadline) 
       VALUES (?, ?, ?, date('now'), ?)`,
       userID,
       goalname,
