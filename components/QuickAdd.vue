@@ -44,7 +44,7 @@ const AddGoal = async () => {
   try {
     await $fetch("/api/goals", {
       method: "POST",
-  body: { userID: userId, goalname: goal_name.value, goaldesc: goal_desc.value, deadline: deadline.value },
+  body: { action: "add",userID: userId, goalname: goal_name.value, goaldesc: goal_desc.value, deadline: deadline.value },
     });
   } catch (error) {
     console.error("Failed to add Goal:", error);
