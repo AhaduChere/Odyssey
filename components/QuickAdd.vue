@@ -48,6 +48,9 @@ const AddGoal = async () => {
      body: { action: "add",userID: userId, goalname: goal_name.value, goaldesc: goal_desc.value, deadline: deadline.value },
   });
     triggerRefresh();
+    goal_name.value = "";
+    goal_desc.value = "";
+    deadline.value = "";
   } catch (error) {
     console.error("Failed to add Goal:", error);
   }
