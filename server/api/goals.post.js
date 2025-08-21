@@ -5,7 +5,8 @@ import { readBody, defineEventHandler, createError } from "h3";
 export default defineEventHandler(async (event) => {
   let db;
   try {
-    const { action, userID, goalname, goaldesc, deadline } = await readBody(event);
+    const body = await readBody(event);
+    const { action, userID, goalname, goaldesc, deadline, goalID } = body;
 
     if (action === "add") {
       if (!userID || !goalname || !deadline) {
@@ -29,17 +30,44 @@ export default defineEventHandler(async (event) => {
         console.error("DB Insert Error:", err.message, err.stack);
         throw createError({ statusCode: 500, message: "Failed to insert goal." });
       }
-    } 
-    
+    }
+
+    else if (action === "update") {
+      if (!goalID) {
+        console.error("Validation Error: Missing goalID");
+        throw createError({ statusCode: 400, message: "Missing goalID" });
+      }
+
+      db = await open({
+        filename: "./server/database/Odyssey.db",
+        driver: sqlite3.Database,
+      });
+
+      try {
+        const result = await db.run(
+          `UPDATE Goals SET completed = 'TRUE' WHERE goal_id = ?`,
+          [goalID]
+        );
+        if (result.changes === 0) {
+          return { success: false, message: "No rows updated" };
+        }
+        return { success: true };
+      } catch (err) {
+        console.error("DB Update Error:", err.message, err.stack);
+        throw createError({ statusCode: 500, message: "Failed to update goal." });
+      }
+    }
+
     else if (action === "edit") {
+      // TODO: add edit 
       return { success: false };
-    } 
-    
+    }
+
     else {
       throw createError({ statusCode: 400, message: "Invalid action" });
     }
   } catch (error) {
-    console.error("Database or API Error:", error.message, error.stack);
+    console.error("Database or API Error:", error?.message, error?.stack);
     throw createError({ statusCode: 500, message: "Failed to process request." });
   } finally {
     if (db) await db.close();

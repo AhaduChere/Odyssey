@@ -35,6 +35,7 @@
 </template>
 
 <script setup>
+import { triggerRefresh } from "~/composables/refresh.js";
 const userId = useState("user").value.id;
 const goal_name = ref("")
 const goal_desc = ref("")
@@ -43,9 +44,10 @@ const deadline = ref("")
 const AddGoal = async () => {
   try {
     await $fetch("/api/goals", {
-      method: "POST",
-  body: { action: "add",userID: userId, goalname: goal_name.value, goaldesc: goal_desc.value, deadline: deadline.value },
-    });
+     method: "POST",
+     body: { action: "add",userID: userId, goalname: goal_name.value, goaldesc: goal_desc.value, deadline: deadline.value },
+  });
+    triggerRefresh();
   } catch (error) {
     console.error("Failed to add Goal:", error);
   }

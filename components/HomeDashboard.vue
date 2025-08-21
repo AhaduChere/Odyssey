@@ -18,7 +18,7 @@
             </div>
             <button
               class="px-3 py-1 bg-green-200 text-green-800 rounded text-sm select-none"
-              @click="Completegoal">
+              @click="Completegoal(goal)">
                {{ goal.completed === "TRUE" ? "Done" : "Mark as Complete" }} 
             </button>
           </li>
@@ -29,50 +29,61 @@
 </template>
 
 <script setup>
-  const emit = defineEmits(["ready"]);
-  const userId = useState("user").value.id;
-  const upcomingGoals = ref([]);
+import { needsRefresh } from "~/composables/refresh.js";
+const emit = defineEmits(["ready"]);
+const userId = useState("user").value.id;
 
-  const Completegoal = () => {
-// TODO: Add API to update goal as done 
-    console.log("Goal Complete");
-}
+const upcomingGoals = ref([]);
 
-  onMounted(() => {
-    const fetchData = async () => {
-      try {
-        const goalsdata = await $fetch(`/api/goals?id=${userId}`);
-        upcomingGoals.value = goalsdata.upcoming.map((g) => ({
-          name: g.goal_name,
-          deadline: formatDate(g.deadline),
-        }));
-      } catch (err) {
-        console.error("Failed to fetch data", err);
-      }
-      setTimeout(() => {
-        emit("ready");
-      }, 200);
-    };
+const formatDate = (datetime) => {
+  const [datePart] = datetime.split(" ");
+  const [year, month, day] = datePart.split("-");
+  const monthNames = [
+    "January","February","March","April","May","June",
+    "July","August","September","October","November","December"
+  ];
+  return `${monthNames[parseInt(month) - 1]} ${parseInt(day)}, ${year}`;
+};
+
+const fetchData = async () => {
+  try {
+    const goalsdata = await $fetch(`/api/goals?id=${userId}`);
+    upcomingGoals.value = goalsdata.upcoming.map((g) => ({
+      goalid: g.goal_id,
+      name: g.goal_name,
+      deadline: formatDate(g.deadline),
+    }));
+  } catch (err) {
+    console.error("Failed to fetch data", err);
+  }
+  setTimeout(() => {
+    emit("ready");
+  }, 200);
+};
+
+onMounted(() => {
+  fetchData();
+});
+
+watch(needsRefresh, (val) => {
+  if (val) {
     fetchData();
-  });
+  }
+});
 
-  const formatDate = (datetime) => {
-    const [datePart] = datetime.split(" ");
-    const [year, month, day] = datePart.split("-");
-    const monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-    return `${monthNames[parseInt(month) - 1]} ${parseInt(day)}, ${year}`;
-  };
+const Completegoal = async (goal) => {
+  try {
+await $fetch("/api/goals", {
+  method: "POST",
+  body: {
+    action: "update",
+    goalID: goal.goalid
+  }
+});
+    needsRefresh.value = true;
+  } catch (err) {
+    console.error("Failed to complete goal", err);
+    alert("Could not mark goal as complete. Try again.");
+  }
+};
 </script>

@@ -13,11 +13,6 @@ export default defineEventHandler(async (event) => {
     await db.run("DELETE FROM Sessions WHERE token = ?", token);
   }
 
-  await db.run(
-    `DELETE FROM Sessions
-     WHERE created_at <= datetime('now', '-7 days')`,
-  );
-
   setCookie(event, "session_token", "", {
     maxAge: 0,
     path: "/",

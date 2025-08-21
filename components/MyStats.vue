@@ -28,6 +28,7 @@
 </template>
 
 <script setup>
+  import { needsRefresh } from "~/composables/refresh.js";
   import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
   import { Doughnut } from "vue-chartjs";
   ChartJS.register(ArcElement, Tooltip);
@@ -38,8 +39,7 @@
   const completedGoals = ref(0);
   const totalGoals = ref(0);
 
-  onMounted(() => {
-    const fetchData = async () => {
+  const fetchData = async () => {
       try {
         const goalsdata = await $fetch(`/api/goals?id=${userId}`);
         incompleteGoals.value = goalsdata.incomplete;
@@ -52,11 +52,19 @@
         emit("ready");
       }, 200);
     };
+
+onMounted(() => {
     fetchData();
   });
   const options = {
     maintainAspectRatio: true,
   };
+
+watch(needsRefresh, (val) => {
+  if (val) {
+    fetchData();
+  }
+});
 
   const goaldata = computed(() => ({
     labels: ["Incomplete Goals", "Complete Goals"],

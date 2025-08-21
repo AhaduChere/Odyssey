@@ -30,6 +30,10 @@ export default defineEventHandler(async (event) => {
   const token = randomUUID();
 
   await db.run(
+    `DELETE FROM Sessions
+     WHERE created_at <= datetime('now', '-7 days')`,
+  );
+  await db.run(
     "INSERT INTO Sessions (token, user_id) VALUES (?, ?)",
     token,
     user.user_id,
