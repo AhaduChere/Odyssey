@@ -60,9 +60,10 @@ onMounted(() => {
     maintainAspectRatio: true,
   };
 
-watch(needsRefresh, (val) => {
+watch(needsRefresh, async (val) => {
   if (val) {
-    fetchData();
+    await fetchData();
+    needsRefresh.value = false;
   }
 });
 
