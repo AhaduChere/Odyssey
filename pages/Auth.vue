@@ -9,10 +9,9 @@
             forgot: ForgotPasswordForm,
           }[activeForm]
         "
-        :onToggle="setForm"
         :key="activeForm"
-        class="auth-form-card"
-      />
+        :on-toggle="setForm"
+        class="auth-form-card"/>
     </transition>
   </div>
 </template>

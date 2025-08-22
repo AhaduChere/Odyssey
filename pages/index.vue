@@ -7,10 +7,10 @@
         <div class="w-10 h-10 rounded-full bg-blue-50 animate-bounce [animation-delay:-.5s]"/>
       </div>
     </section>
-    <section class="flex items-center justify-center flex-row min-w-[1800px] w-[1800px] mx-auto">
-      <MyStats v-show="!loading" @ready="MSloading = false"/>
-      <HomeDashboard v-show="!loading" @ready="Dloading = false"/>
-      <QuickAdd v-if="!loading"/>
+    <section class="flex items-center justify-center flex-row w-[1800px] mx-auto mt-5">
+        <MyStats v-show="!loading" @ready="MSloading = false"/>
+        <HomeDashboard v-show="!loading" @ready="Dloading = false"/>
+        <QuickAdd v-show="!loading"/>
     </section>
   </main>
 </template>

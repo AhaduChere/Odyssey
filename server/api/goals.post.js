@@ -45,7 +45,7 @@ export default defineEventHandler(async (event) => {
 
       try {
         const result = await db.run(
-          `UPDATE Goals SET completed = 'TRUE' WHERE goal_id = ?`,
+          `UPDATE Goals SET completed = 'TRUE', completed_date = date('now') WHERE goal_id = ?`,
           [goalID]
         );
         if (result.changes === 0) {

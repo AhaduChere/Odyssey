@@ -1,8 +1,12 @@
 <template>
-  <NuxtLayout>
-    <NuxtPage />
-  </NuxtLayout>
+    <MainHeader v-if="!['/Auth'].includes(route.path)"/>
+    <NuxtPage/>
 </template>
+
+<script setup>
+  import { useRoute } from "vue-router";
+const route = useRoute();
+</script>
 
 <style>
 @font-face {

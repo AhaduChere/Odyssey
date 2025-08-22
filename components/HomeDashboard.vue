@@ -1,7 +1,7 @@
 <template>
   <section class="flex flex-col items-center mt-8 px-6">
     <div
-      class="relative min-h-[600px] max-w-[35vw] min-w-[880px] bg-[#e3e9f3] rounded-3xl flex flex-col backdrop-blur-sm p-10">
+      class="relative min-h-[550px] max-w-[35vw] min-w-[880px] bg-[#e3e9f3] rounded-3xl flex flex-col backdrop-blur-sm p-10">
       <div>
         <h3 class="text-2xl font-semibold mb-4 -mt-5 text-center">UPCOMING GOALS</h3>
         <ul class="space-y-3 max-h-[600px] overflow-y-auto">
@@ -17,9 +17,11 @@
               </p>
             </div>
             <button
-              class="px-3 py-1 bg-green-200 text-green-800 rounded text-sm select-none"
+              class="px-3 py-1 border border-l-black h-full rounded text-sm select-none"
               @click="Completegoal(goal)">
-               {{ goal.completed === "TRUE" ? "Done" : "Mark as Complete" }} 
+              <div>
+                Mark as Complete
+              </div>
             </button>
           </li>
         </ul>

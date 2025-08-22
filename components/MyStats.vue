@@ -1,13 +1,11 @@
 <template>
   <div
-    class="relative min-h-[600px] w-[450px] bg-[#e3e9f3] rounded-3xl flex flex-col backdrop-blur-sm p-6 mt-8">
+    class="relative h-[550px] w-[450px] bg-[#e3e9f3] rounded-3xl flex flex-col backdrop-blur-sm p-6 mt-8">
     <h3 class="text-2xl font-semibold mb-4 text-center">MY STATS</h3>
 
-    <div class="mb-6">
-      <div class="h-48 rounded-lg flex items-center justify-center text-neutral-500 select-none pb-10">
+       <div class="h-48 rounded-lg flex items-center justify-center text-neutral-500 select-none mb-6">
         <Doughnut :data="goaldata" :options="options"/>
       </div>
-    </div>
 
     <div class="grid grid-cols-2 gap-4">
       <div class="p-5 rounded-lg border border-neutral-600 bg-white/30">
@@ -32,6 +30,7 @@
   import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
   import { Doughnut } from "vue-chartjs";
   ChartJS.register(ArcElement, Tooltip);
+
 
   const emit = defineEmits(["ready"]);
   const userId = useState("user").value.id;
@@ -71,7 +70,7 @@ watch(needsRefresh, async (val) => {
     labels: ["Incomplete Goals", "Complete Goals"],
     datasets: [
       {
-        backgroundColor: ["#94a3b8", "#1a3a5d"],
+        backgroundColor: ["#2963A5", "#4a90e2"],
         data: [incompleteGoals.value, completedGoals.value],
       },
     ],
