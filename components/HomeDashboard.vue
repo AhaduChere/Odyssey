@@ -34,7 +34,6 @@
 import { needsRefresh } from "~/composables/refresh.js";
 const emit = defineEmits(["ready"]);
 const userId = useState("user").value.id;
-
 const upcomingGoals = ref([]);
 
 const formatDate = (datetime) => {

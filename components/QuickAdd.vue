@@ -2,12 +2,12 @@
   <div class="relative h-[550px] w-[450px] bg-[#e3e9f3] rounded-3xl flex flex-col p-6 mt-8">
     <h3 class="text-2xl font-semibold mb-4 text-center">QUICK ADD</h3>
 
-   <div class="h-48 rounded-lg flex items-center justify-center text-neutral-500 select-none mb-20">
-     PLACEHOLDER
-   </div>
-
-
     <form @submit.prevent="AddGoal">
+       <div
+        class="rounded-lg flex items-center justify-center text-neutral-500 select-none
+        mb-5 mt-4">
+          <Button @click="$event.target.closest('form').requestSubmit()"/>
+       </div>
       <h3 class="text-md font-semibold select-none mb-1">Goal</h3>
       <input
         v-model="goal_name"
@@ -22,16 +22,18 @@
       <input
         v-model="deadline" class="rounded-lg w-full border-2 border-neutral-800 px-3 py-2 text-sm text-gray-800"
         type="date" name="deadline" required>
-      <button
-        type="submit"
-        class="inline-flex w-10/12 items-center justify-center rounded-full bg-black py-2 font-semibold leading-7 text-white ml-8 mt-5">
-        Submit
-      </button>
+      <!--       <button -->
+      <!--   type="submit" -->
+      <!--   class="inline-flex w-10/12 items-center justify-center rounded-full bg-black py-2 font-semibold leading-7 text-white ml-8 mt-5"> -->
+      <!--   Submit -->
+      <!-- </button> -->
+
     </form>
   </div>
 </template>
 
 <script setup>
+import Button from "./QAButton.vue"
 import { triggerRefresh } from "~/composables/refresh.js";
 const userId = useState("user").value.id;
 const goal_name = ref("")
