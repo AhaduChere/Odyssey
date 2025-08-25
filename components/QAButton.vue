@@ -29,8 +29,8 @@
 .icon-conatiner:active {
   transform: scale(0.95);
 }
-
-.icon-conatiner {
+.icon-conatiner:hover {
+  transform: scale(1.05);
 }
 
   .icon-conatiner svg{
