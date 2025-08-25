@@ -16,7 +16,7 @@ const route = useRoute();
 body {
   height: 100%;
   overflow-y: auto;
-  background-image: linear-gradient(to top, #1a3a5d 0%, #4a90e2 100%);
+  background:#1A3A5D ;
   background-attachment: fixed;
 }
 </style>

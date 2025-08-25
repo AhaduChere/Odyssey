@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative h-[550px] w-[450px] bg-[#e3e9f3] rounded-3xl flex flex-col backdrop-blur-sm p-6 mt-8">
+    class="relative h-[580px] w-[450px] bg-[#e3e9f3] rounded-3xl flex flex-col backdrop-blur-sm p-6 mt-8">
     <h3 class="text-2xl font-semibold mb-4 text-center">MY STATS</h3>
 
        <div class="h-48 rounded-lg flex items-center justify-center text-neutral-500 select-none mb-11 mt-4">

@@ -8,10 +8,10 @@
     </div>
   </section>
 
-  <section v-else class="min-w-[1800px]">
-    <div class="flex items-center justify-center mt-10 px-6 overflow-hidden">
+  <section v-else class="min-w-[1800px] pt-32">
+    <div class="flex items-center justify-center px-6 overflow-hidden">
       <div
-        class="relative w-full max-w-[700px] min-w-[320px] min-h-[600px] bg-[#e3e9f3] rounded-3xl flex flex-col backdrop-blur-sm p-10 justify-between shadow-xl border border-white/10">
+        class="relative w-full max-w-[700px] min-w-[320px] min-h-[600px] bg-[#C4C4C4] rounded-3xl flex flex-col backdrop-blur-sm p-10 justify-between shadow-xl border border-white/10">
         <div class="space-y-8">
           <h2
             class="text-5xl font-Caeser font-extrabold text-center text-neutral-800 tracking-tight select-none">
@@ -66,11 +66,6 @@
             Edit Profile
           </button>
 
-          <button
-            class="flex-1 py-3 rounded-2xl border border-neutral-800 text-neutral-900 bg-transparent hover:bg-neutral-800 hover:text-white transition duration-200"
-            @click="logout">
-            Logout
-          </button>
         </div>
       </div>
     </div>
@@ -178,11 +173,6 @@
     Edit.value = !Edit.value;
   };
 
-  const logout = async () => {
-    await $fetch("/api/logout", { method: "POST" });
-    useState("user").value = null;
-    window.location.reload();
-  };
 
   onBeforeUnmount(() => {
     Edit.value = false;
