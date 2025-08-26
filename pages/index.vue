@@ -9,9 +9,9 @@
     </section>
     <section class="flex items-startjustify-center flex-row w-[1200px] mx-auto">
      <HomeDashboard v-show="!loading" @ready="Dloading = false"/>
+        <!-- <QuickAdd v-show="!loading"/> -->
       <div class="grid-cols-1">
         <MyStats v-show="!loading" @ready="MSloading = false"/>
-        <QuickAdd v-show="!loading"/>
       </div>
     </section>
   </main>

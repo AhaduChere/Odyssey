@@ -1,6 +1,6 @@
 <template>
   <header
-    class="fixed flex flex-col bg-[#C4C4C4] shadow-xl rounded-3xl w-[80px] h-[96vh] mt-4 pt-4 ml-4 px-auto">
+    class="fixed flex flex-col bg-[#C4C4C4] shadow-2xl rounded-3xl w-[80px] h-[96vh] mt-4 pt-4 ml-4 px-auto">
 
     <img
       :src="Logo"
@@ -10,38 +10,39 @@
       style="filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.25))">
 
     <nav class="flex-1 flex items-center justify-center">
-      <ul class="flex flex-col items-center gap-8">
+      <ul class="flex flex-col items-center gap-10">
         <li
           v-for="link in links"
           :key="link.to">
           <NuxtLink :to="link.to">
+          <div
+            class="w-14 h-14 flex items-center rounded-xl justify-center transition-all duration-200 ease-in-out"
+            :class="{
+            'bg-[#4A90E2] opacity-80': route.path === link.to,
+              'hover:scale-105': route.path !== link.to
+            }">
             <img
               :src="link.icon"
-              class="w-10 h-auto transition duration-200 ease-in-out"
-              :class="{
-                'drop-shadow-2xl': route.path === link.to,
-                'opacity-60 hover:opacity-100 hover:drop-shadow-2xl': route.path !== link.to,
-              }">
+              class="w-[36px] h-auto transition duration-200 ease-in-out"
+              :style="{ color: route.path === link.to ? '#4A90E2' : '#000000' }
+             ">
+          </div>
           </NuxtLink>
         </li>
       </ul>
     </nav>
     <img
-      :src="Settings"
-      draggable="false"
-      alt="Logo"
-      class="w-10 h-auto select-none mb-6 self-center cursor-pointer transition duration-200"
-      style="filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.25))"
-      :class="{
-        'opacity-100 drop-shadow-2xl': route.name === 'Settings',
-        'opacity-60 hover:opacity-100': route.name !== 'Settings'
-      }">
+     :src="Settings"
+     draggable="false"
+     alt="Logo"
+     class="w-10 h-auto select-none mb-6 opacity-80 hover:opacity-100 self-center cursor-pointer"
+     style="filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.25))">
 
     <img
      :src="Logout"
      draggable="false"
      alt="Logo"
-     class="w-10 h-auto select-none mb-6 opacity-60 hover:opacity-100 self-center cursor-pointer"
+     class="w-10 h-auto select-none mb-6 opacity-80 hover:opacity-100 self-center cursor-pointer"
      style="filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.25))"
      @click="logout">
   </header>

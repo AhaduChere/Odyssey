@@ -1,7 +1,7 @@
 <template>
   <section class="flex flex-col items-center mt-8 px-6">
     <div
-      class="relative h-[580px] max-w-[35vw] min-w-[880px] bg-[#e3e9f3] rounded-3xl flex flex-col backdrop-blur-sm p-10">
+      class="relative h-[580px] max-w-[35vw] min-w-[880px] bg-[#C4C4C4] rounded-3xl flex flex-col backdrop-blur-sm p-10">
       <div>
         <h3 class="text-2xl font-semibold mb-4 -mt-5 text-center">UPCOMING GOALS</h3>
         <ul class="space-y-3 overflow-y-auto">
