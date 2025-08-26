@@ -18,15 +18,14 @@
           <div
             class="w-14 h-14 flex items-center rounded-xl justify-center transition-all duration-200 ease-in-out"
             :class="{
-            'bg-[#4A90E2] opacity-80': route.path === link.to,
+            'bg-black': route.path === link.to,
               'hover:scale-105': route.path !== link.to
             }">
-            <img
-              :src="link.icon"
+            <img 
+              :src="link.icon" 
               class="w-[36px] h-auto transition duration-200 ease-in-out"
-              :style="{ color: route.path === link.to ? '#4A90E2' : '#000000' }
-             ">
-          </div>
+              :class="{ 'invert': route.path === link.to, }">
+            </div>
           </NuxtLink>
         </li>
       </ul>
