@@ -3,8 +3,5 @@
 </template>
 
 <script setup>
-  onMounted(() => {
-  
-  
-  })
+onMounted(() => {});
 </script>

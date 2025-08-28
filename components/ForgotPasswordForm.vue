@@ -6,11 +6,7 @@
       <form>
         <div class="flex justify-center">
           <div class="w-[120px] h-[120px] mx-32 mb-4 select-none">
-            <img
-              draggable="false"
-              :src="Logo"
-              alt="Logo"
-              style="filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.25))">
+            <img draggable="false" :src="Logo" alt="Logo" style="filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.25))" />
           </div>
         </div>
 
@@ -25,7 +21,7 @@
             required
             type="email"
             placeholder="Your Email"
-            class="w-11/12 bg-[#e4e4e7] border-2 border-black outline-none rounded-full text-black text-md font-serif placeholder-black px-5 py-2 mb-3">
+            class="w-11/12 bg-[#e4e4e7] border-2 border-black outline-none rounded-full text-black text-md font-serif placeholder-black px-5 py-2 mb-3" />
         </div>
 
         <div class="w-full flex justify-center">
@@ -52,7 +48,7 @@
 </template>
 
 <script setup>
-import Logo from "~/assets/Logo.svg";
+import Logo from '~/assets/Logo.svg';
 const props = defineProps({
   onToggle: {
     type: Function,

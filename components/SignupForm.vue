@@ -6,16 +6,11 @@
       <form @submit.prevent="signup">
         <div class="flex justify-center">
           <div class="w-[120px] h-[120px] mx-32 mb-4 select-none">
-            <img
-              draggable="false"
-              :src="Logo"
-              alt="Logo"
-              style="filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.25))">
+            <img draggable="false" :src="Logo" alt="Logo" style="filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.25))" />
           </div>
         </div>
 
-        <div
-          class="text-center text-black text-5xl font-Caeser select-none -mt-10 font-bold pb-6">
+        <div class="text-center text-black text-5xl font-Caeser select-none -mt-10 font-bold pb-6">
           <span class="block font-bold">Odyssey</span>
           <span class="block text-xl font-normal mt-2">Track your goals</span>
           <span class="block text-xl font-normal">one journey at a time</span>
@@ -27,7 +22,7 @@
             required
             placeholder="Username"
             type="text"
-            class="w-11/12 bg-[#e4e4e7] border-2 border-black outline-none rounded-full text-black text-md font-serif placeholder-black px-5 py-2 mb-3">
+            class="w-11/12 bg-[#e4e4e7] border-2 border-black outline-none rounded-full text-black text-md font-serif placeholder-black px-5 py-2 mb-3" />
         </div>
 
         <div class="w-full flex justify-center items-center">
@@ -36,7 +31,7 @@
             required
             placeholder="Email"
             type="email"
-            class="w-11/12 bg-[#e4e4e7] border-2 border-black outline-none rounded-full text-black text-md font-serif placeholder-black px-5 py-2 mb-3">
+            class="w-11/12 bg-[#e4e4e7] border-2 border-black outline-none rounded-full text-black text-md font-serif placeholder-black px-5 py-2 mb-3" />
         </div>
 
         <div class="w-full flex justify-center items-center">
@@ -45,7 +40,7 @@
             required
             placeholder="Password"
             type="password"
-            class="w-11/12 bg-[#e4e4e7] border-2 border-black outline-none rounded-full text-black text-md font-serif placeholder-black px-5 py-2">
+            class="w-11/12 bg-[#e4e4e7] border-2 border-black outline-none rounded-full text-black text-md font-serif placeholder-black px-5 py-2" />
         </div>
 
         <div class="w-full flex justify-center pt-5">
@@ -73,8 +68,8 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import Logo from "~/assets/Logo.svg";
+import { ref } from 'vue';
+import Logo from '~/assets/Logo.svg';
 const props = defineProps({
   onToggle: {
     type: Function,
@@ -82,27 +77,27 @@ const props = defineProps({
   },
 });
 
-const username = ref("");
-const email = ref("");
-const password = ref("");
+const username = ref('');
+const email = ref('');
+const password = ref('');
 
 const signup = async () => {
   try {
-    const res = await $fetch("/api/signup", {
-      method: "POST",
+    const res = await $fetch('/api/signup', {
+      method: 'POST',
       body: {
         username: username.value,
         email: email.value,
         password: password.value,
       },
     });
-    console.log("Signup success:", res);
-    props.onToggle("login");
+    console.log('Signup success:', res);
+    props.onToggle('login');
   } catch (error) {
     if (error.status === 409) {
-      alert("Username or email already taken");
+      alert('Username or email already taken');
     } else {
-      alert("Signup failed. Please try again.");
+      alert('Signup failed. Please try again.');
     }
   }
 };

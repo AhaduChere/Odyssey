@@ -1,5 +1,5 @@
 <template>
   <div>
-    <AccountForm/>
+    <AccountForm />
   </div>
 </template>

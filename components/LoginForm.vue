@@ -6,16 +6,11 @@
       <form @submit.prevent="login">
         <div class="flex justify-center">
           <div class="w-[120px] h-[120px] mx-32 mb-4 select-none">
-            <img
-              draggable="false"
-              :src="Logo"
-              alt="Logo"
-              style="filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.25))">
+            <img draggable="false" :src="Logo" alt="Logo" style="filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.25))" />
           </div>
         </div>
 
-        <div
-          class="text-center text-black text-5xl font-Caeser select-none -mt-10 font-bold pb-6">
+        <div class="text-center text-black text-5xl font-Caeser select-none -mt-10 font-bold pb-6">
           <span class="block font-bold">Odyssey</span>
           <span class="block text-xl font-normal mt-2">Track your goals</span>
           <span class="block text-xl font-normal">one journey at a time</span>
@@ -27,7 +22,7 @@
             required
             placeholder="Username"
             type="text"
-            class="w-11/12 bg-[#e4e4e7] border-2 border-black outline-none rounded-full text-black text-md font-serif placeholder-black px-5 py-2 mb-5">
+            class="w-11/12 bg-[#e4e4e7] border-2 border-black outline-none rounded-full text-black text-md font-serif placeholder-black px-5 py-2 mb-5" />
         </div>
 
         <div class="w-full flex justify-center items-center">
@@ -36,7 +31,7 @@
             required
             placeholder="Password"
             type="password"
-            class="w-11/12 bg-[#e4e4e7] border-2 border-black outline-none rounded-full text-black text-md font-serif placeholder-black px-5 py-2">
+            class="w-11/12 bg-[#e4e4e7] border-2 border-black outline-none rounded-full text-black text-md font-serif placeholder-black px-5 py-2" />
         </div>
 
         <div class="w-full flex justify-center pt-4">
@@ -73,29 +68,29 @@
 </template>
 
 <script setup>
-import Logo from "~/assets/Logo.svg";
-import { ref } from "vue";
+import Logo from '~/assets/Logo.svg';
+import { ref } from 'vue';
 
 const props = defineProps({
   onToggle: Function(),
 });
 
-const username = ref("");
-const password = ref("");
+const username = ref('');
+const password = ref('');
 
 const login = async () => {
   try {
-    await $fetch("/api/login", {
-      method: "POST",
+    await $fetch('/api/login', {
+      method: 'POST',
       body: { username: username.value, password: password.value },
     });
     window.location.reload();
   } catch (error) {
-    console.error("Login failed:", error);
+    console.error('Login failed:', error);
     if (error?.statusCode === 401) {
-      alert("Invalid Credentials");
+      alert('Invalid Credentials');
     } else {
-      alert("Server Error");
+      alert('Server Error');
     }
   }
 };

@@ -11,18 +11,18 @@
         "
         :key="activeForm"
         :on-toggle="setForm"
-        class="auth-form-card"/>
+        class="auth-form-card" />
     </transition>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
-import LoginForm from "../components/LoginForm.vue";
-import SignupForm from "../components/SignupForm.vue";
-import ForgotPasswordForm from "../components/ForgotPasswordForm.vue";
+import { ref } from 'vue';
+import LoginForm from '../components/LoginForm.vue';
+import SignupForm from '../components/SignupForm.vue';
+import ForgotPasswordForm from '../components/ForgotPasswordForm.vue';
 
-const activeForm = ref("login");
+const activeForm = ref('login');
 
 const setForm = (formName) => {
   if (formName !== activeForm.value) {

@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   compatibilityDate: "2025-05-15",
   devtools: { enabled: true },
   devServer: {
-    port: 4000, // your new port
+    port: 3000,
   },
   modules: [
     "@nuxt/eslint",
