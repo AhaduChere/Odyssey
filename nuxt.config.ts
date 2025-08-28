@@ -6,7 +6,6 @@ export default defineNuxtConfig({
     port: 3000,
   },
   modules: [
-    "@nuxt/eslint",
     "@nuxt/fonts",
     "@nuxt/icon",
     "@nuxt/image",

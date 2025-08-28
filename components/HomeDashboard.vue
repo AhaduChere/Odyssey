@@ -1,26 +1,29 @@
 <template>
   <section class="flex flex-col items-center mt-8 px-6">
-    <div
-      class="relative h-[580px] max-w-[35vw] min-w-[880px] bg-gradient-to-br from-[#0f0f1f]/80 to-[#1a1a2e]/80 rounded-3xl flex flex-col p-10 backdrop-blur-lg border border-[#ffffff20] shadow-lg">
+    <div class="relative h-[580px] max-w-[35vw] min-w-[880px] bg-[#C4C4C4] rounded-3xl flex flex-col p-10">
       <div>
-        <h3 class="text-3xl font-bold mb-6 text-center text-gradient bg-clip-text text-transparent from-[#00fff7] to-[#ff00ff]">
-          UPCOMING GOALS
-        </h3>
-        <ul class="space-y-4 overflow-y-auto max-h-[400px]">
+        <h3 class="text-3xl font-bold mb-6 text-center text-black">UPCOMING GOALS</h3>
+        <ul class="space-y-4 max-h-[400px]">
           <li
             v-for="(goal, index) in upcomingGoals.slice(0, 5)"
             :key="index"
-            class="flex justify-between items-center p-4 rounded-xl border border-[#ffffff10] bg-[#11111f]/50 hover:bg-[#22223f]/70 transition-all duration-300 shadow-md hover:shadow-xl">
+            class="flex justify-between items-center p-4 rounded-xl bg-black border-4 border-black duration-300">
             <div>
-              <p class="font-semibold text-lg text-[#e0e0ff]">{{ goal.name }}</p>
+              <p class="font-semibold text-lg text-[#ffffff]">{{ goal.name }}</p>
               <p class="text-sm text-[#a0a0ff] mt-1">
                 Deadline: <span class="font-bold">{{ goal.deadline }}</span>
               </p>
             </div>
             <button
-              class="px-4 py-2 rounded-lg text-sm font-medium bg-[#00fff7]/20 text-[#00fff7] hover:bg-[#00fff7]/50 hover:text-[#0f0f1f] transition-all duration-200"
+              class="px-4 py-2 rounded-lg text-sm font-medium bg-[#ffffff]/20 text-[#ffffff] hover:scale-105 transition-all duration-200"
               @click="Completegoal(goal)">
-              Mark Complete
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+                <path
+                  fill="currentColor"
+                  fill-rule="evenodd"
+                  d="M23 12c0 6.075-4.925 11-11 11S1 18.075 1 12S5.925 1 12 1s11 4.925 11 11M7 13l1.5-1.5l2 2l5-5L17 10l-6.5 6.5z"
+                  clip-rule="evenodd" />
+              </svg>
             </button>
           </li>
         </ul>
@@ -68,7 +71,7 @@ const fetchData = async () => {
   }
   setTimeout(() => {
     emit('ready');
-  }, 200);
+  }, 400);
 };
 
 onMounted(() => {
@@ -98,9 +101,3 @@ const Completegoal = async (goal) => {
   }
 };
 </script>
-
-<style scoped>
-.text-gradient {
-  background-image: linear-gradient(to right, #00fff7, #ff00ff);
-}
-</style>
