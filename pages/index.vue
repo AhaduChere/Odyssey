@@ -7,12 +7,10 @@
         <div class="w-10 h-10 rounded-full bg-blue-50 animate-bounce [animation-delay:-.5s]" />
       </div>
     </section>
-    <section class="flex items-startjustify-center flex-row w-max mx-auto">
+    <section class="flex items-startjustify-center flex-row w-max ml-32">
+        <MyStats v-show="!loading" @ready="MSloading = false" />
       <HomeDashboard v-show="!loading" @ready="Dloading = false" />
-      <!-- <div class="grid-cols-1"> -->
-      <!--   <MyStats v-show="!loading" @ready="MSloading = false" /> -->
-      <!--   <QuickAdd v-show="!loading" /> -->
-      <!-- </div> -->
+        <QuickAdd v-show="!loading" />
     </section>
   </main>
 </template>
@@ -21,15 +19,15 @@
 import { ref, watch } from 'vue';
 
 const Dloading = ref(true);
-// const MSloading = ref(true);
+const MSloading = ref(true);
 const loading = ref(true);
 
-// watch([Dloading, MSloading], ([d, ms]) => {
-//   loading.value = d || ms;
-// });
-
-watch([Dloading], ([d]) => {
-  loading.value = d;
+watch([Dloading, MSloading], ([d, ms]) => {
+  loading.value = d || ms;
 });
+
+// watch([Dloading], ([d]) => {
+//   loading.value = d;
+// });
 
 </script>

@@ -1,8 +1,9 @@
 <template>
-  <div class="relative h-[580px] w-[450px] bg-[#e3e9f3] rounded-3xl flex flex-col backdrop-blur-sm p-6 mt-8">
+  <div
+    class="relative h-[580px] w-[450px] bg-[#C4C4C4] rounded-3xl flex flex-col backdrop-blur-sm p-6 mt-8 border-2 border-black">
     <h3 class="text-2xl font-semibold mb-4 text-center">MY STATS</h3>
 
-    <div class="h-48 rounded-lg flex items-center justify-center text-neutral-500 select-none mb-11 mt-4">
+    <div class="h-48 rounded-lg flex items-center justify-center text-neutral-50 select-none mb-11 mt-4">
       <Doughnut :data="goaldata" :options="options" />
     </div>
 
@@ -44,7 +45,7 @@ const fetchData = async () => {
     completedGoals.value = goalsdata.completed;
     totalGoals.value = incompleteGoals.value + completedGoals.value;
   } catch (err) {
-    console.error('Failed to fetch data', err);
+    alert.error('Failed to fetch data', err);
   }
   setTimeout(() => {
     emit('ready');
@@ -70,6 +71,7 @@ const goaldata = computed(() => ({
   datasets: [
     {
       backgroundColor: ['#2963A5', '#4a90e2'],
+      borderColor: '#000000',
       data: [incompleteGoals.value, completedGoals.value],
     },
   ],

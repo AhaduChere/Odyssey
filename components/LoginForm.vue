@@ -6,7 +6,8 @@
       <form @submit.prevent="login">
         <div class="flex justify-center">
           <div class="w-[120px] h-[120px] mx-32 mb-4 select-none">
-            <img draggable="false" :src="Logo" alt="Logo" style="filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.25))" />
+            <img draggable="false" :src="Logo" alt="Logo"
+              style="filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.25))" />
           </div>
         </div>
 
@@ -17,26 +18,17 @@
         </div>
 
         <div class="w-full flex justify-center items-center">
-          <input
-            v-model="username"
-            required
-            placeholder="Username"
-            type="text"
+          <input v-model="username" required placeholder="Username" type="text"
             class="w-11/12 bg-[#e4e4e7] border-2 border-black outline-none rounded-full text-black text-md font-serif placeholder-black px-5 py-2 mb-5" />
         </div>
 
         <div class="w-full flex justify-center items-center">
-          <input
-            v-model="password"
-            required
-            placeholder="Password"
-            type="password"
+          <input v-model="password" required placeholder="Password" type="password"
             class="w-11/12 bg-[#e4e4e7] border-2 border-black outline-none rounded-full text-black text-md font-serif placeholder-black px-5 py-2" />
         </div>
 
         <div class="w-full flex justify-center pt-4">
-          <button
-            type="submit"
+          <button type="submit"
             class="inline-flex w-10/12 items-center justify-center rounded-full bg-black px-3.5 py-2 font-semibold leading-7 text-white">
             Login
           </button>
@@ -44,18 +36,12 @@
 
         <div class="text-center mt-2">
           <p class="text-sm font-medium text-black text-center">
-            <span
-              role="button"
-              tabindex="0"
-              class="text-black hover:underline select-none block cursor-pointer"
-              @click="() => props.onToggle('signup')"
-              @keydown.enter="() => props.onToggle('signup')">
+            <span role="button" tabindex="0" class="text-black hover:underline select-none block cursor-pointer"
+              @click="() => props.onToggle('signup')" @keydown.enter="() => props.onToggle('signup')">
               Sign Up
             </span>
 
-            <span
-              role="button"
-              tabindex="0"
+            <span role="button" tabindex="0"
               class="text-black hover:underline select-none block cursor-pointer pt-2 -mb-4"
               @click="() => props.onToggle('forgot')">
               Forgot Password?
@@ -72,7 +58,10 @@ import Logo from '~/assets/Logo.svg';
 import { ref } from 'vue';
 
 const props = defineProps({
-  onToggle: Function(),
+  onToggle: {
+    type: Function,
+    default: () => { },
+  },
 });
 
 const username = ref('');
