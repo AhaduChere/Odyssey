@@ -1,5 +1,5 @@
 <template>
-  <section class="flex flex-col items-center mt-8 pr-6">
+  <section class="flex flex-col items-center mt-8 px-6">
     <div class="relative h-[600px] w-[800px] bg-[#1c2541] rounded-3xl flex flex-col px-6 py-4 border-2 border-black">
       <h3 class="text-2xl font-semibold mb-4 text-center text-white select-none">UPCOMING DEADLINES</h3>
       <ul class="space-y-4">

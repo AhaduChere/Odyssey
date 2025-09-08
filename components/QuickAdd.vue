@@ -2,17 +2,29 @@
   <div class="relative h-[600px] w-[450px] bg-[#1c2541] rounded-3xl flex flex-col p-6 mt-8 border-2 border-black shadow-lg">
     <h3 class="text-2xl font-semibold mb-6 text-center text-white select-none">QUICK ADD</h3>
 
-    <form class="space-y-4 max-h-48" @submit.prevent="AddGoal">
+    <form @submit.prevent="AddGoal">
       <div class="h-48 rounded-lg flex items-center justify-center text-neutral-50 select-none mb-11">
         <Button @click="$event.target.closest('form').requestSubmit()" />
       </div>
 
       <div class="grid gap-3">
-        <input v-model="deadline" type="date" placeholder="deadline" required
+        <input
+          v-model="deadline"
+          type="date"
+          placeholder="deadline"
+          required
           class="rounded-xl bg-[#0f172a] border-2 border-black p-3 text-[#a0a0ff] placeholder:text-[#a0a0ff]/80 focus:outline-none focus:ring-2 focus:ring-[#2963A5]" />
-        <input v-model="goal_name" type="text" placeholder="Goal Name" required
+        <input
+          v-model="goal_name"
+          type="text"
+          placeholder="Goal Name"
+          required
           class="rounded-xl bg-[#0f172a] border-2 border-black p-3 text-[#a0a0ff] placeholder:text-[#a0a0ff]/80 focus:outline-none focus:ring-2 focus:ring-[#2963A5]" />
-        <input v-model="goal_desc" type="text" placeholder="Goal Description" required
+        <input
+          v-model="goal_desc"
+          type="text"
+          placeholder="Goal Description"
+          required
           class="h-28 rounded-xl bg-[#0f172a] border-2 border-black p-3 text-[#a0a0ff] text-top placeholder:text-[#a0a0ff]/80 focus:outline-none focus:ring-2 focus:ring-[#2963A5]" />
       </div>
     </form>

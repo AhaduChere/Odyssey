@@ -9,8 +9,7 @@
     </section>
     <section class="flex items-start justify-center flex-row pt-20">
       <HomeDashboard v-show="!loading" @ready="Dloading = false" />
-        <MyStats v-show="!loading" @ready="MSloading = false" />
-        <!-- <QuickAdd v-show="!loading" /> -->
+        <QuickAdd v-show="!loading" />
     </section>
   </main>
 </template>
@@ -19,14 +18,9 @@
 import { ref, watch } from 'vue';
 
 const Dloading = ref(true);
-const MSloading = ref(true);
 const loading = ref(true);
 
-watch([Dloading, MSloading], ([d, ms]) => {
-  loading.value = d || ms;
+watch([Dloading], ([d]) => {
+  loading.value = d;
 });
-
-// watch([Dloading], ([d]) => {
-//   loading.value = d;
-// });
 </script>

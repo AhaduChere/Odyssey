@@ -7,21 +7,40 @@
     </div>
   </section>
 
-  <section v-else class="min-w-[1800px] pt-32">
+  <section v-else class="min-w-[1800px] pt-24">
     <div class="flex items-center justify-center px-6 overflow-hidden">
       <div
         class="relative w-full max-w-[700px] min-w-[320px] min-h-[600px] bg-[#1c2541] rounded-3xl flex flex-col backdrop-blur-sm p-10 justify-between shadow-xl border-2 border-black">
-        <div class="space-y-8">
+        <div class="space-y-6">
           <h3 class="text-2xl font-semibold mb-6 text-center text-white select-none">MY ACCOUNT</h3>
 
+          <section class="grid grid-cols-3 gap-2">
+            <div class="rounded-xl bg-[#0f172a] p-4 shadow-sm border border-neutral-800 flex flex-col items-center">
+              <h3 class="text-sm font-extrabold text-[#a0a0ff] mb-1">Complete Goals</h3>
+              <p class="text-3xl font-bold text-white">{{ completedGoals }}</p>
+            </div>
+            <div class="rounded-xl bg-[#0f172a] p-4 shadow-sm border border-neutral-800 flex flex-col items-center">
+              <h3 class="text-sm font-extrabold text-[#a0a0ff] mb-1">Incomplete Goals</h3>
+              <p class="text-3xl font-bold text-white">{{ incompleteGoals }}</p>
+            </div>
+            <div class="rounded-xl bg-[#0f172a] p-4 shadow-sm border border-neutral-800 flex flex-col items-center">
+              <h3 class="text-sm font-extrabold text-[#a0a0ff] mb-1">Total Goals</h3>
+              <p class="text-3xl font-bold text-white">{{ totalGoals }}</p>
+            </div>
+          </section>
+
           <div class="grid grid-cols-1 gap-6 max-w-4xl mx-auto text-neutral-900">
-            <section v-for="field in fields" :key="field.key"
+            <section
+              v-for="field in fields"
+              :key="field.key"
               class="relative p-6 rounded-2xl border border-neutral-800 shadow-lg bg-[#0f172a]">
-              <p class="text-xs uppercase tracking-wide text-[#a0a0ff] mb-1 select-none">
+              <p class="text-xs font-extrabold uppercase tracking-wide text-[#a0a0ff] mb-1 select-none">
                 {{ field.label }}
               </p>
               <div v-if="Edit">
-                <input v-model="field.temp.value" :type="field.type"
+                <input
+                  v-model="field.temp.value"
+                  :type="field.type"
                   class="text-2xl text-white font-bold bg-transparent border-white border-b w-full focus:outline-none focus:shadow-none pb-1" />
               </div>
               <div v-else>
@@ -33,20 +52,22 @@
           </div>
 
           <section class="relative p-6 rounded-2xl border border-neutral-800 shadow-lg bg-[#0f172a] max-w-4xl mx-auto">
-            <p class="text-xs uppercase tracking-wide text-[#a0a0ff] mb-1 select-none">Account Created</p>
+            <p class="text-xs font-extrabold uppercase tracking-wide text-[#a0a0ff] mb-1 select-none">Account Created</p>
             <p class="text-2xl text-white font-bold select-none">
               {{ created_at }}
             </p>
           </section>
         </div>
 
-        <div class="flex gap-4 -mb-2">
-          <button v-if="Edit"
+        <div class="flex gap-4 -mb-2 pt-8">
+          <button
+            v-if="Edit"
             class="flex-1 py-3 rounded-2xl border border-neutral-800 text-white bg-[#0f172a] hover:scale-105 transition-all duration-200"
             @click="saveChanges">
             Save Changes
           </button>
-          <button v-else
+          <button
+            v-else
             class="flex-1 py-3 rounded-2xl border border-neutral-800 text-white bg-[#0f172a] hover:bg-[#0f172a]/80 transition-all duration-200"
             @click="editProfile">
             Edit Profile
@@ -60,7 +81,9 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useState } from '#app';
-
+const incompleteGoals = ref(0);
+const completedGoals = ref(0);
+const totalGoals = ref(0);
 const Edit = ref(false);
 const loading = ref(true);
 const username = ref('');
@@ -91,6 +114,10 @@ onMounted(() => {
   const fetchData = async () => {
     try {
       const userdata = await $fetch(`/api/user?id=${userId}`);
+      const goalsdata = await $fetch(`/api/goals?id=${userId}`);
+      incompleteGoals.value = goalsdata.incomplete;
+      completedGoals.value = goalsdata.completed;
+      totalGoals.value = incompleteGoals.value + completedGoals.value;
       username.value = userdata.username;
       email.value = userdata.email;
       created_at.value = formatDate(userdata.created_at);
