@@ -1,26 +1,21 @@
 <template>
   <div
-    class="relative h-[580px] w-[450px] bg-[#C4C4C4] rounded-3xl flex flex-col backdrop-blur-sm p-6 mt-8 border-2 border-black">
-    <h3 class="text-2xl font-semibold mb-4 text-center">MY STATS</h3>
+    class="relative h-[600px] w-[450px] bg-[#1c2541] rounded-3xl flex flex-col p-6 mt-8 border-2 border-black shadow-lg">
+    <h3 class="text-2xl font-semibold mb-6 text-center text-white select-none">MY STATS</h3>
 
-    <div class="h-48 rounded-lg flex items-center justify-center text-neutral-50 select-none mb-11 mt-4">
+    <div class="h-48 rounded-lg flex items-center justify-center text-neutral-50 select-none mb-11">
       <Doughnut :data="goaldata" :options="options" />
     </div>
 
-    <div class="grid grid-cols-2 gap-4">
-      <div class="rounded-lg border-2 border-neutral-800 px-4 py-3 shadow-sm">
-        <h3 class="text-sm font-semibold select-none text-gray-700 mb-1">Incomplete Goals</h3>
-        <p class="text-2xl font-mono text-gray-900">{{ incompleteGoals }}</p>
+    <div class="grid gap-4">
+      <div class="rounded-xl bg-[#0f172a] p-6 shadow-sm border-2 border-black flex flex-col items-center">
+        <h3 class="text-sm font-extrabold text-[#a0a0ff] mb-1">Complete Goals</h3>
+        <p class="text-3xl font-bold text-white">{{ completedGoals }}</p>
       </div>
 
-      <div class="rounded-lg border-2 border-neutral-800 px-4 py-3 shadow-sm">
-        <h3 class="text-sm font-semibold select-none text-gray-700 mb-1">Complete Goals</h3>
-        <p class="text-2xl font-mono text-gray-900">{{ completedGoals }}</p>
-      </div>
-
-      <div class="rounded-lg border-2 border-neutral-800 px-4 py-3 shadow-sm col-span-2">
-        <h3 class="text-sm font-semibold select-none text-gray-700 mb-1">Total Goals</h3>
-        <p class="text-2xl font-mono text-gray-900">{{ totalGoals }}</p>
+      <div class="rounded-xl bg-[#0f172a] p-6 shadow-sm border-2 border-black flex flex-col items-center">
+        <h3 class="text-sm font-extrabold text-[#a0a0ff] mb-1">Incomplete Goals</h3>
+        <p class="text-3xl font-bold text-white">{{ incompleteGoals }}</p>
       </div>
     </div>
   </div>
@@ -71,6 +66,7 @@ const goaldata = computed(() => ({
   datasets: [
     {
       backgroundColor: ['#2963A5', '#4a90e2'],
+      hoverBackgroundColor: ['#2963A5', '#4a90e2'],
       borderColor: '#000000',
       data: [incompleteGoals.value, completedGoals.value],
     },

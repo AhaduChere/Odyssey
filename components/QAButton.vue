@@ -17,7 +17,6 @@
   justify-content: center;
   background: #2963a5;
   border-radius: 15px;
-  box-shadow: 20px 20px 15px 0 #ababab4d;
   cursor: pointer;
   transform: scale(1);
   transition: transform 0.15s ease;

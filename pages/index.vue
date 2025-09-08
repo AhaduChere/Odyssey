@@ -7,7 +7,7 @@
         <div class="w-10 h-10 rounded-full bg-blue-50 animate-bounce [animation-delay:-.5s]" />
       </div>
     </section>
-    <section class="flex items-startjustify-center flex-row w-max ml-32">
+    <section class="flex items-startjustify-center flex-row w-max ml-32 pt-20">
         <MyStats v-show="!loading" @ready="MSloading = false" />
       <HomeDashboard v-show="!loading" @ready="Dloading = false" />
         <QuickAdd v-show="!loading" />
