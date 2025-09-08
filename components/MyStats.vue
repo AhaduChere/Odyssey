@@ -1,21 +1,22 @@
 <template>
-  <div
-    class="relative h-[600px] w-[450px] bg-[#1c2541] rounded-3xl flex flex-col p-6 mt-8 border-2 border-black shadow-lg">
-    <h3 class="text-2xl font-semibold mb-6 text-center text-white select-none">MY STATS</h3>
+  <div class="relative h-[600px] w-[450px] bg-[#1c2541] rounded-3xl flex flex-col px-6 py-4 mt-8 border-2 border-black shadow-lg">
+    <h3 class="text-2xl font-semibold mb-4 text-center text-white select-none">MY STATS</h3>
 
-    <div class="h-48 rounded-lg flex items-center justify-center text-neutral-50 select-none mb-11">
+    <div class="h-48 rounded-lg flex items-center justify-center text-neutral-50 select-none mb-2">
       <Doughnut :data="goaldata" :options="options" />
     </div>
-
-    <div class="grid gap-4">
-      <div class="rounded-xl bg-[#0f172a] p-6 shadow-sm border-2 border-black flex flex-col items-center">
+    <div class="grid gap-2">
+      <div class="rounded-xl bg-[#0f172a] p-4 shadow-sm border-2 border-black flex flex-col items-center">
         <h3 class="text-sm font-extrabold text-[#a0a0ff] mb-1">Complete Goals</h3>
         <p class="text-3xl font-bold text-white">{{ completedGoals }}</p>
       </div>
-
-      <div class="rounded-xl bg-[#0f172a] p-6 shadow-sm border-2 border-black flex flex-col items-center">
+      <div class="rounded-xl bg-[#0f172a] p-4 shadow-sm border-2 border-black flex flex-col items-center">
         <h3 class="text-sm font-extrabold text-[#a0a0ff] mb-1">Incomplete Goals</h3>
         <p class="text-3xl font-bold text-white">{{ incompleteGoals }}</p>
+      </div>
+      <div class="rounded-xl bg-[#0f172a] p-4 shadow-sm border-2 border-black flex flex-col items-center">
+        <h3 class="text-sm font-extrabold text-[#a0a0ff] mb-1">Total</h3>
+        <p class="text-3xl font-bold text-white">{{ totalGoals }}</p>
       </div>
     </div>
   </div>

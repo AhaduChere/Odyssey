@@ -1,10 +1,10 @@
 <template>
-  <header class="fixed flex flex-col bg-[#C4C4C4] shadow-2xl rounded-3xl w-[80px] h-[96vh] mt-4 pt-4 ml-4 px-auto">
+  <header class="fixed flex flex-col bg-[#0f172a]/80 shadow-2xl w-[80px] h-[100vh] px-auto border-r-2 border-black">
     <img
       :src="Logo"
       draggable="false"
       alt="Logo"
-      class="w-16 h-auto select-none self-center ml-0.5"
+      class="w-16 h-auto select-none self-center ml-0.5 pt-2"
       style="filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.25))" />
 
     <nav class="flex-1 flex items-center justify-center">
@@ -14,25 +14,15 @@
             <div
               class="w-14 h-14 flex items-center rounded-xl justify-center transition-all duration-200 ease-in-out"
               :class="{
-                'bg-black': route.path === link.to,
-                'hover:scale-105': route.path !== link.to,
+                'bg-[#4a90e2]/20': route.path === link.to,
+                'hover:bg-[#4a90e2]/20': route.path !== link.to,
               }">
-              <img
-                :src="link.icon"
-                class="w-[36px] h-auto transition duration-200 ease-in-out"
-                :class="{ invert: route.path === link.to }" />
+              <img :src="link.icon" class="w-[36px] h-auto transition duration-200 ease-in-out" />
             </div>
           </NuxtLink>
         </li>
       </ul>
     </nav>
-    <img
-      :src="Settings"
-      draggable="false"
-      alt="Logo"
-      class="w-10 h-auto select-none mb-6 opacity-80 hover:opacity-100 self-center cursor-pointer"
-      style="filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.25))" />
-
     <img
       :src="Logout"
       draggable="false"
@@ -44,13 +34,12 @@
 </template>
 
 <script setup>
-import Logo from '~/assets/Logo.svg';
+import Logo from '~/assets/Logo2.svg';
 import Home from '~/assets/Home.svg';
 import Calendar from '~/assets/Calendar.svg';
 import Archive from '~/assets/Archive.svg';
 import Account from '~/assets/Account.svg';
 import Logout from '~/assets/Logout.svg';
-import Settings from '~/assets/Settings.svg';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();

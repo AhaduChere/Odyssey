@@ -1,6 +1,5 @@
 <template>
   <section v-if="loading" class="flex items-center justify-center h-[80vh] overflow-hidden">
-    <!-- Loading Animation From Uiverse.io by Javierrocadev -->
     <div class="flex flex-row gap-2">
       <div class="w-10 h-10 rounded-full bg-blue-50 animate-bounce" />
       <div class="w-10 h-10 rounded-full bg-blue-50 animate-bounce [animation-delay:-.3s]" />
@@ -11,51 +10,44 @@
   <section v-else class="min-w-[1800px] pt-32">
     <div class="flex items-center justify-center px-6 overflow-hidden">
       <div
-        class="relative w-full max-w-[700px] min-w-[320px] min-h-[600px] bg-[#C4C4C4] rounded-3xl flex flex-col backdrop-blur-sm p-10 justify-between shadow-xl border border-white/10">
+        class="relative w-full max-w-[700px] min-w-[320px] min-h-[600px] bg-[#1c2541] rounded-3xl flex flex-col backdrop-blur-sm p-10 justify-between shadow-xl border-2 border-black">
         <div class="space-y-8">
-          <h2 class="text-5xl font-Caeser font-extrabold text-center text-neutral-800 tracking-tight select-none">My Account</h2>
+          <h3 class="text-2xl font-semibold mb-6 text-center text-white select-none">MY ACCOUNT</h3>
 
           <div class="grid grid-cols-1 gap-6 max-w-4xl mx-auto text-neutral-900">
-            <!-- Username & Email Fields -->
-            <section
-              v-for="field in fields"
-              :key="field.key"
-              class="relative p-6 rounded-2xl border border-neutral-800 shadow-lg bg-transparent">
-              <p class="text-xs uppercase tracking-wide text-neutral-600 mb-1 select-none">
+            <section v-for="field in fields" :key="field.key"
+              class="relative p-6 rounded-2xl border border-neutral-800 shadow-lg bg-[#0f172a]">
+              <p class="text-xs uppercase tracking-wide text-[#a0a0ff] mb-1 select-none">
                 {{ field.label }}
               </p>
               <div v-if="Edit">
-                <input
-                  v-model="field.temp.value"
-                  :type="field.type"
-                  class="text-2xl font-bold bg-transparent border-black border-b w-full focus:outline-none focus:shadow-none" />
+                <input v-model="field.temp.value" :type="field.type"
+                  class="text-2xl text-white font-bold bg-transparent border-white border-b w-full focus:outline-none focus:shadow-none pb-1" />
               </div>
               <div v-else>
-                <p class="text-2xl font-bold select-none">
+                <p class="text-2xl text-white font-bold select-none pb-1">
                   {{ field.model.value }}
                 </p>
               </div>
             </section>
           </div>
 
-          <section class="relative p-6 rounded-2xl border border-neutral-800 shadow-lg bg-transparent max-w-4xl mx-auto">
-            <p class="text-xs uppercase tracking-wide text-neutral-600 mb-1 select-none">Account Created</p>
-            <p class="text-2xl font-bold select-none">
+          <section class="relative p-6 rounded-2xl border border-neutral-800 shadow-lg bg-[#0f172a] max-w-4xl mx-auto">
+            <p class="text-xs uppercase tracking-wide text-[#a0a0ff] mb-1 select-none">Account Created</p>
+            <p class="text-2xl text-white font-bold select-none">
               {{ created_at }}
             </p>
           </section>
         </div>
 
         <div class="flex gap-4 -mb-2">
-          <button
-            v-if="Edit"
-            class="flex-1 py-3 rounded-2xl border border-neutral-800 text-neutral-900 bg-transparent hover:bg-neutral-800 hover:text-white transition duration-200"
+          <button v-if="Edit"
+            class="flex-1 py-3 rounded-2xl border border-neutral-800 text-white bg-[#0f172a] hover:scale-105 transition-all duration-200"
             @click="saveChanges">
             Save Changes
           </button>
-          <button
-            v-else
-            class="flex-1 py-3 rounded-2xl border border-neutral-800 text-neutral-900 bg-transparent hover:bg-neutral-800 hover:text-white transition duration-200"
+          <button v-else
+            class="flex-1 py-3 rounded-2xl border border-neutral-800 text-white bg-[#0f172a] hover:bg-[#0f172a]/80 transition-all duration-200"
             @click="editProfile">
             Edit Profile
           </button>

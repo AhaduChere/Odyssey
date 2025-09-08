@@ -9,8 +9,8 @@
 
 <style scoped>
 .icon-conatiner {
-  width: 180px;
-  height: 180px;
+  width: 192px;
+  height: 192px;
   display: flex;
   flex-direction: column;
   align-items: center;

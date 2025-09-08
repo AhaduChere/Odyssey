@@ -1,14 +1,11 @@
 <template>
-  <div
-    class="relative h-[600px] w-[450px] bg-[#1c2541] rounded-3xl flex flex-col p-6 mt-8 border-2 border-black shadow-lg">
+  <div class="relative h-[600px] w-[450px] bg-[#1c2541] rounded-3xl flex flex-col p-6 mt-8 border-2 border-black shadow-lg">
     <h3 class="text-2xl font-semibold mb-6 text-center text-white select-none">QUICK ADD</h3>
-
 
     <form class="space-y-4 max-h-48" @submit.prevent="AddGoal">
       <div class="h-48 rounded-lg flex items-center justify-center text-neutral-50 select-none mb-11">
         <Button @click="$event.target.closest('form').requestSubmit()" />
       </div>
-
 
       <div class="grid gap-3">
         <input v-model="deadline" type="date" placeholder="deadline" required

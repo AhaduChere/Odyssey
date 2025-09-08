@@ -1,8 +1,8 @@
 <template>
-  <section class="flex flex-col items-center mt-8 px-6">
-    <div class="relative h-[600px] w-[800px] bg-[#1c2541] rounded-3xl flex flex-col p-6 border-2 border-black">
-      <h3 class="text-2xl font-semibold mb-6 text-center text-white select-none">UPCOMING GOALS</h3>
-      <ul class="space-y-4 max-h-48">
+  <section class="flex flex-col items-center mt-8 pr-6">
+    <div class="relative h-[600px] w-[800px] bg-[#1c2541] rounded-3xl flex flex-col px-6 py-4 border-2 border-black">
+      <h3 class="text-2xl font-semibold mb-4 text-center text-white select-none">UPCOMING DEADLINES</h3>
+      <ul class="space-y-4">
         <li v-for="(goal, index) in upcomingGoals.slice(0, 5)" :key="index"
           class="flex justify-between items-center p-4 rounded-xl bg-[#0f172a] border-2 hover:scale-[1.01] border-black duration-300">
           <div>
