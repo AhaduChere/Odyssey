@@ -1,78 +1,61 @@
 <template>
-  <section v-if="loading" class="flex items-center justify-center h-[80vh] overflow-hidden">
-    <div class="flex flex-row gap-2">
-      <div class="w-10 h-10 rounded-full bg-blue-50 animate-bounce" />
-      <div class="w-10 h-10 rounded-full bg-blue-50 animate-bounce [animation-delay:-.3s]" />
-      <div class="w-10 h-10 rounded-full bg-blue-50 animate-bounce [animation-delay:-.5s]" />
-    </div>
+  <section v-if="loading" class="flex items-center justify-center h-screen">
+    <Loader/>
   </section>
 
-  <section v-else class="min-w-[1800px] pt-24">
-    <div class="flex items-center justify-center px-6 overflow-hidden">
-      <div
-        class="relative w-full max-w-[700px] min-w-[320px] min-h-[600px] bg-[#1c2541] rounded-3xl flex flex-col backdrop-blur-sm p-10 justify-between shadow-xl border-2 border-black">
-        <div class="space-y-6">
-          <h3 class="text-2xl font-semibold mb-6 text-center text-white select-none">MY ACCOUNT</h3>
+  <section v-else class="min-h-screen pt-28 text-white">
+    <div class="px-6 flex flex-col gap-8 max-w-4xl mx-auto min-w-[700px]">
+      <h3 class="text-3xl text-[#a0a0ff] font-semibold text-center select-none">MY ACCOUNT</h3>
+      <section class="grid grid-cols-3 gap-4">
+        <div class="p-6 bg-[#0f172a] rounded-xl border border-neutral-800 flex flex-col items-center">
+          <h3 class="text-sm font-extrabold text-[#a0a0ff] mb-1">Complete Goals</h3>
+          <p class="text-3xl font-bold">{{ completedGoals }}</p>
+        </div>
+        <div class="p-6 bg-[#0f172a] rounded-xl border border-neutral-800 flex flex-col items-center">
+          <h3 class="text-sm font-extrabold text-[#a0a0ff] mb-1">Incomplete Goals</h3>
+          <p class="text-3xl font-bold">{{ incompleteGoals }}</p>
+        </div>
+        <div class="p-6 bg-[#0f172a] rounded-xl border border-neutral-800 flex flex-col items-center">
+          <h3 class="text-sm font-extrabold text-[#a0a0ff] mb-1">Total Goals</h3>
+          <p class="text-3xl font-bold">{{ totalGoals }}</p>
+        </div>
+      </section>
 
-          <section class="grid grid-cols-3 gap-2">
-            <div class="rounded-xl bg-[#0f172a] p-4 shadow-sm border border-neutral-800 flex flex-col items-center">
-              <h3 class="text-sm font-extrabold text-[#a0a0ff] mb-1">Complete Goals</h3>
-              <p class="text-3xl font-bold text-white">{{ completedGoals }}</p>
-            </div>
-            <div class="rounded-xl bg-[#0f172a] p-4 shadow-sm border border-neutral-800 flex flex-col items-center">
-              <h3 class="text-sm font-extrabold text-[#a0a0ff] mb-1">Incomplete Goals</h3>
-              <p class="text-3xl font-bold text-white">{{ incompleteGoals }}</p>
-            </div>
-            <div class="rounded-xl bg-[#0f172a] p-4 shadow-sm border border-neutral-800 flex flex-col items-center">
-              <h3 class="text-sm font-extrabold text-[#a0a0ff] mb-1">Total Goals</h3>
-              <p class="text-3xl font-bold text-white">{{ totalGoals }}</p>
-            </div>
-          </section>
-
-          <div class="grid grid-cols-1 gap-6 max-w-4xl mx-auto text-neutral-900">
-            <section
-              v-for="field in fields"
-              :key="field.key"
-              class="relative p-6 rounded-2xl border border-neutral-800 shadow-lg bg-[#0f172a]">
-              <p class="text-xs font-extrabold uppercase tracking-wide text-[#a0a0ff] mb-1 select-none">
-                {{ field.label }}
-              </p>
-              <div v-if="Edit">
-                <input
-                  v-model="field.temp.value"
-                  :type="field.type"
-                  class="text-2xl text-white font-bold bg-transparent border-white border-b w-full focus:outline-none focus:shadow-none pb-1" />
-              </div>
-              <div v-else>
-                <p class="text-2xl text-white font-bold select-none pb-1">
-                  {{ field.model.value }}
-                </p>
-              </div>
-            </section>
+      <div class="grid grid-cols-1 gap-6">
+        <section v-for="field in fields" :key="field.key" class="p-6 bg-[#0f172a] rounded-2xl border border-neutral-800">
+          <p class="text-xs font-extrabold uppercase tracking-wide text-[#a0a0ff] mb-1 select-none">
+            {{ field.label }}
+          </p>
+          <div v-if="Edit">
+            <input
+              v-model="field.temp.value"
+              :type="field.type"
+              class="text-2xl text-white font-bold bg-transparent border-white border-b w-full focus:outline-none pb-1" />
           </div>
+          <div v-else>
+            <p class="text-2xl font-bold select-none pb-1">{{ field.model.value }}</p>
+          </div>
+        </section>
+      </div>
 
-          <section class="relative p-6 rounded-2xl border border-neutral-800 shadow-lg bg-[#0f172a] max-w-4xl mx-auto">
-            <p class="text-xs font-extrabold uppercase tracking-wide text-[#a0a0ff] mb-1 select-none">Account Created</p>
-            <p class="text-2xl text-white font-bold select-none">
-              {{ created_at }}
-            </p>
-          </section>
-        </div>
+      <section class="p-6 bg-[#0f172a] rounded-2xl border border-neutral-800">
+        <p class="text-xs font-extrabold uppercase tracking-wide text-[#a0a0ff] mb-1 select-none">Account Created</p>
+        <p class="text-2xl font-bold select-none">{{ created_at }}</p>
+      </section>
 
-        <div class="flex gap-4 -mb-2 pt-8">
-          <button
-            v-if="Edit"
-            class="flex-1 py-3 rounded-2xl border border-neutral-800 text-white bg-[#0f172a] hover:scale-105 transition-all duration-200"
-            @click="saveChanges">
-            Save Changes
-          </button>
-          <button
-            v-else
-            class="flex-1 py-3 rounded-2xl border border-neutral-800 text-white bg-[#0f172a] hover:bg-[#0f172a]/80 transition-all duration-200"
-            @click="editProfile">
-            Edit Profile
-          </button>
-        </div>
+      <div class="flex gap-4">
+        <button
+          v-if="Edit"
+          class="flex-1 py-5 rounded-2xl border border-neutral-800 bg-[#0f172a] text-white hover:bg-[#0f172a]/80 transition-all"
+          @click="saveChanges">
+          Save Changes
+        </button>
+        <button
+          v-else
+          class="flex-1 py-5 rounded-2xl border border-neutral-800 bg-[#0f172a] text-white hover:bg-[#0f172a]/80 transition-all"
+          @click="editProfile">
+          Edit Profile
+        </button>
       </div>
     </div>
   </section>
@@ -128,7 +111,7 @@ onMounted(() => {
     }
     setTimeout(() => {
       loading.value = false;
-    }, 200);
+    }, 400);
   };
   fetchData();
 });

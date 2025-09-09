@@ -1,9 +1,15 @@
 <template>
-  <section class="flex flex-col items-center mt-8 px-6">
-    <div class="relative h-[600px] w-[800px] bg-[#1c2541] rounded-3xl flex flex-col px-6 py-4 border-2 border-black">
-      <h3 class="text-2xl font-semibold mb-4 text-center text-white select-none">UPCOMING DEADLINES</h3>
-      <ul class="space-y-4">
-        <li v-for="(goal, index) in upcomingGoals.slice(0, 5)" :key="index"
+  <section v-if="loading" class="flex items-center justify-center h-screen">
+    <Loader/>
+  </section>
+  <section v-else class="min-h-screen pt-28 text-white flex flex-col items-center">
+    <div class="px-6 flex flex-col gap-8 w-full max-w-4xl">
+
+      <ul class="space-y-4 ">
+      <h3 class="text-3xl text-[#a0a0ff] font-semibold text-center select-none">UPCOMING DEADLINES</h3>
+        <li
+          v-for="(goal, index) in upcomingGoals"
+          :key="index"
           class="flex justify-between items-center p-4 rounded-xl bg-[#0f172a] border-2 hover:scale-[1.01] border-black duration-300">
           <div>
             <p class="font-semibold text-lg text-[#ffffff]">{{ goal.name }}</p>
@@ -15,7 +21,9 @@
             class="px-4 py-2 rounded-lg text-sm font-medium bg-[#2963A5]/20 text-[#ffffff] filter hover:bg-[#2963A5]/25 transition-transform duration-200"
             @click="Completegoal(goal)">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" class="fill-[#2963A5]">
-              <path fill="current" fill-rule="evenodd"
+              <path
+                fill="current"
+                fill-rule="evenodd"
                 d="M23 12c0 6.075-4.925 11-11 11S1 18.075 1 12S5.925 1 12 1s11 4.925 11 11M7 13l1.5-1.5l2 2l5-5L17 10l-6.5 6.5z"
                 clip-rule="evenodd" />
             </svg>
@@ -28,8 +36,8 @@
 
 <script setup>
 import { needsRefresh } from '~/composables/refresh.js';
-const emit = defineEmits(['ready']);
 const userId = useState('user').value.id;
+const loading = ref(true);
 const upcomingGoals = ref([]);
 
 const formatDate = (datetime) => {
@@ -64,7 +72,7 @@ const fetchData = async () => {
     console.error('Failed to fetch data', err);
   }
   setTimeout(() => {
-    emit('ready');
+    loading.value = false;
   }, 400);
 };
 

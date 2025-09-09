@@ -15,8 +15,14 @@ const route = useRoute();
 }
 body {
   height: 100%;
+  min-width: 950px;
   overflow-y: auto;
-  background: #1a3a5d;
+  background: #1c2541;
   background-attachment: fixed;
+}
+input:-moz-autofill {
+  background-color: transparent !important;
+  box-shadow: 0 0 0px 1000px transparent inset !important;
+  -webkit-text-fill-color: black !important;
 }
 </style>

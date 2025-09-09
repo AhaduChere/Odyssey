@@ -1,18 +1,18 @@
 <template>
-  <header class="fixed flex flex-col bg-[#0f172a]/80 shadow-2xl w-[80px] h-[100vh] px-auto border-r-2 border-black">
+  <header class="fixed flex items-center bg-[#0f172a]/80 shadow-2xl w-full min-w-[950px] h-20 px-6">
     <img
       :src="Logo"
       draggable="false"
       alt="Logo"
-      class="w-16 h-auto select-none self-center ml-0.5 pt-2"
+      class="w-14 h-auto select-none"
       style="filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.25))" />
 
-    <nav class="flex-1 flex items-center justify-center">
-      <ul class="flex flex-col items-center gap-10">
+    <nav class="flex-1 flex justify-center">
+      <ul class="flex items-center gap-8">
         <li v-for="link in links" :key="link.to">
           <NuxtLink :to="link.to">
             <div
-              class="w-14 h-14 flex items-center rounded-xl justify-center transition-all duration-200 ease-in-out"
+              class="w-14 h-14 flex items-center justify-center rounded-xl transition-all duration-200 ease-in-out"
               :class="{
                 'bg-[#4a90e2]/20': route.path === link.to,
                 'hover:bg-[#4a90e2]/20': route.path !== link.to,
@@ -23,18 +23,19 @@
         </li>
       </ul>
     </nav>
+
     <img
       :src="Logout"
       draggable="false"
-      alt="Logo"
-      class="w-10 h-auto select-none mb-6 opacity-80 hover:opacity-100 self-center cursor-pointer"
+      alt="Logout"
+      class="w-10 h-auto select-none opacity-80 hover:opacity-100 cursor-pointer"
       style="filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.25))"
       @click="logout" />
   </header>
 </template>
 
 <script setup>
-import Logo from '~/assets/Logo2.svg';
+import Logo from '~/assets/Logo.svg';
 import Home from '~/assets/Home.svg';
 import Calendar from '~/assets/Calendar.svg';
 import Archive from '~/assets/Archive.svg';
