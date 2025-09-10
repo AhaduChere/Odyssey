@@ -4,11 +4,11 @@
   </section>
 
   <section v-else class="min-h-screen text-white">
-    <div class="px-6 flex flex-col space-y-6 max-w-4xl mx-auto min-w-[700px]">
-      <h1 class="text-4xl font-bold text-center text-[#a0a0ff] tracking-wide select-none drop-shadow">
+    <div class="px-6 flex flex-col  max-w-4xl mx-auto min-w-[700px]">
+      <h1 class="text-4xl font-bold text-center text-[#a0a0ff] tracking-wide select-none drop-shadow pb-4">
         {{ monthNames[currentMonth] }}
       </h1>
-      <div class="w-full h-1 bg-gradient-to-r from-[#2963A5] to-[#a0a0ff] mx-auto rounded"></div>
+      <div class="w-full h-1 bg-gradient-to-r from-[#2963A5] to-[#a0a0ff] mx-auto rounded mb-2"></div>
 
       <div class="grid grid-cols-7 gap-4 pt-8 bg-[#181c2a] rounded-2xl p-6 shadow-lg">
         <div
@@ -135,6 +135,7 @@ const fetchDeadlines = async () => {
     }, 400);
   }
 };
+
 onMounted(() => {
   fetchDeadlines();
 });
