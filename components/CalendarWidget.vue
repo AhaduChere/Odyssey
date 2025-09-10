@@ -4,21 +4,31 @@
   </section>
 
   <section v-else class="min-h-screen text-white">
-    <div class="px-6 flex flex-col space-y-4 max-w-4xl mx-auto min-w-[700px]">
-      <h1 class="text-4xl font-bold text-center text-[#a0a0ff] tracking-wide select-none">
+    <div class="px-6 flex flex-col space-y-6 max-w-4xl mx-auto min-w-[700px]">
+      <h1 class="text-4xl font-bold text-center text-[#a0a0ff] tracking-wide select-none drop-shadow">
         {{ monthNames[currentMonth] }}
       </h1>
-      <div class="w-24 h-1 bg-[#2963A5] mx-auto rounded"></div>
+      <div class="w-full h-1 bg-gradient-to-r from-[#2963A5] to-[#a0a0ff] mx-auto rounded"></div>
 
-      <div class="grid grid-cols-7 gap-2 pt-8">
-        <div v-for="day in weekdays" :key="day" class="text-center font-semibold">{{ day }}</div>
+      <div class="grid grid-cols-7 gap-4 pt-8 bg-[#181c2a] rounded-2xl p-6 shadow-lg">
+        <div
+          v-for="day in weekdays"
+          :key="day"
+          class="text-center font-semibold text-[#a0a0ff] uppercase tracking-wide pb-2 border-b border-[#222244]">
+          {{ day }}
+          <div class="w-full h-1 bg-[#2963A5] mx-auto rounded"></div>
+        </div>
         <div v-for="blank in firstDayOffset" :key="'b' + blank"></div>
         <button
           v-for="day in daysInMonth"
           :key="day"
-          :class="['p-4 rounded-xl h-24 flex flex-col items-center justify-center border', getDayClass(day)]"
+          :class="[
+            'p-4 rounded-xl h-20 flex flex-col items-center justify-center border transition-all duration-150',
+            'bg-[#222244] hover:scale-105 shadow',
+            getDayClass(day),
+          ]"
           @click="selectedDay = day">
-          <span class="text-xl font-bold">{{ day }}</span>
+          <span class="text-xl font-bold text-[#a0a0ff]">{{ day }}</span>
         </button>
       </div>
 
@@ -45,13 +55,11 @@
               </form>
             </div>
             <div class="flex flex-col">
-              <h2 class="text-xl font-bold text-[#a0a0ff] mb-4">
-                Deadlines on {{ currentMonth + 1 }}/{{ selectedDay }}/{{ currentYear }}
-              </h2>
+              <h2 class="text-xl font-bold text-[#a0a0ff] mb-4">Deadlines on {{ currentMonth + 1 }}/{{ selectedDay }}/{{ currentYear }}</h2>
               <ul class="overflow-y-scroll max-h-48 space-y-3 scrollbar">
                 <li
                   v-if="!deadlines[selectedDay] || deadlines[selectedDay].length === 0"
-                  class="p-4 bg-[#222244] rounded-xl border border-neutral-800 text-center">
+                  class="p-4 bg-[#222244]/50 rounded-xl border-2 border-black text-center">
                   No deadlines
                 </li>
                 <li
@@ -122,7 +130,9 @@ const fetchDeadlines = async () => {
   } catch (err) {
     console.error('Failed to fetch user data', err);
   } finally {
-    loading.value = false;
+    setTimeout(() => {
+      loading.value = false;
+    }, 400);
   }
 };
 onMounted(() => {
@@ -133,15 +143,15 @@ const getDayClass = (day) => {
   const dayDeadlines = deadlines.value[day];
 
   if (day === today.getDate()) {
-    return 'text-blue-600 border-blue-600 bg-[#1a2038]';
+    return 'text-blue-600 border-blue-600 bg-[#0f172a]';
   }
 
-  if (!dayDeadlines) return 'border-neutral-800 bg-[#1a2038]';
+  if (!dayDeadlines) return 'border-neutral-800 bg-[#0f172a]';
 
   const allCompleted = dayDeadlines.every((d) => d.completed === 'TRUE');
-  if (allCompleted) return 'text-green-600 border-green-600 bg-[#1a2038]';
+  if (allCompleted) return 'text-green-600 border-green-600 bg-[#0f172a]';
 
-  return 'text-red-600 border-red-600 bg-[#1a2038]';
+  return 'text-red-600 border-red-600 bg-[#0f172a]';
 };
 
 watch(needsRefresh, async (val) => {
