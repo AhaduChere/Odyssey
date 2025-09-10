@@ -23,14 +23,32 @@
       </div>
 
       <div v-if="selectedDay" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-        <div class="bg-[#0f172a] rounded-2xl border border-neutral-800 max-w-4xl w-full p-6 shadow-xl">
-          <div class="grid grid-cols-2 gap-6">
-            <!-- Deadlines Column -->
+        <div class="bg-[#0f172a] rounded-2xl border border-neutral-800 max-w-xl w-full p-6 shadow-xl">
+          <div class="grid grid-cols-1 gap-6">
+            <div class="flex flex-col">
+              <h2 class="text-xl font-bold text-[#a0a0ff] mb-4">Add New Goal</h2>
+              <form class="flex flex-col gap-4" @submit.prevent="AddGoal">
+                <input
+                  v-model="goal_name"
+                  type="text"
+                  placeholder="Goal Name"
+                  required
+                  class="rounded-xl bg-[#222244]/50 border-2 border-black p-3 text-[#a0a0ff] placeholder:text-[#a0a0ff]/80 focus:outline-none focus:ring-2 focus:ring-[#2963A5]" />
+                <textarea
+                  v-model="goal_desc"
+                  placeholder="Goal Description"
+                  required
+                  class="h-full rounded-xl bg-[#222244]/50 border-2 border-black p-3 text-[#a0a0ff] placeholder:text-[#a0a0ff]/80 focus:outline-none focus:ring-2 focus:ring-[#2963A5] resize-none"></textarea>
+                <button type="submit" class="w-full py-3 rounded-2xl border-2 border-black bg-[#1a2038] hover:bg-[#222244]">
+                  Add Goal
+                </button>
+              </form>
+            </div>
             <div class="flex flex-col">
               <h2 class="text-xl font-bold text-[#a0a0ff] mb-4">
-                Deadlines for {{ currentMonth + 1 }}/{{ selectedDay }}/{{ currentYear }}
+                Deadlines on {{ currentMonth + 1 }}/{{ selectedDay }}/{{ currentYear }}
               </h2>
-              <ul class="flex-1 overflow-y-auto space-y-3 max-h-[400px]">
+              <ul class="overflow-y-scroll max-h-48 space-y-3 scrollbar">
                 <li
                   v-if="!deadlines[selectedDay] || deadlines[selectedDay].length === 0"
                   class="p-4 bg-[#222244] rounded-xl border border-neutral-800 text-center">
@@ -51,27 +69,6 @@
               <button class="mt-4 py-3 rounded-2xl border-2 border-black bg-[#1a2038] hover:bg-[#222244]" @click="selectedDay = null">
                 Close
               </button>
-            </div>
-
-            <!-- Add Goal Column -->
-            <div class="flex flex-col">
-              <h2 class="text-xl font-bold text-[#a0a0ff] mb-4">Add New Goal</h2>
-              <form class="flex flex-col gap-4" @submit.prevent="AddGoal">
-                <input
-                  v-model="goal_name"
-                  type="text"
-                  placeholder="Goal Name"
-                  required
-                  class="rounded-xl bg-[#222244]/50 border-2 border-black p-3 text-[#a0a0ff] placeholder:text-[#a0a0ff]/80 focus:outline-none focus:ring-2 focus:ring-[#2963A5]" />
-                <textarea
-                  v-model="goal_desc"
-                  placeholder="Goal Description"
-                  required
-                  class="h-32 rounded-xl bg-[#222244]/50 border-2 border-black p-3 text-[#a0a0ff] placeholder:text-[#a0a0ff]/80 focus:outline-none focus:ring-2 focus:ring-[#2963A5] resize-none"></textarea>
-                <button type="submit" class="w-full py-3 rounded-2xl border-2 border-black bg-[#1a2038] hover:bg-[#222244]">
-                  Add Goal
-                </button>
-              </form>
             </div>
           </div>
         </div>

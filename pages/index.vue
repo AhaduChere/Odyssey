@@ -1,5 +1,3 @@
 <template>
-  <div>
-    <QuickAdd />
-  </div>
+  <HomeDashboard />
 </template>
