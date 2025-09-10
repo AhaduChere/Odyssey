@@ -1,14 +1,14 @@
 <template>
   <section v-if="loading" class="flex items-center justify-center h-screen">
-    <Loader/>
+    <LoaderWidget />
   </section>
-  <section v-else class="min-h-screen pt-28 text-white flex flex-col items-center">
+  <section v-else class="min-h-screen text-white flex flex-col items-center">
     <div class="px-6 flex flex-col gap-8 w-full max-w-4xl">
-
-      <ul class="space-y-4 ">
-      <h3 class="text-3xl text-[#a0a0ff] font-semibold text-center select-none">UPCOMING DEADLINES</h3>
+      <ul class="space-y-4">
+        <h3 class="text-4xl text-[#a0a0ff] font-semibold text-center select-none">Upcoming Deadlines</h3>
+        <div class="w-24 h-1 bg-[#2963A5] mx-auto rounded"></div>
         <li
-          v-for="(goal, index) in upcomingGoals"
+          v-for="(goal, index) in upcomingGoals.slice(0, 5)"
           :key="index"
           class="flex justify-between items-center p-4 rounded-xl bg-[#0f172a] border-2 hover:scale-[1.01] border-black duration-300">
           <div>

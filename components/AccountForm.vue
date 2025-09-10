@@ -1,11 +1,12 @@
 <template>
   <section v-if="loading" class="flex items-center justify-center h-screen">
-    <Loader/>
+    <LoaderWidget/>
   </section>
 
-  <section v-else class="min-h-screen pt-28 text-white">
-    <div class="px-6 flex flex-col gap-8 max-w-4xl mx-auto min-w-[700px]">
-      <h3 class="text-3xl text-[#a0a0ff] font-semibold text-center select-none">MY ACCOUNT</h3>
+  <section v-else class="min-h-screen text-white">
+    <div class="px-6 flex flex-col space-y-4 max-w-4xl mx-auto min-w-[700px]">
+        <h1 class="text-4xl font-bold text-center text-[#a0a0ff] tracking-wide select-none">My Account</h1>
+        <div class="w-24 h-1 bg-[#2963A5] mx-auto rounded"></div>
       <section class="grid grid-cols-3 gap-4">
         <div class="p-6 bg-[#0f172a] rounded-xl border border-neutral-800 flex flex-col items-center">
           <h3 class="text-sm font-extrabold text-[#a0a0ff] mb-1">Complete Goals</h3>

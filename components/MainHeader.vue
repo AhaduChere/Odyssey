@@ -1,5 +1,5 @@
 <template>
-  <header class="fixed flex items-center bg-[#0f172a]/80 shadow-2xl w-full min-w-[950px] h-20 px-6">
+  <header class="flex items-center bg-[#0f172a]/80 shadow-2xl w-full min-w-[950px] h-20 px-6 mb-8">
     <img
       :src="Logo"
       draggable="false"
@@ -12,7 +12,7 @@
         <li v-for="link in links" :key="link.to">
           <NuxtLink :to="link.to">
             <div
-              class="w-14 h-14 flex items-center justify-center rounded-xl transition-all duration-200 ease-in-out"
+              class="w-14 h-14 flex items-center justify-center rounded-xl transition-all duration-200 ease-in-out select-none"
               :class="{
                 'bg-[#4a90e2]/20': route.path === link.to,
                 'hover:bg-[#4a90e2]/20': route.path !== link.to,

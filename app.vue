@@ -16,7 +16,7 @@ const route = useRoute();
 body {
   height: 100%;
   min-width: 950px;
-  overflow-y: auto;
+  overflow-y: hidden;
   background: #1c2541;
   background-attachment: fixed;
 }
