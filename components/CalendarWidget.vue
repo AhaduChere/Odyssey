@@ -78,14 +78,22 @@
                     'border-green-600': item.completed === 'TRUE',
                     'border-red-600': item.completed === 'FALSE',
                   }">
-                  <div>
-                    <p class="font-bold text-lg">{{ item.name }}</p>
-                    <p class="text-sm">{{ item.description }}</p>
+                  <div class="flex-1 min-w-0 pr-4">
+                    <p class="font-bold text-lg truncate">{{ item.name }}</p>
+                    <p class="text-sm break-words whitespace-normal">{{ item.description }}</p>
                   </div>
-                  <div
-                    class="flex items-center justify-center w-18 h-auto px-4 py-2 rounded-lg cursor-pointer bg-[#2963A5]/20 hover:bg-[#2963A5]/30 transition-colors duration-200"
-                    @click="item.completed === 'TRUE' ? undo(item) : Completegoal(item)">
-                    <img :src="item.completed === 'TRUE' ? UndoButton : DoneButton" class="w-18 h-auto" alt="Action Button" />
+
+                  <div class="flex gap-2 items-center">
+                    <div
+                      class="flex items-center justify-center w-18 h-auto px-4 py-2 rounded-lg cursor-pointer bg-[#2963A5]/20 hover:bg-[#2963A5]/30 transition-colors duration-200"
+                      @click="DeleteGoal(item)">
+                      <img :src="DeleteButton" class="w-18 h-auto" alt="Delete Button" />
+                    </div>
+                    <div
+                      class="flex items-center justify-center w-18 h-auto px-4 py-2 rounded-lg cursor-pointer bg-[#2963A5]/20 hover:bg-[#2963A5]/30 transition-colors duration-200"
+                      @click="item.completed === 'TRUE' ? UndoGoal(item) : Completegoal(item)">
+                      <img :src="item.completed === 'TRUE' ? UndoButton : DoneButton" class="w-18 h-auto" alt="Action Button" />
+                    </div>
                   </div>
                 </li>
               </ul>
@@ -105,6 +113,7 @@
 import { ref, onMounted, watch } from 'vue';
 import DoneButton from '~/assets/Done.svg';
 import UndoButton from '~/assets/Undo.svg';
+import DeleteButton from '~/assets/Trash.svg';
 
 const loading = ref(true);
 const goal_name = ref('');
@@ -191,22 +200,32 @@ const Completegoal = async (goal) => {
       body: { action: 'complete', goalID: goal.goalid },
     });
     triggerRefresh();
-  } catch (err) {
-    console.error('Failed to complete goal', err);
+  } catch {
     alert('Could not mark goal as complete. Try again.');
   }
 };
 
-const undo = async (goal) => {
+const UndoGoal = async (goal) => {
   try {
     await $fetch('/api/goals', {
       method: 'POST',
       body: { action: 'undo', goalID: goal.goalid },
     });
     triggerRefresh();
-  } catch (err) {
-    console.error('Failed to undo goal', err);
+  } catch {
     alert('Could not undo goal. Try again.');
+  }
+};
+
+const DeleteGoal = async (goal) => {
+  try {
+    await $fetch('/api/goals', {
+      method: 'POST',
+      body: { action: 'delete', goalID: goal.goalid },
+    });
+    triggerRefresh();
+  } catch {
+    alert('Could not delete goal. Try again.');
   }
 };
 </script>
