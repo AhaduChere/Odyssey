@@ -83,7 +83,7 @@ const password = ref('');
 
 const signup = async () => {
   try {
-    const res = await $fetch('/api/signup', {
+    await $fetch('/api/signup', {
       method: 'POST',
       body: {
         username: username.value,
@@ -91,7 +91,6 @@ const signup = async () => {
         password: password.value,
       },
     });
-    console.log('Signup success:', res);
     props.onToggle('login');
   } catch (error) {
     if (error.status === 409) {

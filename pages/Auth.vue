@@ -47,7 +47,6 @@ const setForm = (formName) => {
   box-sizing: border-box;
 }
 
-/* Fade + slight scale transition */
 .fade-scale-enter-active,
 .fade-scale-leave-active {
   transition:

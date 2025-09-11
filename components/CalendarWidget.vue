@@ -159,8 +159,8 @@ const fetchDeadlines = async () => {
       });
     });
     deadlines.value = map;
-  } catch (err) {
-    console.error('Failed to fetch user data', err);
+  } catch {
+    alert('Failed to fetch user data');
   } finally {
     setTimeout(() => (loading.value = false), 400);
   }

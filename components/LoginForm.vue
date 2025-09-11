@@ -89,7 +89,6 @@ const login = async () => {
     });
     window.location.reload();
   } catch (error) {
-    console.error('Login failed:', error);
     if (error?.statusCode === 401) {
       alert('Invalid Credentials');
     } else {

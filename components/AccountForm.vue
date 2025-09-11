@@ -107,8 +107,8 @@ onMounted(() => {
       created_at.value = formatDate(userdata.created_at);
       Tempusername.value = userdata.username;
       Tempemail.value = userdata.email;
-    } catch (err) {
-      console.error('Failed to fetch user data', err);
+    } catch {
+      alert('Failed to fetch user data');
     }
     setTimeout(() => {
       loading.value = false;

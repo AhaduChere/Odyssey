@@ -63,8 +63,8 @@ const fetchData = async () => {
       name: g.goal_name,
       deadline: formatDate(g.deadline),
     }));
-  } catch (err) {
-    console.error('Failed to fetch data', err);
+  } catch {
+    alert('Failed to fetch user data');
   }
   setTimeout(() => {
     loading.value = false;
@@ -92,8 +92,7 @@ const Completegoal = async (goal) => {
       },
     });
     triggerRefresh();
-  } catch (err) {
-    console.error('Failed to complete goal', err);
+  } catch {
     alert('Could not mark goal as complete. Try again.');
   }
 };
