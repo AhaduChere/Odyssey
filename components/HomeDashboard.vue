@@ -92,11 +92,11 @@ const Completegoal = async (goal) => {
     await $fetch('/api/goals', {
       method: 'POST',
       body: {
-        action: 'update',
+        action: 'complete',
         goalID: goal.goalid,
       },
     });
-    needsRefresh.value = true;
+    triggerRefresh();
   } catch (err) {
     console.error('Failed to complete goal', err);
     alert('Could not mark goal as complete. Try again.');

@@ -4,7 +4,7 @@
   </section>
 
   <section v-else class="min-h-screen text-white">
-    <div class="px-6 flex flex-col  max-w-4xl mx-auto min-w-[700px]">
+    <div class="px-6 flex flex-col max-w-4xl mx-auto min-w-[700px]">
       <h1 class="text-4xl font-bold text-center text-[#a0a0ff] tracking-wide select-none drop-shadow pb-4">
         {{ monthNames[currentMonth] }}
       </h1>
@@ -25,7 +25,13 @@
           :class="[
             'p-4 rounded-xl h-20 flex flex-col items-center justify-center border transition-all duration-150',
             'bg-[#222244] hover:scale-105 shadow',
-            getDayClass(day),
+            day === today.getDate()
+              ? 'text-blue-600 border-blue-600 bg-[#0f172a]'
+              : !deadlines[day]
+                ? 'border-neutral-800 bg-[#0f172a]'
+                : deadlines[day].every((d) => d.completed === 'TRUE')
+                  ? 'text-green-600 border-green-600 bg-[#0f172a]'
+                  : 'text-red-600 border-red-600 bg-[#0f172a]',
           ]"
           @click="selectedDay = day">
           <span class="text-xl font-bold text-[#a0a0ff]">{{ day }}</span>
@@ -54,6 +60,7 @@
                 </button>
               </form>
             </div>
+
             <div class="flex flex-col">
               <h2 class="text-xl font-bold text-[#a0a0ff] mb-4">Deadlines on {{ currentMonth + 1 }}/{{ selectedDay }}/{{ currentYear }}</h2>
               <ul class="overflow-y-scroll max-h-48 space-y-3 scrollbar">
@@ -62,18 +69,27 @@
                   class="p-4 bg-[#222244]/50 rounded-xl border-2 border-black text-center">
                   No deadlines
                 </li>
+
                 <li
                   v-for="(item, index) in deadlines[selectedDay]"
                   :key="index"
-                  class="p-4 bg-[#222244] rounded-xl border"
+                  class="p-4 bg-[#222244] rounded-xl border-2 flex justify-between items-center"
                   :class="{
                     'border-green-600': item.completed === 'TRUE',
                     'border-red-600': item.completed === 'FALSE',
                   }">
-                  <p class="font-bold text-lg">{{ item.name }}</p>
-                  <p class="text-sm">{{ item.description }}</p>
+                  <div>
+                    <p class="font-bold text-lg">{{ item.name }}</p>
+                    <p class="text-sm">{{ item.description }}</p>
+                  </div>
+                  <div
+                    class="flex items-center justify-center w-18 h-auto px-4 py-2 rounded-lg cursor-pointer bg-[#2963A5]/20 hover:bg-[#2963A5]/30 transition-colors duration-200"
+                    @click="item.completed === 'TRUE' ? undo(item) : Completegoal(item)">
+                    <img :src="item.completed === 'TRUE' ? UndoButton : DoneButton" class="w-18 h-auto" alt="Action Button" />
+                  </div>
                 </li>
               </ul>
+
               <button class="mt-4 py-3 rounded-2xl border-2 border-black bg-[#1a2038] hover:bg-[#222244]" @click="selectedDay = null">
                 Close
               </button>
@@ -86,7 +102,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
+import DoneButton from '~/assets/Done.svg';
+import UndoButton from '~/assets/Undo.svg';
 
 const loading = ref(true);
 const goal_name = ref('');
@@ -124,36 +142,22 @@ const fetchDeadlines = async () => {
       if (d.getMonth() !== currentMonth) return;
       const day = d.getDate();
       if (!map[day]) map[day] = [];
-      map[day].push({ name: deadline.goal_name, description: deadline.description, completed: deadline.completed });
+      map[day].push({
+        name: deadline.goal_name,
+        description: deadline.description,
+        completed: deadline.completed,
+        goalid: deadline.goal_id,
+      });
     });
     deadlines.value = map;
   } catch (err) {
     console.error('Failed to fetch user data', err);
   } finally {
-    setTimeout(() => {
-      loading.value = false;
-    }, 400);
+    setTimeout(() => (loading.value = false), 400);
   }
 };
 
-onMounted(() => {
-  fetchDeadlines();
-});
-
-const getDayClass = (day) => {
-  const dayDeadlines = deadlines.value[day];
-
-  if (day === today.getDate()) {
-    return 'text-blue-600 border-blue-600 bg-[#0f172a]';
-  }
-
-  if (!dayDeadlines) return 'border-neutral-800 bg-[#0f172a]';
-
-  const allCompleted = dayDeadlines.every((d) => d.completed === 'TRUE');
-  if (allCompleted) return 'text-green-600 border-green-600 bg-[#0f172a]';
-
-  return 'text-red-600 border-red-600 bg-[#0f172a]';
-};
+onMounted(fetchDeadlines);
 
 watch(needsRefresh, async (val) => {
   if (val) {
@@ -163,16 +167,46 @@ watch(needsRefresh, async (val) => {
 });
 
 const AddGoal = async () => {
+  if (!selectedDay.value) return;
+  const formattedDate = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(selectedDay.value).padStart(2, '0')}`;
+  await $fetch('/api/goals', {
+    method: 'POST',
+    body: {
+      action: 'add',
+      userID: userId,
+      goalname: goal_name.value,
+      goaldesc: goal_desc.value,
+      deadline: formattedDate,
+    },
+  });
+  triggerRefresh();
+  goal_name.value = '';
+  goal_desc.value = '';
+};
+
+const Completegoal = async (goal) => {
   try {
     await $fetch('/api/goals', {
       method: 'POST',
-      body: { action: 'add', userID: userId, goalname: goal_name.value, goaldesc: goal_desc.value, deadline: today.getDate },
+      body: { action: 'complete', goalID: goal.goalid },
     });
     triggerRefresh();
-    goal_name.value = '';
-    goal_desc.value = '';
-  } catch (error) {
-    console.error('Failed to add Goal:', error);
+  } catch (err) {
+    console.error('Failed to complete goal', err);
+    alert('Could not mark goal as complete. Try again.');
+  }
+};
+
+const undo = async (goal) => {
+  try {
+    await $fetch('/api/goals', {
+      method: 'POST',
+      body: { action: 'undo', goalID: goal.goalid },
+    });
+    triggerRefresh();
+  } catch (err) {
+    console.error('Failed to undo goal', err);
+    alert('Could not undo goal. Try again.');
   }
 };
 </script>
