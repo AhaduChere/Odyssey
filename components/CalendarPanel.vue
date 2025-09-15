@@ -42,18 +42,16 @@
           v-for="day in daysInMonth"
           :key="day"
           :class="[
-            'p-4 rounded-xl h-20 flex flex-col items-center justify-center border transition-all duration-150',
-            'bg-[#222244] hover:scale-105 shadow',
-            isToday(day)
-              ? 'text-blue-600 border-blue-600 bg-[#0f172a]'
-              : !deadlines[day]
-                ? 'border-neutral-800 bg-[#0f172a]'
-                : deadlines[day].every((d) => d.completed === 'TRUE')
-                  ? 'text-green-600 border-green-600 bg-[#0f172a]'
-                  : 'text-red-600 border-red-600 bg-[#0f172a]',
+            'p-4 rounded-xl h-20 flex flex-col items-center justify-center transition-all duration-150 bg-[#222244] hover:scale-105 shadow text-xl font-bold',
+            !deadlines[day]
+              ? 'text-[#a0a0ff]'
+              : deadlines[day].every((d) => d.completed === 'TRUE')
+                ? 'text-green-500 border-2 border-green-600'
+                : 'text-red-500 border-2 border-red-600',
           ]"
           @click="selectedDay = day">
-          <span class="text-xl font-bold text-[#a0a0ff]">{{ day }}</span>
+          {{ day }}
+          <span :class="isToday(day) && 'fixed mb-12 w-2 h-2 rounded-2xl bg-blue-600'"></span>
         </button>
       </div>
       <div v-if="selectedDay" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
