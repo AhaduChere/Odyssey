@@ -1,5 +1,5 @@
 <template>
-  <MainHeader v-if="!['/Auth'].includes(route.path)" />
+  <AppHeader v-if="!['/Auth'].includes(route.path)" />
   <NuxtPage />
 </template>
 

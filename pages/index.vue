@@ -1,3 +1,3 @@
 <template>
-  <HomeDashboard />
+  <DashboardPanel />
 </template>

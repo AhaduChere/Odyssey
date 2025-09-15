@@ -6,7 +6,7 @@
           {
             login: LoginForm,
             signup: SignupForm,
-            forgot: ForgotPasswordForm,
+            forgot: ResetForm,
           }[activeForm]
         "
         :key="activeForm"
@@ -20,7 +20,7 @@
 import { ref } from 'vue';
 import LoginForm from '../components/LoginForm.vue';
 import SignupForm from '../components/SignupForm.vue';
-import ForgotPasswordForm from '../components/ForgotPasswordForm.vue';
+import ResetForm from '../components/ResetForm.vue';
 
 const activeForm = ref('login');
 

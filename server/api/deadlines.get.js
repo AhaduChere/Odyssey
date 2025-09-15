@@ -5,9 +5,11 @@ import { open } from 'sqlite';
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
   const id = query.id;
+  const year = query.year;
+  const month = query.month;
 
-  if (!id) {
-    return sendError(event, createError({ statusCode: 400, message: 'Missing user ID' }));
+  if (!id || !year || !month) {
+    return sendError(event, createError({ statusCode: 400, message: 'Missing user ID, year, or month' }));
   }
 
   const db = await open({
@@ -16,8 +18,7 @@ export default defineEventHandler(async (event) => {
   });
 
   try {
-    const today = new Date();
-    const monthStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
+    const monthStr = `${year}-${String(month).padStart(2, '0')}`;
 
     const goalsdata = await db.all(
       'SELECT * FROM Goals WHERE user_id = ? AND strftime("%Y-%m", deadline) = ? ORDER BY deadline ASC',

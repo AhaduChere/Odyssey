@@ -1,5 +1,5 @@
 <template>
   <div>
-    <CalendarWidget />
+    <CalendarPanel />
   </div>
 </template>
