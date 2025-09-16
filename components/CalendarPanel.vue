@@ -33,7 +33,7 @@
         <div
           v-for="day in weekdays"
           :key="day"
-          class="text-center font-semibold text-[#a0a0ff] uppercase tracking-wide pb-2 border-b border-[#222244]">
+          class="text-center select-none font-semibold text-[#a0a0ff] uppercase tracking-wide pb-2 border-b border-[#222244]">
           {{ day }}
           <div class="w-full h-1 bg-[#2963A5] mx-auto rounded"></div>
         </div>
@@ -43,15 +43,15 @@
           :key="day"
           :class="[
             'p-4 rounded-xl h-20 flex flex-col items-center justify-center transition-all duration-150 bg-[#222244] hover:scale-105 shadow text-xl font-bold',
-            !deadlines[day]
-              ? 'text-[#a0a0ff]'
-              : deadlines[day].every((d) => d.completed === 'TRUE')
-                ? 'text-green-500 border-2 border-green-600'
-                : 'text-red-500 border-2 border-red-600',
+            isToday(day) ? 'text-indigo-400' : 'text-[#a0a0ff]',
+            deadlines[day]
+              ? deadlines[day].every((d) => d.completed === 'TRUE')
+                ? 'border-2 border-green-500'
+                : 'border-2 border-red-500'
+              : 'border-2 border-transparent',
           ]"
           @click="selectedDay = day">
           {{ day }}
-          <span :class="isToday(day) && 'fixed mb-12 w-2 h-2 rounded-2xl bg-blue-600'"></span>
         </button>
       </div>
       <div v-if="selectedDay" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
@@ -84,7 +84,7 @@
               <ul class="overflow-y-scroll max-h-48 space-y-3 scrollbar">
                 <li
                   v-if="!deadlines[selectedDay] || deadlines[selectedDay].length === 0"
-                  class="p-4 bg-[#222244]/50 rounded-xl border-2 border-black text-center">
+                  class="p-4 bg-[#222244]/50 rounded-xl border-2 border-black text-center select-none">
                   No deadlines
                 </li>
 
@@ -128,7 +128,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, onUnmounted, watch, computed } from 'vue';
 import DoneButton from '~/assets/Done.svg';
 import UndoButton from '~/assets/Undo.svg';
 import DeleteButton from '~/assets/Trash.svg';
@@ -192,23 +192,32 @@ const fetchDeadlines = async () => {
   }
 };
 
-onMounted(fetchDeadlines);
+onMounted(() => {
+  fetchDeadlines();
+  window.addEventListener('keydown', handleKey);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKey);
+});
+
+function handleKey(e) {
+  if (e.key === 'Escape' && selectedDay.value) {
+    selectedDay.value = null;
+  }
+}
 
 watch([displayedMonth, displayedYear], async () => {
   loading.value = true;
   await fetchDeadlines();
 });
 
-watch(needsRefresh, async (val) => {
-  if (val) {
-    await fetchDeadlines();
-    needsRefresh.value = false;
-  }
-});
-
 const AddGoal = async () => {
   if (!selectedDay.value) return;
-  const formattedDate = `${displayedYear.value}-${String(displayedMonth.value + 1).padStart(2, '0')}-${String(selectedDay.value).padStart(2, '0')}`;
+  const formattedDate = `${displayedYear.value}-${String(displayedMonth.value + 1).padStart(
+    2,
+    '0'
+  )}-${String(selectedDay.value).padStart(2, '0')}`;
   await $fetch('/api/goals', {
     method: 'POST',
     body: {
@@ -219,7 +228,7 @@ const AddGoal = async () => {
       deadline: formattedDate,
     },
   });
-  triggerRefresh();
+  await fetchDeadlines();
   goal_name.value = '';
   goal_desc.value = '';
 };
@@ -230,7 +239,7 @@ const Completegoal = async (goal) => {
       method: 'POST',
       body: { action: 'complete', goalID: goal.goalid },
     });
-    triggerRefresh();
+    await fetchDeadlines();
   } catch {
     alert('Could not mark goal as complete. Try again.');
   }
@@ -242,7 +251,7 @@ const UndoGoal = async (goal) => {
       method: 'POST',
       body: { action: 'undo', goalID: goal.goalid },
     });
-    triggerRefresh();
+    await fetchDeadlines();
   } catch {
     alert('Could not undo goal. Try again.');
   }
@@ -254,7 +263,7 @@ const DeleteGoal = async (goal) => {
       method: 'POST',
       body: { action: 'delete', goalID: goal.goalid },
     });
-    triggerRefresh();
+    await fetchDeadlines();
   } catch {
     alert('Could not delete goal. Try again.');
   }
