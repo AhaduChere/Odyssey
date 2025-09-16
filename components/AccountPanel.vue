@@ -5,26 +5,26 @@
 
   <section v-else class="min-h-screen text-white">
     <div class="px-6 flex flex-col space-y-4 max-w-4xl mx-auto min-w-[700px]">
-      <h1 class="text-4xl font-bold text-center text-[#a0a0ff] tracking-wide select-none">My Account</h1>
-      <div class="w-full h-1 bg-gradient-to-r from-[#2963A5] to-[#a0a0ff] mx-auto rounded"></div>
+      <h1 class="text-4xl font-bold text-center text-indigo-400 tracking-wide select-none">My Account</h1>
+      <div class="w-full h-1 bg-gradient-to-r from-[#2963A5] to-indigo-400 mx-auto rounded"></div>
       <section class="grid grid-cols-3 gap-4">
         <div class="p-6 bg-[#0f172a] rounded-xl border border-neutral-800 flex flex-col items-center">
-          <h3 class="text-sm font-extrabold text-[#a0a0ff] mb-1">Complete Goals</h3>
+          <h3 class="text-sm font-extrabold text-indigo-400 mb-1">Complete Goals</h3>
           <p class="text-3xl font-bold">{{ completedGoals }}</p>
         </div>
         <div class="p-6 bg-[#0f172a] rounded-xl border border-neutral-800 flex flex-col items-center">
-          <h3 class="text-sm font-extrabold text-[#a0a0ff] mb-1">Incomplete Goals</h3>
+          <h3 class="text-sm font-extrabold text-indigo-400 mb-1">Incomplete Goals</h3>
           <p class="text-3xl font-bold">{{ incompleteGoals }}</p>
         </div>
         <div class="p-6 bg-[#0f172a] rounded-xl border border-neutral-800 flex flex-col items-center">
-          <h3 class="text-sm font-extrabold text-[#a0a0ff] mb-1">Total Goals</h3>
+          <h3 class="text-sm font-extrabold text-indigo-400 mb-1">Total Goals</h3>
           <p class="text-3xl font-bold">{{ totalGoals }}</p>
         </div>
       </section>
 
       <div class="grid grid-cols-1 gap-6">
         <section v-for="field in fields" :key="field.key" class="p-6 bg-[#0f172a] rounded-2xl border border-neutral-800">
-          <p class="text-xs font-extrabold uppercase tracking-wide text-[#a0a0ff] mb-1 select-none">
+          <p class="text-xs font-extrabold uppercase tracking-wide text-indigo-400 mb-1 select-none">
             {{ field.label }}
           </p>
           <div v-if="Edit">
@@ -40,7 +40,7 @@
       </div>
 
       <section class="p-6 bg-[#0f172a] rounded-2xl border border-neutral-800">
-        <p class="text-xs font-extrabold uppercase tracking-wide text-[#a0a0ff] mb-1 select-none">Account Created</p>
+        <p class="text-xs font-extrabold uppercase tracking-wide text-indigo-400 mb-1 select-none">Account Created</p>
         <p class="text-2xl font-bold select-none">{{ created_at }}</p>
       </section>
 

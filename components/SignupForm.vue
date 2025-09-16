@@ -12,8 +12,8 @@
 
         <div class="text-center text-white text-5xl font-Caeser select-none -mt-10 font-bold pb-6">
           <span class="block font-bold">Odyssey</span>
-          <span class="block text-xl font-normal mt-2 text-[#a0a0ff]">Track your goals</span>
-          <span class="block text-xl font-normal text-[#a0a0ff]">one journey at a time</span>
+          <span class="block text-xl font-normal mt-2 text-indigo-400">Track your goals</span>
+          <span class="block text-xl font-normal text-indigo-400">one journey at a time</span>
         </div>
 
         <div class="w-full flex justify-center items-center">
@@ -22,7 +22,7 @@
             required
             placeholder="Username"
             type="text"
-            class="w-11/12 bg-[#1c2541] border border-neutral-800 outline-none rounded-2xl text-white text-md font-serif placeholder-[#a0a0ff] px-5 py-3 mb-3 shadow-sm focus:ring-2 focus:ring-[#a0a0ff]" />
+            class="w-11/12 bg-[#1c2541] border border-neutral-800 outline-none rounded-2xl text-white text-md font-serif placeholder-indigo-400 px-5 py-3 mb-3 shadow-sm focus:ring-2 focus:ring-indigo-400" />
         </div>
 
         <div class="w-full flex justify-center items-center">
@@ -31,7 +31,7 @@
             required
             placeholder="Email"
             type="email"
-            class="w-11/12 bg-[#1c2541] border border-neutral-800 outline-none rounded-2xl text-white text-md font-serif placeholder-[#a0a0ff] px-5 py-3 mb-3 shadow-sm focus:ring-2 focus:ring-[#a0a0ff]" />
+            class="w-11/12 bg-[#1c2541] border border-neutral-800 outline-none rounded-2xl text-white text-md font-serif placeholder-indigo-400 px-5 py-3 mb-3 shadow-sm focus:ring-2 focus:ring-indigo-400" />
         </div>
 
         <div class="w-full flex justify-center items-center">
@@ -40,7 +40,7 @@
             required
             placeholder="Password"
             type="password"
-            class="w-11/12 bg-[#1c2541] border border-neutral-800 outline-none rounded-2xl text-white text-md font-serif placeholder-[#a0a0ff] px-5 py-3 shadow-sm focus:ring-2 focus:ring-[#a0a0ff]" />
+            class="w-11/12 bg-[#1c2541] border border-neutral-800 outline-none rounded-2xl text-white text-md font-serif placeholder-indigo-400 px-5 py-3 shadow-sm focus:ring-2 focus:ring-indigo-400" />
         </div>
 
         <div class="w-full flex justify-center pt-5">
@@ -52,11 +52,11 @@
         </div>
 
         <div class="text-center mt-5 -mb-2">
-          <p class="text-sm font-medium text-[#a0a0ff]">
+          <p class="text-sm font-medium text-indigo-400">
             <span>Already have an account?</span>
             <button
               type="button"
-              class="text-[#a0a0ff] hover:underline select-none cursor-pointer ml-1 bg-transparent border-none p-0 font-extrabold"
+              class="text-indigo-400 hover:underline select-none cursor-pointer ml-1 bg-transparent border-none p-0 font-extrabold"
               @click="() => props.onToggle('login')">
               Log in
             </button>

@@ -7,25 +7,25 @@
     <div class="px-6 flex flex-col max-w-4xl mx-auto min-w-[700px]">
       <div class="flex justify-between items-center pb-4">
         <button
-          class="px-4 py-2 rounded-xl border border-neutral-800 bg-[#0f172a] hover:bg-[#0f172a]/80 text-[#a0a0ff] shadow-md transition-all duration-200"
+          class="px-4 py-2 rounded-xl border border-neutral-800 bg-[#0f172a] hover:bg-[#0f172a]/80 text-indigo-400 shadow-md transition-all duration-200"
           @click="prevMonth">
           &lt; Prev
         </button>
-        <h1 class="text-4xl font-bold text-center text-[#a0a0ff] tracking-wide px-auto select-none drop-shadow">
+        <h1 class="text-4xl font-bold text-center text-indigo-400 tracking-wide px-auto select-none drop-shadow">
           {{ monthNames[displayedMonth] }} {{ displayedYear }}
         </h1>
         <div class="flex gap-2 items-center">
           <button
-            class="px-4 py-2 rounded-xl border border-neutral-800 bg-[#0f172a] hover:bg-[#0f172a]/80 text-[#a0a0ff] shadow-md transition-all duration-200"
+            class="px-4 py-2 rounded-xl border border-neutral-800 bg-[#0f172a] hover:bg-[#0f172a]/80 text-indigo-400 shadow-md transition-all duration-200"
             @click="nextMonth">
             Next &gt;
           </button>
         </div>
       </div>
-      <div class="w-full h-1 bg-gradient-to-r from-[#2963A5] to-[#a0a0ff] mx-auto rounded mb-2"></div>
+      <div class="w-full h-1 bg-gradient-to-r from-[#2963A5] to-indigo-400 mx-auto rounded mb-2"></div>
       <button
         v-if="displayedMonth !== today.getMonth() || displayedYear !== today.getFullYear()"
-        class="fixed bottom-3 right-3 px-4 py-2 rounded-xl border border-neutral-800 bg-[#0f172a] hover:bg-[#0f172a]/80 text-[#a0a0ff] shadow-md transition-all duration-200 z-50"
+        class="fixed bottom-3 right-3 px-4 py-2 rounded-xl border border-neutral-800 bg-[#0f172a] hover:bg-[#0f172a]/80 text-indigo-400 shadow-md transition-all duration-200 z-50"
         @click="goToCurrentMonth">
         Back to Present
       </button>
@@ -33,7 +33,7 @@
         <div
           v-for="day in weekdays"
           :key="day"
-          class="text-center select-none font-semibold text-[#a0a0ff] uppercase tracking-wide pb-2 border-b border-[#222244]">
+          class="text-center select-none font-semibold text-indigo-400 uppercase tracking-wide pb-2 border-b border-[#222244]">
           {{ day }}
           <div class="w-full h-1 bg-[#2963A5] mx-auto rounded"></div>
         </div>
@@ -42,13 +42,13 @@
           v-for="day in daysInMonth"
           :key="day"
           :class="[
-            'p-4 rounded-xl h-20 flex flex-col items-center justify-center transition-all duration-150 bg-[#222244] hover:scale-105 shadow text-xl font-bold',
-            isToday(day) ? 'text-indigo-400' : 'text-[#a0a0ff]',
+            'p-4 rounded-xl h-20 flex flex-col items-center justify-center transition-all duration-150 bg-[#222244] hover:scale-105 shadow text-xl',
+            isToday(day) ? 'text-indigo-500 font-extrabold' : 'text-indigo-100 font-medium',
             deadlines[day]
               ? deadlines[day].every((d) => d.completed === 'TRUE')
                 ? 'border-2 border-green-500'
                 : 'border-2 border-red-500'
-              : 'border-2 border-transparent',
+              : 'border border-indigo-500/40',
           ]"
           @click="selectedDay = day">
           {{ day }}
@@ -58,19 +58,19 @@
         <div class="bg-[#0f172a] rounded-2xl border border-neutral-800 max-w-xl w-full p-6 shadow-xl">
           <div class="grid grid-cols-1 gap-6">
             <div class="flex flex-col">
-              <h2 class="text-xl font-bold text-[#a0a0ff] mb-4">Add New Goal</h2>
+              <h2 class="text-xl font-bold text-indigo-400 mb-4">Add New Goal</h2>
               <form class="flex flex-col gap-4" @submit.prevent="AddGoal">
                 <input
                   v-model="goal_name"
                   type="text"
                   placeholder="Goal Name"
                   required
-                  class="rounded-xl bg-[#222244]/50 border-2 border-black p-3 text-[#a0a0ff] placeholder:text-[#a0a0ff]/80 focus:outline-none focus:ring-2 focus:ring-[#2963A5]" />
+                  class="rounded-xl bg-[#222244]/50 border-2 border-black p-3 text-indigo-400 placeholder:text-indigo-400/80 focus:outline-none focus:ring-2 focus:ring-[#2963A5]" />
                 <textarea
                   v-model="goal_desc"
                   placeholder="Goal Description"
                   required
-                  class="h-full rounded-xl bg-[#222244]/50 border-2 border-black p-3 text-[#a0a0ff] placeholder:text-[#a0a0ff]/80 focus:outline-none focus:ring-2 focus:ring-[#2963A5] resize-none"></textarea>
+                  class="h-full rounded-xl bg-[#222244]/50 border-2 border-black p-3 text-indigo-400 placeholder:text-indigo-400/80 focus:outline-none focus:ring-2 focus:ring-[#2963A5] resize-none"></textarea>
                 <button type="submit" class="w-full py-3 rounded-2xl border-2 border-black bg-[#1a2038] hover:bg-[#222244]">
                   Add Goal
                 </button>
@@ -78,7 +78,7 @@
             </div>
 
             <div class="flex flex-col">
-              <h2 class="text-xl font-bold text-[#a0a0ff] mb-4">
+              <h2 class="text-xl font-bold text-indigo-400 mb-4">
                 Deadlines on {{ displayedMonth + 1 }}/{{ selectedDay }}/{{ displayedYear }}
               </h2>
               <ul class="overflow-y-scroll max-h-48 space-y-3 scrollbar">

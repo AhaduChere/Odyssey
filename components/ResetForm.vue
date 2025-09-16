@@ -12,8 +12,8 @@
 
         <div class="text-center text-white text-5xl font-Caeser select-none -mt-10 font-bold">
           <span class="block font-bold">Odyssey</span>
-          <span class="block text-xl font-normal mt-2 text-[#a0a0ff]">Track your goals</span>
-          <span class="block text-xl font-normal text-[#a0a0ff]">one journey at a time</span>
+          <span class="block text-xl font-normal mt-2 text-indigo-400">Track your goals</span>
+          <span class="block text-xl font-normal text-indigo-400">one journey at a time</span>
         </div>
 
         <div class="w-full flex justify-center items-center pt-6 pb-2">
@@ -21,7 +21,7 @@
             required
             type="email"
             placeholder="Email"
-            class="w-11/12 bg-[#1c2541] border border-neutral-800 outline-none rounded-2xl text-white text-md font-serif placeholder-[#a0a0ff] px-5 py-3 mb-3 shadow-sm focus:ring-2 focus:ring-[#a0a0ff]" />
+            class="w-11/12 bg-[#1c2541] border border-neutral-800 outline-none rounded-2xl text-white text-md font-serif placeholder-indigo-400 px-5 py-3 mb-3 shadow-sm focus:ring-2 focus:ring-indigo-400" />
         </div>
 
         <div class="w-full flex justify-center">
@@ -33,10 +33,10 @@
         </div>
 
         <div class="text-center mt-3 -mb-2">
-          <p class="text-sm font-medium text-[#a0a0ff]">
+          <p class="text-sm font-medium text-indigo-400">
             <button
               type="button"
-              class="text-[#a0a0ff] hover:underline select-none cursor-pointer ml-1 bg-transparent border-none p-0"
+              class="text-indigo-400 hover:underline select-none cursor-pointer ml-1 bg-transparent border-none p-0"
               @click="() => props.onToggle('login')">
               Back to Login
             </button>

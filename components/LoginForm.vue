@@ -12,8 +12,8 @@
 
         <div class="text-center text-white text-5xl font-Caeser select-none -mt-10 font-bold pb-8">
           <span class="block font-bold">Odyssey</span>
-          <span class="block text-xl font-normal mt-2 text-[#a0a0ff]">Track your goals</span>
-          <span class="block text-xl font-normal text-[#a0a0ff]">one journey at a time</span>
+          <span class="block text-xl font-normal mt-2 text-indigo-400">Track your goals</span>
+          <span class="block text-xl font-normal text-indigo-400">one journey at a time</span>
         </div>
 
         <div class="w-full flex justify-center items-center">
@@ -22,7 +22,7 @@
             required
             placeholder="Username"
             type="text"
-            class="w-11/12 bg-[#1c2541] border border-neutral-800 outline-none rounded-2xl text-[#a0a0ff] text-md font-serif placeholder-[#a0a0ff] px-5 py-3 mb-5 shadow-sm focus:ring-2 focus:ring-[#a0a0ff]" />
+            class="w-11/12 bg-[#1c2541] border border-neutral-800 outline-none rounded-2xl text-indigo-400 text-md font-serif placeholder-indigo-400 px-5 py-3 mb-5 shadow-sm focus:ring-2 focus:ring-indigo-400" />
         </div>
 
         <div class="w-full flex justify-center items-center">
@@ -31,19 +31,19 @@
             required
             placeholder="Password"
             type="password"
-            class="w-11/12 bg-[#1c2541] border border-neutral-800 outline-none rounded-2xl text-[#a0a0ff] text-md font-serif placeholder-[#a0a0ff] px-5 py-3 shadow-sm focus:ring-2 focus:ring-[#a0a0ff]" />
+            class="w-11/12 bg-[#1c2541] border border-neutral-800 outline-none rounded-2xl text-indigo-400 text-md font-serif placeholder-indigo-400 px-5 py-3 shadow-sm focus:ring-2 focus:ring-indigo-400" />
         </div>
 
         <div class="w-full flex justify-center pt-4">
           <button
             type="submit"
-            class="inline-flex w-10/12 items-center justify-center rounded-2xl bg-[#1c2541] border border-neutral-800 px-4 py-3 font-semibold text-[#a0a0ff] shadow-md hover:scale-105 active:translate-y-1 transition-all duration-200">
+            class="inline-flex w-10/12 items-center justify-center rounded-2xl bg-[#1c2541] border border-neutral-800 px-4 py-3 font-semibold text-indigo-400 shadow-md hover:scale-105 active:translate-y-1 transition-all duration-200">
             Login
           </button>
         </div>
 
         <div class="text-center mt-4">
-          <p class="text-sm font-medium text-[#a0a0ff] text-center">
+          <p class="text-sm font-medium text-indigo-400 text-center">
             <span
               role="button"
               tabindex="0"

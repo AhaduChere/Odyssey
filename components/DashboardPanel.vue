@@ -5,15 +5,15 @@
   <section v-else class="min-h-screen text-white flex flex-col items-center">
     <div class="px-6 flex flex-col gap-8 w-full max-w-4xl">
       <ul class="space-y-4">
-        <h3 class="text-4xl text-[#a0a0ff] font-semibold text-center select-none">Upcoming Deadlines</h3>
-        <div class="w-full h-1 bg-gradient-to-r from-[#2963A5] to-[#a0a0ff] mx-auto rounded"></div>
+        <h3 class="text-4xl text-indigo-400 font-semibold text-center select-none">Upcoming Deadlines</h3>
+        <div class="w-full h-1 bg-gradient-to-r from-[#2963A5] to-indigo-400 mx-auto rounded"></div>
         <li
           v-for="(goal, index) in upcomingGoals.slice(0, 5)"
           :key="index"
           class="flex justify-between items-center p-4 rounded-xl bg-[#0f172a] border-2 hover:scale-[1.01] border-black duration-300">
           <div>
             <p class="font-semibold text-lg text-[#ffffff]">{{ goal.name }}</p>
-            <p class="text-sm text-[#a0a0ff] mt-1">
+            <p class="text-sm text-indigo-400 mt-1">
               Deadline: <span class="font-bold">{{ goal.deadline }}</span>
             </p>
           </div>
