@@ -54,6 +54,7 @@
           {{ day }}
         </button>
       </div>
+
       <div v-if="selectedDay" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
         <div class="bg-[#0f172a] rounded-2xl border border-neutral-800 max-w-xl w-full p-6 shadow-xl">
           <div class="grid grid-cols-1 gap-6">

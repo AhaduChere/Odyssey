@@ -98,7 +98,7 @@ onMounted(() => {
   const fetchData = async () => {
     try {
       const userdata = await $fetch(`/api/user?id=${userId}`);
-      const goalsdata = await $fetch(`/api/goals?id=${userId}`);
+      const goalsdata = await $fetch(`/api/goals?id=${userId}&method=account`);
       incompleteGoals.value = goalsdata.incomplete;
       completedGoals.value = goalsdata.completed;
       totalGoals.value = incompleteGoals.value + completedGoals.value;
@@ -142,6 +142,11 @@ const editProfile = () => {
 };
 const saveChanges = async () => {
   if (Tempusername.value != username.value) {
+    if (!Tempusername.value) {
+      alert('Username cannot be blank.');
+      Tempusername.value = username.value;
+      return;
+    }
     await $fetch('api/user', {
       method: 'PATCH',
       body: {
