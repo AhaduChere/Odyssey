@@ -42,24 +42,15 @@
           </button>
         </div>
 
-        <div class="text-center mt-4">
-          <p class="text-sm font-medium text-indigo-400 text-center">
-            <span
-              role="button"
-              tabindex="0"
-              class="hover:underline select-none block cursor-pointer"
-              @click="() => props.onToggle('signup')"
-              @keydown.enter="() => props.onToggle('signup')">
-              Sign Up
-            </span>
-
-            <span
-              role="button"
-              tabindex="0"
-              class="hover:underline select-none block cursor-pointer pt-2"
-              @click="() => props.onToggle('forgot')">
-              Forgot Password?
-            </span>
+        <div class="text-center mt-5 -mb-2">
+          <p class="text-sm font-medium text-indigo-400">
+            <span>Dont have an account?</span>
+            <button
+              type="button"
+              class="text-indigo-400 hover:underline select-none cursor-pointer ml-1 bg-transparent border-none p-0 font-extrabold"
+              @click="() => props.onToggle('signup')">
+              Signup
+            </button>
           </p>
         </div>
       </form>
