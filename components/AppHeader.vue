@@ -1,5 +1,5 @@
 <template>
-  <header class="flex items-center bg-[#0f172a]/80 shadow-2xl w-full min-w-[950px] h-20 px-6 mb-8">
+  <header class="flex fixed items-center bg-[#0f172a] shadow-2xl w-full min-w-[950px] h-20 px-6 mb-8 z-50">
     <img
       :src="Logo"
       draggable="false"

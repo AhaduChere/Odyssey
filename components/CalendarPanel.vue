@@ -3,9 +3,9 @@
     <LoaderWidget />
   </section>
 
-  <section v-else class="min-h-screen text-white">
+  <section v-else class="min-h-screen text-white pt-28">
     <div class="px-6 flex flex-col max-w-4xl mx-auto min-w-[700px]">
-      <div class="flex justify-between items-center pb-4">
+      <div class="flex justify-between items-center pb-2.5">
         <button
           class="px-4 py-2 rounded-xl border border-neutral-800 bg-[#0f172a] hover:bg-[#0f172a]/80 text-indigo-400 shadow-md transition-all duration-200"
           @click="prevMonth">

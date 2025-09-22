@@ -1,7 +1,3 @@
 <template>
-  <div>last</div>
+  <ArchivePanel />
 </template>
-
-<script setup>
-onMounted(() => {});
-</script>

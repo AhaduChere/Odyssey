@@ -3,9 +3,9 @@
     <LoaderWidget />
   </section>
 
-  <section v-else class="min-h-screen text-white">
+  <section v-else class="min-h-screen text-white pt-28">
     <div class="px-6 flex flex-col space-y-4 max-w-4xl mx-auto min-w-[700px]">
-      <h1 class="text-4xl font-bold text-center text-indigo-400 tracking-wide select-none">My Account</h1>
+      <h1 class="text-4xl font-bold text-center text-indigo-400 tracking-wide select-none -mb-1">My Account</h1>
       <div class="w-full h-1 bg-gradient-to-r from-[#2963A5] to-indigo-400 mx-auto rounded"></div>
       <section class="grid grid-cols-3 gap-4">
         <div class="p-6 bg-[#0f172a] rounded-xl border border-neutral-800 flex flex-col items-center">

@@ -2,7 +2,8 @@
   <section v-if="loading" class="flex items-center justify-center h-screen">
     <LoaderWidget />
   </section>
-  <section v-else class="min-h-screen text-white flex flex-col items-center">
+
+  <section v-else class="min-h-screen text-white flex flex-col items-center pt-28">
     <div class="px-6 flex flex-row gap-8 w-full max-w-[1600px]">
       <div class="flex-1 flex flex-col gap-4">
         <h3 class="text-3xl text-indigo-400 font-semibold text-center select-none">Upcoming Deadlines</h3>
