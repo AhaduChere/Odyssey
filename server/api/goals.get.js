@@ -51,22 +51,6 @@ export default defineEventHandler(async (event) => {
     } else if (method === 'archive') {
       const allGoals = await db.all('SELECT * FROM Goals WHERE user_id = ? ORDER BY deadline DESC', id);
       return allGoals;
-    } else if (method === 'edit') {
-      const body = await readBody(event);
-      if (!body.goalID) {
-        return sendError(event, createError({ statusCode: 400, message: 'Missing goal ID' }));
-      }
-      await db.run(
-        `UPDATE Goals
-     SET goal_name = ?, description = ?, deadline = ?
-     WHERE goal_id = ? AND user_id = ?`,
-        body.goalname,
-        body.goaldesc,
-        body.deadline,
-        body.goalID,
-        id
-      );
-      return { success: true };
     }
   } catch (err) {
     return sendError(event, createError({ statusCode: 500, message: 'Error: ' + err }));

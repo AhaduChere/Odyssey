@@ -4,7 +4,7 @@
   </section>
 
   <section v-else class="min-h-screen text-white pt-28 pb-20">
-    <div class="px-6 flex flex-col max-w-5xl mx-auto min-w-[700px]">
+    <div class="px-6 flex flex-col max-w-7xl mx-auto min-w-[700px]">
       <div class="flex justify-between items-center mb-2">
         <input
           v-model="search"
@@ -13,10 +13,13 @@
           class="px-4 py-2 rounded-xl border border-neutral-800 bg-[#0f172a] text-indigo-400 placeholder:text-indigo-400/60 shadow-md focus:outline-none focus:ring-2 focus:ring-[#2963A5] w-80" />
         <h1 class="text-4xl font-bold text-center text-indigo-400 tracking-wide select-none pb-1">My Archive</h1>
         <div class="flex gap-2">
-          <select v-model="sortBy" class="px-4 py-2 rounded-xl border border-neutral-800 bg-[#0f172a] text-indigo-400 shadow-md">
-            <option value="dateAsc">Sort by Date ↑</option>
-            <option value="dateDesc">Sort by Date ↓</option>
-            <option value="status">Sort by Status</option>
+          <select v-model="sortBy" class="w-min pl-4 py-2 rounded-xl border border-neutral-800 bg-[#0f172a] text-indigo-400 shadow-md">
+            <option value="deadlineAsc">Deadline: Ascending</option>
+            <option value="deadlineDesc">Deadline: Descending</option>
+            <option value="createdAsc">Created: Ascending</option>
+            <option value="createdDesc">Created: Descending</option>
+            <option value="statusCompleted">Status: Ascending</option>
+            <option value="statusIncomplete">Status: Descending</option>
           </select>
           <select v-model="filterMonth" class="px-4 py-2 rounded-xl border border-neutral-800 bg-[#0f172a] text-indigo-400 shadow-md">
             <option value="">All Months</option>
@@ -47,27 +50,27 @@
           <div class="flex items-center gap-3">
             <button
               v-if="goal.completed === 'TRUE'"
-              class="px-3 py-2 rounded-lg text-sm font-medium bg-[#2963A5]/20 text-[#ffffff] hover:bg-indigo-500/25 transition-transform duration-200"
+              class="px-3 py-2 rounded-lg text-sm font-medium bg-[#2963A5]/20 text-[#ffffff] hover:bg-[#2963A5]/25 transition-transform duration-200"
               @click="UndoGoal(goal)">
-              <img :src="UndoButton" alt="Undo" class="w-6 h-6" />
+              <img :src="UndoButton" alt="Undo" class="w-8 h-8" />
             </button>
             <button
               v-else
               class="px-3 py-2 rounded-lg text-sm font-medium bg-[#2963A5]/20 text-[#ffffff] hover:bg-[#2963A5]/25 transition-transform duration-200"
               @click="Completegoal(goal)">
-              <img :src="DoneButton" alt="Complete" class="w-6 h-6" />
+              <img :src="DoneButton" alt="Complete" class="w-8 h-8" />
             </button>
 
             <button
               class="px-3 py-2 rounded-lg text-sm font-medium bg-[#2963A5]/20 text-[#ffffff] hover:bg-[#2963A5]/25 transition-transform duration-200"
               @click="StartEdit(goal)">
-              <img :src="EditButton" alt="Edit" class="w-6 h-6" />
+              <img :src="EditButton" alt="Edit" class="w-8 h-8" />
             </button>
 
             <button
               class="px-3 py-2 rounded-lg text-sm font-medium bg-[#2963A5]/20 text-[#ffffff] hover:bg-[#2963A5]/25 transition-transform duration-200"
               @click="DeleteGoal(goal)">
-              <img :src="DeleteButton" alt="Delete" class="w-6 h-6" />
+              <img :src="DeleteButton" alt="Delete" class="w-8 h-8" />
             </button>
           </div>
         </li>
@@ -134,22 +137,36 @@ import EditButton from '~/assets/Edit.svg';
 const userId = useState('user').value.id;
 const loading = ref(true);
 const search = ref('');
-const sortBy = ref('dateAsc');
+const sortBy = ref('deadlineAsc');
 const filterMonth = ref('');
 const goals = ref([]);
 const editing = ref(false);
 const editForm = ref({ id: null, name: '', description: '', deadline: '', completed: 'FALSE' });
 const selected = ref(null);
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-const stats = ref({ completed: 0, incomplete: 0, total: 0 });
+
+onMounted(() => {
+  fetchData();
+});
 
 const formatDate = (datetime) => {
   const [datePart] = datetime.split(' ');
   const [year, month, day] = datePart.split('-');
   const monthNames = [
-    'January','February','March','April','May','June','July','August','September','October','November','December'
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
   ];
-  return `${monthNames[parseInt(month)-1]} ${parseInt(day)}, ${year}`;
+  return `${monthNames[parseInt(month) - 1]} ${parseInt(day)}, ${year}`;
 };
 
 const fetchData = async () => {
@@ -162,36 +179,111 @@ const fetchData = async () => {
       formatteddeadline: formatDate(g.deadline),
       deadline: g.deadline,
       completed: g.completed,
+      created: g.created_at,
     }));
-    stats.value.total = goals.value.length;
-    stats.value.completed = goals.value.filter((g)=>g.completed==='TRUE').length;
-    stats.value.incomplete = stats.value.total - stats.value.completed;
-  } catch { alert('Failed to fetch user data'); } finally { setTimeout(()=>loading.value=false,300); }
+  } catch {
+    alert('Failed to fetch user data');
+  } finally {
+    setTimeout(() => (loading.value = false), 300);
+  }
 };
 
-onMounted(()=>{ fetchData(); });
-
-const filteredGoals = computed(()=>{
+const filteredGoals = computed(() => {
   let result = [...goals.value];
-  if(search.value) result = result.filter(g=>g.name.toLowerCase().includes(search.value.toLowerCase()));
-  if(filterMonth.value) result = result.filter(g=>new Date(g.deadline).toLocaleString('default',{month:'long'})===filterMonth.value);
-  if(sortBy.value==='dateAsc') result.sort((a,b)=>new Date(a.deadline)-new Date(b.deadline));
-  else if(sortBy.value==='dateDesc') result.sort((a,b)=>new Date(b.deadline)-new Date(a.deadline));
-  else if(sortBy.value==='status') result.sort((a,b)=>a.completed===b.completed ? new Date(a.deadline)-new Date(b.deadline) : a.completed==='TRUE'?1:-1);
+  if (search.value) result = result.filter((g) => g.name.includes(search.value));
+  if (filterMonth.value)
+    result = result.filter((g) => new Date(g.deadline).toLocaleString('default', { month: 'long' }) === filterMonth.value);
+  if (sortBy.value === 'deadlineAsc') result.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+  else if (sortBy.value === 'deadlineDesc') result.sort((a, b) => new Date(b.deadline) - new Date(a.deadline));
+  else if (sortBy.value === 'statusCompleted')
+    result.sort((a, b) => (a.completed === b.completed ? new Date(a.deadline) - new Date(b.deadline) : a.completed === 'TRUE' ? 1 : -1));
+  else if (sortBy.value === 'statusIncomplete')
+    result.sort((b, a) => (a.completed === b.completed ? new Date(a.deadline) - new Date(b.deadline) : a.completed === 'TRUE' ? 1 : -1));
+  else if (sortBy.value === 'createdAsc') result.sort((a, b) => new Date(a.created) - new Date(b.created));
+  else if (sortBy.value === 'createdDesc') result.sort((a, b) => new Date(b.created) - new Date(a.created));
   return result;
 });
 
-const Completegoal = async(goal)=>{ const b={...goal}; goal.completed='TRUE'; try{await $fetch('/api/goals',{method:'POST',body:{action:'complete',goalID:goal.id}}); await fetchData();}catch{Object.assign(goal,b);alert('Could not mark goal as complete. Try again.');}};
-const UndoGoal = async(goal)=>{ const b={...goal}; goal.completed='FALSE'; try{await $fetch('/api/goals',{method:'POST',body:{action:'undo',goalID:goal.id}}); await fetchData();}catch{Object.assign(goal,b);alert('Could not undo goal. Try again.');}};
-const DeleteGoal = async(goal)=>{ const backup=[...goals.value]; goals.value=goals.value.filter(g=>g.id!==goal.id); try{await $fetch('/api/goals',{method:'POST',body:{action:'delete',goalID:goal.id}}); await fetchData();}catch{goals.value=backup;alert('Could not delete goal. Try again.');}};
-const StartEdit = (goal)=>{ editing.value=true; editForm.value={id:goal.id,name:goal.name,description:goal.description,deadline:goal.deadline,completed:goal.completed}; };
-const CancelEdit = ()=>{ editing.value=false; editForm.value={id:null,name:'',description:'',deadline:'',completed:'FALSE'}; };
-const SaveEdit = async()=>{ try{await $fetch(`/api/goals?id=${userId}&method=edit`,{method:'PATCH',body:{goalID:editForm.value.id,goalname:editForm.value.name,goaldesc:editForm.value.description,deadline:editForm.value.deadline}}); await fetchData(); CancelEdit(); selected.value=null;}catch{alert('Failed to save edits.');}};
+const Completegoal = async (goal) => {
+  const b = { ...goal };
+  goal.completed = 'TRUE';
+  try {
+    await $fetch('/api/goals', { method: 'POST', body: { action: 'complete', goalID: goal.id } });
+    await fetchData();
+  } catch {
+    Object.assign(goal, b);
+    alert('Could not mark goal as complete. Try again.');
+  }
+};
+const UndoGoal = async (goal) => {
+  const b = { ...goal };
+  goal.completed = 'FALSE';
+  try {
+    await $fetch('/api/goals', { method: 'POST', body: { action: 'undo', goalID: goal.id } });
+    await fetchData();
+  } catch {
+    Object.assign(goal, b);
+    alert('Could not undo goal. Try again.');
+  }
+};
+const DeleteGoal = async (goal) => {
+  const backup = [...goals.value];
+  goals.value = goals.value.filter((g) => g.id !== goal.id);
+  try {
+    await $fetch('/api/goals', { method: 'POST', body: { action: 'delete', goalID: goal.id } });
+    await fetchData();
+  } catch {
+    goals.value = backup;
+    alert('Could not delete goal. Try again.');
+  }
+};
+
+const StartEdit = (goal) => {
+  editing.value = true;
+  editForm.value = { id: goal.id, name: goal.name, description: goal.description, deadline: goal.deadline, completed: goal.completed };
+};
+const CancelEdit = () => {
+  editing.value = false;
+  editForm.value = { id: null, name: '', description: '', deadline: '', completed: 'FALSE' };
+};
+const SaveEdit = async () => {
+  try {
+await $fetch('/api/goals', {
+  method: 'POST',
+  body: {
+    action: 'edit',
+    userID: userId,
+    goalID: editForm.value.id,
+    goalname: editForm.value.name,
+    goaldesc: editForm.value.description,
+    deadline: editForm.value.deadline,
+  },
+});
+    await fetchData();
+    CancelEdit();
+    selected.value = null;
+  } catch {
+    alert('Failed to save edits.');
+  }
+};
 </script>
 
 <style scoped>
-.slide-list-enter-from{opacity:0;transform:translateY(-6px) scale(0.995);}
-.slide-list-enter-to{opacity:1;transform:translateY(0) scale(1);}
-.slide-list-leave-active{transition:transform 250ms ease,opacity 250ms ease;}
-.slide-list-leave-to{opacity:0;transform:translateY(6px) scale(0.995);}
+.slide-list-enter-from {
+  opacity: 0;
+  transform: translateY(-6px) scale(0.995);
+}
+.slide-list-enter-to {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.slide-list-leave-active {
+  transition:
+    transform 250ms ease,
+    opacity 250ms ease;
+}
+.slide-list-leave-to {
+  opacity: 0;
+  transform: translateY(6px) scale(0.995);
+}
 </style>

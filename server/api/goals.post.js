@@ -24,25 +24,37 @@ export default defineEventHandler(async (event) => {
         [userID, goalname, goaldesc || null, deadline]
       );
       return { success: true };
-
     } else if (action === 'complete') {
       if (!goalID) throw createError({ statusCode: 400, message: 'Missing goalID' });
       const result = await db.run(`UPDATE Goals SET completed = 'TRUE', completed_date = date('now') WHERE goal_id = ?`, [goalID]);
       if (result.changes === 0) return { success: false, message: 'No rows updated' };
       return { success: true };
-
     } else if (action === 'undo') {
       if (!goalID) throw createError({ statusCode: 400, message: 'Missing goalID' });
       const result = await db.run(`UPDATE Goals SET completed = 'FALSE', completed_date = NULL WHERE goal_id = ?`, [goalID]);
       if (result.changes === 0) return { success: false, message: 'No rows updated' };
       return { success: true };
-
     } else if (action === 'delete') {
       if (!goalID) throw createError({ statusCode: 400, message: 'Missing goalID' });
       const result = await db.run(`DELETE FROM Goals WHERE goal_id = ?`, [goalID]);
       if (result.changes === 0) return { success: false, message: 'No rows deleted' };
       return { success: true };
-
+    } else if (action === 'edit') {
+      const body = await readBody(event);
+      if (!body.goalID) {
+        return sendError(event, createError({ statusCode: 400, message: 'Missing goal ID' }));
+      }
+      await db.run(
+        `UPDATE Goals
+     SET goal_name = ?, description = ?, deadline = ?
+     WHERE goal_id = ? AND user_id = ?`,
+        body.goalname,
+        body.goaldesc,
+        body.deadline,
+        body.goalID,
+        userID
+      );
+      return { success: true };
     } else {
       throw createError({ statusCode: 400, message: 'Invalid action' });
     }

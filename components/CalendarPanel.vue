@@ -42,7 +42,7 @@
           v-for="day in daysInMonth"
           :key="day"
           :class="[
-            'p-4 rounded-xl h-20 flex flex-col items-center justify-center transition-all duration-150 bg-[#222244] hover:scale-105 shadow text-xl',
+            'p-4 rounded-xl h-[80px] flex flex-col items-center justify-center transition-all duration-150 bg-[#222244] hover:scale-105 shadow text-xl',
             isToday(day) ? 'text-indigo-500 font-extrabold' : 'text-indigo-100 font-medium',
             deadlines[day]
               ? deadlines[day].every((d) => d.completed === 'TRUE')
@@ -133,7 +133,6 @@ import { ref, onMounted, onUnmounted, watch, computed } from 'vue';
 import DoneButton from '~/assets/Done.svg';
 import UndoButton from '~/assets/Undo.svg';
 import DeleteButton from '~/assets/Trash.svg';
-
 const loading = ref(true);
 const goal_name = ref('');
 const goal_desc = ref('');
