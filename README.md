@@ -1,5 +1,5 @@
 # Odyssey
-A Basic calendar web app
+A basic calendar web app
 
 ## **Tech Stack**
 [![NuxtJS](https://img.shields.io/badge/NuxtJS-00DC82?logo=nuxt&logoColor=white&style=for-the-badge)](#)
