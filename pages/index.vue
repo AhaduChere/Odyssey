@@ -1,0 +1,3 @@
+<template>
+  <DashboardPanel />
+</template>
