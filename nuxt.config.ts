@@ -1,4 +1,5 @@
-import { defineNuxtConfig } from "nuxt/config";
+import { defineNuxtConfig } from 'nuxt/config';
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
@@ -13,6 +14,15 @@ export default defineNuxtConfig({
     public: {
       supabaseUrl: process.env.SUPABASE_URL,
       supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
+    },
+  },
+  app: {
+    head: {
+      title: 'Odyssey',
+      meta: [{ name: 'description', content: 'Deadline tracker' }],
+      link: [
+        { rel: 'icon', type: 'image/svg+xml', href: '/Logo.svg' },
+      ],
     },
   },
 });
