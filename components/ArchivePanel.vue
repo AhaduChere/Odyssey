@@ -35,7 +35,7 @@
           :key="goal.id"
           :class="[
             'flex justify-between items-center p-4 rounded-xl bg-[#0f172a] hover:scale-[1.01] duration-300 border-2',
-            goal.completed === 'TRUE' ? 'border-green-700' : 'border-red-700',
+            goal.completed === true ? 'border-green-700' : 'border-red-700',
           ]">
           <div class="min-w-0 pr-4">
             <p class="font-semibold text-lg text-[#ffffff] truncate">{{ goal.name }}</p>
@@ -49,7 +49,7 @@
 
           <div class="flex items-center gap-3">
             <button
-              v-if="goal.completed === 'TRUE'"
+              v-if="goal.completed === true"
               class="px-3 py-2 rounded-lg text-sm font-medium bg-[#2963A5]/20 text-[#ffffff] hover:bg-[#2963A5]/25 transition-transform duration-200"
               @click="UndoGoal(goal)">
               <img :src="UndoButton" alt="Undo" class="w-8 h-8" />
@@ -141,12 +141,16 @@ const sortBy = ref('deadlineAsc');
 const filterMonth = ref('');
 const goals = ref([]);
 const editing = ref(false);
-const editForm = ref({ id: null, name: '', description: '', deadline: '', completed: 'FALSE' });
+const editForm = ref({ id: null, name: '', description: '', deadline: '', completed: false });
 const selected = ref(null);
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 onMounted(() => {
   fetchData();
+  [DoneButton, UndoButton, DeleteButton, EditButton].forEach((src) => {
+    const img = new Image();
+    img.src = src;
+  });
 });
 
 const formatDate = (datetime) => {
@@ -176,15 +180,15 @@ const fetchData = async () => {
       id: g.goal_id,
       name: g.goal_name,
       description: g.description,
+      deadline: g.deadline.split('T')[0],
       formatteddeadline: formatDate(g.deadline),
-      deadline: g.deadline,
       completed: g.completed,
       created: g.created_at,
     }));
   } catch {
     alert('Failed to fetch user data');
   } finally {
-    setTimeout(() => (loading.value = false), 300);
+    setTimeout(() => (loading.value = false), 200);
   }
 };
 
@@ -196,42 +200,48 @@ const filteredGoals = computed(() => {
   if (sortBy.value === 'deadlineAsc') result.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
   else if (sortBy.value === 'deadlineDesc') result.sort((a, b) => new Date(b.deadline) - new Date(a.deadline));
   else if (sortBy.value === 'statusCompleted')
-    result.sort((a, b) => (a.completed === b.completed ? new Date(a.deadline) - new Date(b.deadline) : a.completed === 'TRUE' ? 1 : -1));
+    result.sort((a, b) => (a.completed === b.completed ? new Date(a.deadline) - new Date(b.deadline) : a.completed === true ? 1 : -1));
   else if (sortBy.value === 'statusIncomplete')
-    result.sort((b, a) => (a.completed === b.completed ? new Date(a.deadline) - new Date(b.deadline) : a.completed === 'TRUE' ? 1 : -1));
+    result.sort((b, a) => (a.completed === b.completed ? new Date(a.deadline) - new Date(b.deadline) : a.completed === true ? 1 : -1));
   else if (sortBy.value === 'createdAsc') result.sort((a, b) => new Date(a.created) - new Date(b.created));
   else if (sortBy.value === 'createdDesc') result.sort((a, b) => new Date(b.created) - new Date(a.created));
   return result;
 });
 
 const Completegoal = async (goal) => {
-  const b = { ...goal };
-  goal.completed = 'TRUE';
+  const backup = JSON.parse(JSON.stringify(goals.value));
+  const idx = goals.value.findIndex((g) => g.id === goal.id);
+  if (idx !== -1) {
+    goals.value[idx] = { ...goals.value[idx], completed: true, completed_date: new Date().toISOString() };
+  }
   try {
     await $fetch('/api/goals', { method: 'POST', body: { action: 'complete', goalID: goal.id } });
-    await fetchData();
   } catch {
-    Object.assign(goal, b);
+    goals.value = backup;
     alert('Could not mark goal as complete. Try again.');
   }
 };
 const UndoGoal = async (goal) => {
-  const b = { ...goal };
-  goal.completed = 'FALSE';
+  const backup = JSON.parse(JSON.stringify(goals.value));
+  const idx = goals.value.findIndex((g) => g.id === goal.id);
+  if (idx !== -1) {
+    const copy = { ...goals.value[idx] };
+    copy.completed = false;
+    copy.completed_date = null;
+    goals.value[idx] = copy;
+  }
   try {
     await $fetch('/api/goals', { method: 'POST', body: { action: 'undo', goalID: goal.id } });
-    await fetchData();
   } catch {
-    Object.assign(goal, b);
+    goals.value = backup;
     alert('Could not undo goal. Try again.');
   }
 };
 const DeleteGoal = async (goal) => {
-  const backup = [...goals.value];
+  const backup = JSON.parse(JSON.stringify(goals.value));
   goals.value = goals.value.filter((g) => g.id !== goal.id);
   try {
     await $fetch('/api/goals', { method: 'POST', body: { action: 'delete', goalID: goal.id } });
-    await fetchData();
   } catch {
     goals.value = backup;
     alert('Could not delete goal. Try again.');
@@ -244,26 +254,36 @@ const StartEdit = (goal) => {
 };
 const CancelEdit = () => {
   editing.value = false;
-  editForm.value = { id: null, name: '', description: '', deadline: '', completed: 'FALSE' };
+  editForm.value = { id: null, name: '', description: '', deadline: '', completed: false };
 };
 const SaveEdit = async () => {
-  try {
-await $fetch('/api/goals', {
-  method: 'POST',
-  body: {
+  const backup = JSON.parse(JSON.stringify(goals.value));
+  const idx = goals.value.findIndex((g) => g.id === editForm.value.id);
+
+  if (idx !== -1) {
+    goals.value[idx] = {
+      ...goals.value[idx],
+      name: editForm.value.name,
+      description: editForm.value.description,
+      deadline: editForm.value.deadline,
+      formatteddeadline: formatDate(editForm.value.deadline),
+    };
+  }
+  const payload = {
     action: 'edit',
     userID: userId,
     goalID: editForm.value.id,
     goalname: editForm.value.name,
     goaldesc: editForm.value.description,
     deadline: editForm.value.deadline,
-  },
-});
-    await fetchData();
-    CancelEdit();
-    selected.value = null;
+  };
+  CancelEdit();
+  selected.value = null;
+  try {
+    await $fetch('/api/goals', { method: 'POST', body: payload });
   } catch {
-    alert('Failed to save edits.');
+    goals.value = backup;
+    alert('Failed to edit deadline.');
   }
 };
 </script>

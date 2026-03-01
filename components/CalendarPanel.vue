@@ -44,8 +44,8 @@
           :class="[
             'p-4 rounded-xl h-[80px] flex flex-col items-center justify-center transition-all duration-150 bg-[#222244] hover:scale-105 shadow text-xl',
             isToday(day) ? 'text-indigo-500 font-extrabold' : 'text-indigo-100 font-medium',
-            deadlines[day]
-              ? deadlines[day].every((d) => d.completed === 'TRUE')
+            deadlines[day] && deadlines[day].length
+              ? deadlines[day].every((d) => d.completed === true)
                 ? 'border-2 border-green-500'
                 : 'border-2 border-red-500'
               : 'border border-indigo-500/40',
@@ -94,8 +94,8 @@
                   :key="index"
                   class="p-4 bg-[#222244] rounded-xl border-2 flex justify-between items-center"
                   :class="{
-                    'border-green-600': item.completed === 'TRUE',
-                    'border-red-600': item.completed === 'FALSE',
+                    'border-green-600': item.completed === true,
+                    'border-red-600': item.completed === false,
                   }">
                   <div class="flex-1 min-w-0 pr-4">
                     <p class="font-bold text-lg truncate">{{ item.name }}</p>
@@ -103,15 +103,32 @@
                   </div>
 
                   <div class="flex gap-2 items-center">
-                    <div
-                      class="flex items-center justify-center w-18 h-auto px-4 py-2 rounded-lg cursor-pointer bg-[#2963A5]/20 hover:bg-[#2963A5]/30 transition-colors duration-200"
-                      @click="DeleteGoal(item)">
-                      <img :src="DeleteButton" class="w-18 h-auto" alt="Delete Button" />
+                    <div class="relative group" :class="item.pending ? 'opacity-50 pointer-events-none' : ''">
+                      <div
+                        class="flex items-center justify-center w-18 h-auto px-4 py-2 rounded-lg cursor-pointer bg-[#2963A5]/20 hover:bg-[#2963A5]/30 transition-colors duration-200"
+                        @click="DeleteGoal(item)">
+                        <img :src="DeleteButton" class="w-18 h-auto select-none" alt="Delete Button" />
+                      </div>
+
+                      <div v-if="item.pending" class="pointer-events-none absolute -top-10 right-0 z-50">
+                        <div class="hidden group-hover:block bg-black/80 text-white text-xs px-2 py-1 rounded shadow">
+                          Please wait before making immediate changes
+                        </div>
+                      </div>
                     </div>
-                    <div
-                      class="flex items-center justify-center w-18 h-auto px-4 py-2 rounded-lg cursor-pointer bg-[#2963A5]/20 hover:bg-[#2963A5]/30 transition-colors duration-200"
-                      @click="item.completed === 'TRUE' ? UndoGoal(item) : Completegoal(item)">
-                      <img :src="item.completed === 'TRUE' ? UndoButton : DoneButton" class="w-18 h-auto" alt="Action Button" />
+
+                    <div class="relative group" :class="item.pending ? 'opacity-50 pointer-events-none' : ''">
+                      <div
+                        class="flex items-center justify-center w-18 h-auto px-4 py-2 rounded-lg cursor-pointer bg-[#2963A5]/20 hover:bg-[#2963A5]/30 transition-colors duration-200"
+                        @click="item.completed === true ? UndoGoal(item) : Completegoal(item)">
+                        <img :src="item.completed === true ? UndoButton : DoneButton" class="w-18 h-auto select-none" alt="Action Button" />
+                      </div>
+
+                      <div v-if="item.pending" class="pointer-events-none absolute -top-10 right-0 z-50">
+                        <div class="hidden group-hover:block bg-black/80 text-white text-xs px-2 py-1 rounded shadow">
+                          Please wait before making immediate changes
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </li>
@@ -129,7 +146,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, watch, computed } from 'vue';
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import DoneButton from '~/assets/Done.svg';
 import UndoButton from '~/assets/Undo.svg';
 import DeleteButton from '~/assets/Trash.svg';
@@ -141,10 +158,8 @@ const deadlines = ref({});
 const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const today = new Date();
 const userId = useState('user').value.id;
-
 const displayedYear = ref(today.getFullYear());
 const displayedMonth = ref(today.getMonth());
-
 const monthNames = [
   'January',
   'February',
@@ -159,116 +174,146 @@ const monthNames = [
   'November',
   'December',
 ];
-
 const daysInMonth = computed(() => new Date(displayedYear.value, displayedMonth.value + 1, 0).getDate());
-
 const firstDayOffset = computed(() => new Date(displayedYear.value, displayedMonth.value, 1).getDay());
-
 function isToday(day) {
   return day === today.getDate() && displayedMonth.value === today.getMonth() && displayedYear.value === today.getFullYear();
 }
-
 const fetchDeadlines = async () => {
   try {
     const data = await $fetch(`/api/deadlines?id=${userId}&year=${displayedYear.value}&month=${displayedMonth.value + 1}`);
     const map = {};
     data.forEach((deadline) => {
-      const d = new Date(deadline.deadline + 'T00:00:00');
+      const d = new Date(deadline.deadline);
       if (d.getMonth() !== displayedMonth.value || d.getFullYear() !== displayedYear.value) return;
       const day = d.getDate();
       if (!map[day]) map[day] = [];
       map[day].push({
         name: deadline.goal_name,
         description: deadline.description,
-        completed: deadline.completed,
+        completed: String(deadline.completed).toLowerCase() === 'true',
         goalid: deadline.goal_id,
+        pending: false,
       });
     });
     deadlines.value = map;
   } catch {
     alert('Failed to fetch user data');
   } finally {
-    setTimeout(() => (loading.value = false), 400);
+    setTimeout(() => (loading.value = false), 200);
   }
 };
-
 onMounted(() => {
   fetchDeadlines();
   window.addEventListener('keydown', handleKey);
 });
-
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKey);
 });
-
 function handleKey(e) {
   if (e.key === 'Escape' && selectedDay.value) {
     selectedDay.value = null;
   }
 }
-
 watch([displayedMonth, displayedYear], async () => {
   loading.value = true;
   await fetchDeadlines();
 });
-
 const AddGoal = async () => {
   if (!selectedDay.value) return;
-  const formattedDate = `${displayedYear.value}-${String(displayedMonth.value + 1).padStart(
-    2,
-    '0'
-  )}-${String(selectedDay.value).padStart(2, '0')}`;
-  await $fetch('/api/goals', {
-    method: 'POST',
-    body: {
-      action: 'add',
-      userID: userId,
-      goalname: goal_name.value,
-      goaldesc: goal_desc.value,
-      deadline: formattedDate,
-    },
-  });
-  await fetchDeadlines();
+  const day = selectedDay.value;
+  const formattedDate = `${displayedYear.value}-${String(displayedMonth.value + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+  const tempId = `temp-${Date.now()}`;
+  const tempItem = {
+    name: goal_name.value,
+    description: goal_desc.value,
+    completed: false,
+    goalid: tempId,
+    deadline: formattedDate + 'T00:00:00',
+    pending: true,
+  };
+  const backup = JSON.parse(JSON.stringify(deadlines.value));
+  if (!deadlines.value[day]) deadlines.value[day] = [];
+  deadlines.value[day].push(tempItem);
   goal_name.value = '';
   goal_desc.value = '';
+  try {
+    const res = await $fetch('/api/goals', {
+      method: 'POST',
+      body: {
+        action: 'add',
+        userID: userId,
+        goalname: tempItem.name,
+        goaldesc: tempItem.description,
+        deadline: formattedDate,
+      },
+    });
+    if (res?.success && res.goalId) {
+      const list = deadlines.value[day];
+      const idx = list.findIndex((g) => g.goalid === tempId);
+      if (idx !== -1) {
+        list[idx].goalid = res.goalId;
+        list[idx].pending = false;
+      }
+    } else {
+      const list = deadlines.value[day];
+      const idx = list.findIndex((g) => g.goalid === tempId);
+      if (idx !== -1) list[idx].pending = false;
+    }
+  } catch {
+    deadlines.value = backup;
+    alert('Failed to add goal — try again.');
+  }
 };
-
 const Completegoal = async (goal) => {
+  if (goal.pending) return;
+  const backup = JSON.parse(JSON.stringify(deadlines.value));
+  goal.completed = true;
   try {
     await $fetch('/api/goals', {
       method: 'POST',
       body: { action: 'complete', goalID: goal.goalid },
     });
-    await fetchDeadlines();
   } catch {
+    deadlines.value = backup;
     alert('Could not mark goal as complete. Try again.');
   }
 };
-
 const UndoGoal = async (goal) => {
+  if (goal.pending) return;
+  const backup = JSON.parse(JSON.stringify(deadlines.value));
+  goal.completed = false;
   try {
     await $fetch('/api/goals', {
       method: 'POST',
       body: { action: 'undo', goalID: goal.goalid },
     });
-    await fetchDeadlines();
   } catch {
+    deadlines.value = backup;
     alert('Could not undo goal. Try again.');
   }
 };
-
 const DeleteGoal = async (goal) => {
+  if (goal.pending) return;
+  const backup = JSON.parse(JSON.stringify(deadlines.value));
+  for (const day in deadlines.value) {
+    const idx = deadlines.value[day].findIndex((g) => g.goalid === goal.goalid);
+    if (idx !== -1) {
+      deadlines.value[day].splice(idx, 1);
+      if (deadlines.value[day].length === 0) delete deadlines.value[day];
+      break;
+    }
+  }
   try {
     await $fetch('/api/goals', {
       method: 'POST',
       body: { action: 'delete', goalID: goal.goalid },
     });
-    await fetchDeadlines();
   } catch {
+    deadlines.value = backup;
     alert('Could not delete goal. Try again.');
   }
 };
-
 function prevMonth() {
   if (displayedMonth.value === 0) {
     displayedMonth.value = 11;
@@ -278,13 +323,11 @@ function prevMonth() {
   }
   selectedDay.value = null;
 }
-
 function goToCurrentMonth() {
   displayedMonth.value = today.getMonth();
   displayedYear.value = today.getFullYear();
   selectedDay.value = null;
 }
-
 function nextMonth() {
   if (displayedMonth.value === 11) {
     displayedMonth.value = 0;

@@ -1,41 +1,49 @@
-import { hash } from "bcryptjs";
-import sqlite3 from "sqlite3";
-import { open } from "sqlite";
-import { createError, readBody, defineEventHandler } from "h3";
+import { hash } from 'bcryptjs';
+import { defineEventHandler, readBody, createError } from 'h3';
+import { createClient } from '@supabase/supabase-js';
 
 export default defineEventHandler(async (event) => {
+  const config = useRuntimeConfig();
+  const supabase = createClient(config.supabaseUrl, config.supabaseServiceRole);
+
   const body = await readBody(event);
   const { username, email, password } = body;
 
   if (!email || !password || !username) {
-    throw createError({ statusCode: 400, message: "Missing fields" });
+    throw createError({ statusCode: 400, message: 'Missing fields' });
   }
 
-  const db = await open({
-    filename: "./server/database/Odyssey.db",
-    driver: sqlite3.Database,
-  });
+  try {
+    const { data: existing, error: existingErr } = await supabase
+      .from('users')
+      .select('user_id')
+      .or(`username.eq.${username},email.eq.${email}`)
+      .maybeSingle();
 
-  const existingUser = await db.get(
-    "SELECT 1 FROM Users WHERE username = ? OR email = ?",
-    username,
-    email,
-  );
+    if (existingErr) {
+      throw createError({ statusCode: 500, message: 'Database error: ' + existingErr.message });
+    }
 
-  if (existingUser) {
-    throw createError({
-      statusCode: 409,
-      message: "Username or email already taken",
+    if (existing) {
+      throw createError({ statusCode: 409, message: 'Username or email already taken' });
+    }
+
+    const hashedPassword = await hash(password, 10);
+
+    const { error: insertErr } = await supabase.from('users').insert({
+      username,
+      email,
+      hashed_password: hashedPassword,
+      created_at: new Date().toISOString(),
     });
+
+    if (insertErr) {
+      throw createError({ statusCode: 500, message: 'Failed to create user: ' + insertErr.message });
+    }
+
+    return { success: true };
+  } catch (err) {
+    if (err?.statusCode) throw err;
+    throw createError({ statusCode: 500, message: 'Unexpected server error' });
   }
-  const hashedPassword = await hash(password, 10);
-
-  await db.run(
-    'INSERT INTO Users (username, email, hashed_password, created_at) VALUES (?, ?, ?, datetime("now"))',
-    username,
-    email,
-    hashedPassword,
-  );
-
-  return { success: true };
 });

@@ -1,75 +1,49 @@
-# Nuxt Minimal Starter
+# Odyssey
+A basic calendar web app
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## **Tech Stack**
+[![NuxtJS](https://img.shields.io/badge/NuxtJS-00DC82?logo=nuxt&logoColor=white&style=for-the-badge)](#)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-38B2AC?logo=tailwind-css&logoColor=white&style=for-the-badge)](#)
+[![Supabase](https://img.shields.io/badge/Supabase-3FCF8E?logo=supabase&logoColor=fff&style=for-the-badge)](#)
 
-## Setup
 
-Make sure to install dependencies:
+## **Pages**
+**Auth**  
+- Only accessible page if not logged in 
+- Users can either log in or create an account from here 
 
-```bash
-# npm
-npm install
+**Home**  
+- View upcoming and past deadlines
+- Quickly mark them as complete  
 
-# pnpm
-pnpm install
+**Calendar**  
+- Visualize dates in month view
+- Today's date is highlighted with a dark blue number.
+- Deadlines shown as borders on days based on completion
+  - Green: all deadlines on that day are complete
+  - Red: at least one deadline on that day is incomplete
+- Users can click on a day to
+  - Add a deadline
+  - Delete a deadline
+  - Mark a deadline as complete or incomplete
+- Users can also navigate to next and previous month via the buttons labeled "Next" and "Prev" at the top right and left of the calendar respectively    
+  - when on a month that is not the current month users can click on the button on the bottom right labeled "Back to Present" to return to the current month 
 
-# yarn
-yarn install
+**Archive**  
+- View "DB" of deadlines  
+- From here users can
+  - Search for a deadline by name  
+  - Filter deadlines by month  
+  - Sort deadlines by
+    - completion
+    - deadline
+    - creation date
 
-# bun
-bun install
-```
+**Account**  
+- Manage user profile  
+- From here users can edit their
+  - Username
+  - Email
+- As well as view account stats    
 
-## Development Server
 
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.

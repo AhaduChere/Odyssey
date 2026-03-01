@@ -6,32 +6,9 @@
   <section v-else class="min-h-screen text-white flex flex-col items-center pt-28">
     <div class="px-6 flex flex-row gap-8 w-full max-w-[1600px]">
       <div class="flex-1 flex flex-col gap-4">
-        <h3 class="text-3xl text-indigo-400 font-semibold text-center select-none">Upcoming Deadlines</h3>
-        <div class="w-full h-1 bg-gradient-to-r from-[#2963A5] to-indigo-400 mx-auto rounded"></div>
-        <transition-group name="slide-left" tag="ul" class="space-y-4">
-          <li
-            v-for="goal in upcomingGoals.slice(0, 5)"
-            :key="goal.goalid"
-            class="flex justify-between items-center p-4 rounded-xl bg-[#0f172a] border-2 hover:scale-[1.01] border-black duration-300">
-            <div>
-              <p class="font-semibold text-lg text-[#ffffff]">{{ goal.name }}</p>
-              <p class="text-sm text-indigo-400 mt-1">
-                Deadline: <span class="font-extrabold">{{ goal.deadline }}</span>
-              </p>
-            </div>
-            <button
-              class="px-4 py-2 rounded-lg text-sm font-medium bg-[#2963A5]/20 text-[#ffffff] filter hover:bg-[#2963A5]/25 transition-transform duration-200"
-              @click="Completegoal(goal, 'upcoming')">
-              <img :src="DoneButton" alt="Complete" class="w-8 h-8" />
-            </button>
-          </li>
-        </transition-group>
-      </div>
-
-      <div class="flex-1 flex flex-col gap-4">
         <h3 class="text-3xl text-indigo-400 font-semibold text-center select-none">Past Due Deadlines</h3>
         <div class="w-full h-1 bg-gradient-to-l from-[#2963A5] to-indigo-400 mx-auto rounded"></div>
-        <transition-group name="slide-right" tag="ul" class="space-y-4">
+        <transition-group name="slide-left" tag="ul" class="space-y-4">
           <li
             v-for="goal in pastDueGoals.slice(0, 5)"
             :key="goal.goalid"
@@ -45,6 +22,28 @@
             <button
               class="px-4 py-2 rounded-lg text-sm font-medium bg-indigo-500/20 text-[#ffffff] filter hover:bg-indigo-500/25 transition-transform duration-200"
               @click="Completegoal(goal, 'past')">
+              <img :src="DoneButton" alt="Complete" class="w-8 h-8" />
+            </button>
+          </li>
+        </transition-group>
+      </div>
+      <div class="flex-1 flex flex-col gap-4">
+        <h3 class="text-3xl text-indigo-400 font-semibold text-center select-none">Upcoming Deadlines</h3>
+        <div class="w-full h-1 bg-gradient-to-r from-[#2963A5] to-indigo-400 mx-auto rounded"></div>
+        <transition-group name="slide-right" tag="ul" class="space-y-4">
+          <li
+            v-for="goal in upcomingGoals.slice(0, 5)"
+            :key="goal.goalid"
+            class="flex justify-between items-center p-4 rounded-xl bg-[#0f172a] border-2 hover:scale-[1.01] border-black duration-300">
+            <div>
+              <p class="font-semibold text-lg text-[#ffffff]">{{ goal.name }}</p>
+              <p class="text-sm text-indigo-400 mt-1">
+                Deadline: <span class="font-extrabold">{{ goal.deadline }}</span>
+              </p>
+            </div>
+            <button
+              class="px-4 py-2 rounded-lg text-sm font-medium bg-[#2963A5]/20 text-[#ffffff] filter hover:bg-[#2963A5]/25 transition-transform duration-200"
+              @click="Completegoal(goal, 'upcoming')">
               <img :src="DoneButton" alt="Complete" class="w-8 h-8" />
             </button>
           </li>
@@ -97,9 +96,7 @@ const fetchData = async () => {
   } catch {
     alert('Failed to fetch user data');
   }
-  setTimeout(() => {
-    loading.value = false;
-  }, 400);
+  setTimeout(() => (loading.value = false), 200);
 };
 
 onMounted(fetchData);

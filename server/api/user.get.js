@@ -1,32 +1,31 @@
-import { defineEventHandler, getQuery, sendError, createError } from "h3";
-import sqlite3 from "sqlite3";
-import { open } from "sqlite";
+import { defineEventHandler, getQuery, sendError, createError } from 'h3';
+import { createClient } from '@supabase/supabase-js';
 
 export default defineEventHandler(async (event) => {
+  const config = useRuntimeConfig();
+  const supabase = createClient(config.supabaseUrl, config.supabaseServiceRole);
+
   const query = getQuery(event);
   const id = query.id;
 
   if (!id) {
-    return sendError(event, createError({ statusCode: 400, message: "Missing user ID" }));
+    return sendError(event, createError({ statusCode: 400, message: 'Missing user ID' }));
   }
 
-  const db = await open({
-    filename: "server/database/Odyssey.db",
-    driver: sqlite3.Database,
-  });
-
   try {
-    const user = await db.get(
-      "SELECT username, email, created_at FROM Users WHERE user_id = ?",
-      id
-    );
+    const { data: user, error } = await supabase
+      .from('users')
+      .select('username, email, created_at')
+      .eq('user_id', id)
+      .maybeSingle();
+
+    if (error) throw error;
     if (!user) {
-      return sendError(event, createError({ statusCode: 404, message: "User not found" }));
+      return sendError(event, createError({ statusCode: 404, message: 'User not found' }));
     }
+
     return user;
   } catch (err) {
-    return sendError(event, createError({ statusCode: 500, message: "Error: " + err }));
-  } finally {
-    db.close();
+    return sendError(event, createError({ statusCode: 500, message: 'Error: ' + (err?.message ?? String(err)) }));
   }
 });

@@ -110,9 +110,7 @@ onMounted(() => {
     } catch {
       alert('Failed to fetch user data');
     }
-    setTimeout(() => {
-      loading.value = false;
-    }, 400);
+    setTimeout(() => (loading.value = false), 200);
   };
   fetchData();
 });
@@ -147,6 +145,7 @@ const saveChanges = async () => {
       Tempusername.value = username.value;
       return;
     }
+    loading.value = true;
     await $fetch('api/user', {
       method: 'PATCH',
       body: {
@@ -162,6 +161,7 @@ const saveChanges = async () => {
       Tempemail.value = email.value;
       return;
     }
+    loading.value = true;
     await $fetch('api/email', {
       method: 'PATCH',
       body: {
@@ -172,6 +172,7 @@ const saveChanges = async () => {
     email.value = Tempemail.value;
   }
   Edit.value = !Edit.value;
+  loading.value = false;
 };
 
 onBeforeUnmount(() => {

@@ -1,6 +1,5 @@
-import sqlite3 from "sqlite3";
-import { open } from "sqlite";
-import { createError, readBody, defineEventHandler } from "h3";
+import { defineEventHandler, readBody, createError } from 'h3';
+import { createClient } from '@supabase/supabase-js';
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -8,15 +7,20 @@ export default defineEventHandler(async (event) => {
   const ID = body.userid;
 
   if (!newusername || !ID) {
-    throw createError({ statusCode: 400, message: "Missing fields" });
+    throw createError({ statusCode: 400, message: 'Missing fields' });
   }
 
-  const db = await open({
-    filename: "./server/database/Odyssey.db",
-    driver: sqlite3.Database,
-  });
+  const config = useRuntimeConfig();
+  const supabase = createClient(config.supabaseUrl, config.supabaseServiceRole);
 
-  db.run("UPDATE Users SET username = ? WHERE user_id = ?", newusername, ID);
-  db.close();
+  const { error } = await supabase
+    .from('users')
+    .update({ username: newusername })
+    .eq('user_id', ID);
+
+  if (error) {
+    throw createError({ statusCode: 500, message: 'Failed to update username: ' + error.message });
+  }
+
   return { success: true };
 });

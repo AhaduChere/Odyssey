@@ -1,8 +1,10 @@
 import { defineEventHandler, getQuery, sendError, createError } from 'h3';
-import sqlite3 from 'sqlite3';
-import { open } from 'sqlite';
+import { createClient } from '@supabase/supabase-js';
 
 export default defineEventHandler(async (event) => {
+  const config = useRuntimeConfig();
+  const supabase = createClient(config.supabaseUrl, config.supabaseServiceRole);
+
   const query = getQuery(event);
   const id = query.id;
   const method = query.method;
@@ -10,51 +12,78 @@ export default defineEventHandler(async (event) => {
   if (!id) return sendError(event, createError({ statusCode: 400, message: 'Missing user ID' }));
   if (!method) return sendError(event, createError({ statusCode: 400, message: 'Missing method type' }));
 
-  const db = await open({
-    filename: 'server/database/Odyssey.db',
-    driver: sqlite3.Database,
-  });
-
   try {
     const today = new Date().toISOString().split('T')[0];
 
     if (method === 'dashboard') {
-      const deadlines = await db.all(
-        'SELECT DISTINCT deadline FROM Goals WHERE user_id = ? AND deadline >= ? ORDER BY deadline ASC LIMIT 30',
-        id,
-        today
-      );
+      const { data: deadlines, error: dErr } = await supabase
+        .from('goals')
+        .select('deadline', { distinct: true })
+        .eq('user_id', id)
+        .gte('deadline', today)
+        .order('deadline', { ascending: true })
+        .limit(30);
+
+      if (dErr) throw dErr;
 
       let upcomingGoals = [];
-      if (deadlines.length > 0) {
+      if (deadlines && deadlines.length > 0) {
         const maxDeadline = deadlines[deadlines.length - 1].deadline;
-        upcomingGoals = await db.all(
-          "SELECT * FROM Goals WHERE user_id = ? AND completed = 'FALSE' AND deadline BETWEEN ? AND ? ORDER BY deadline ASC",
-          id,
-          today,
-          maxDeadline
-        );
+        const { data: upcoming, error: uErr } = await supabase
+          .from('goals')
+          .select('*')
+          .eq('user_id', id)
+          .eq('completed', false)
+          .gte('deadline', today)
+          .lte('deadline', maxDeadline)
+          .order('deadline', { ascending: true });
+
+        if (uErr) throw uErr;
+        upcomingGoals = upcoming;
       }
 
-      const pastDueGoals = await db.all(
-        "SELECT * FROM Goals WHERE user_id = ? AND completed = 'FALSE' AND deadline < ? ORDER BY deadline ASC",
-        id,
-        today
-      );
+      const { data: pastDueGoals, error: pErr } = await supabase
+        .from('goals')
+        .select('*')
+        .eq('user_id', id)
+        .eq('completed', false)
+        .lt('deadline', today)
+        .order('deadline', { ascending: true });
+
+      if (pErr) throw pErr;
 
       return { upcoming: upcomingGoals, pastdue: pastDueGoals };
     } else if (method === 'account') {
-      const goalsIC = await db.get("SELECT COUNT(*) as count FROM Goals WHERE user_id = ? AND completed = 'FALSE'", id);
-      const goalsC = await db.get("SELECT COUNT(*) as count FROM Goals WHERE user_id = ? AND completed = 'TRUE'", id);
+      const { count: incompleteCount, error: icErr } = await supabase
+        .from('goals')
+        .select('user_id', { count: 'exact' })
+        .eq('user_id', id)
+        .eq('completed', false);
 
-      return { incomplete: goalsIC.count, completed: goalsC.count };
+      if (icErr) throw icErr;
+
+      const { count: completedCount, error: cErr } = await supabase
+        .from('goals')
+        .select('user_id', { count: 'exact' })
+        .eq('user_id', id)
+        .eq('completed', true);
+
+      if (cErr) throw cErr;
+
+      return { incomplete: incompleteCount ?? 0, completed: completedCount ?? 0 };
     } else if (method === 'archive') {
-      const allGoals = await db.all('SELECT * FROM Goals WHERE user_id = ? ORDER BY deadline DESC', id);
+      const { data: allGoals, error: aErr } = await supabase
+        .from('goals')
+        .select('*')
+        .eq('user_id', id)
+        .order('deadline', { ascending: false });
+
+      if (aErr) throw aErr;
       return allGoals;
+    } else {
+      return sendError(event, createError({ statusCode: 400, message: 'Unknown method type' }));
     }
   } catch (err) {
     return sendError(event, createError({ statusCode: 500, message: 'Error: ' + err }));
-  } finally {
-    db.close();
   }
 });
