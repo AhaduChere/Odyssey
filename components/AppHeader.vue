@@ -37,7 +37,6 @@
 <script setup>
 import Logo from '~/assets/Logo.svg';
 import Home from '~/assets/Home.svg';
-import Calendar from '~/assets/Calendar.svg';
 import Archive from '~/assets/Archive.svg';
 import Account from '~/assets/Account.svg';
 import Logout from '~/assets/Logout.svg';
@@ -47,7 +46,6 @@ const route = useRoute();
 
 const links = [
   { to: '/', label: 'Home', icon: Home },
-  { to: '/Calendar', label: 'Calendar', icon: Calendar },
   { to: '/Archive', label: 'Archive', icon: Archive },
   { to: '/Account', label: 'Account', icon: Account },
 ];

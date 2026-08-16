@@ -34,7 +34,7 @@
             class="w-11/12 bg-[#1c2541] border border-neutral-800 outline-none rounded-2xl text-indigo-400 text-md font-serif placeholder-indigo-400 px-5 py-3 shadow-sm focus:ring-2 focus:ring-indigo-400" />
         </div>
 
-        <div class="w-full flex justify-center pt-4">
+        <div class="w-full flex justify-center pt-8">
           <button
             type="submit"
             class="inline-flex w-10/12 items-center justify-center rounded-2xl bg-[#1c2541] border border-neutral-800 px-4 py-3 font-semibold text-indigo-400 shadow-md hover:scale-105 active:translate-y-1 transition-all duration-200">

@@ -1,0 +1,30 @@
+{
+  "session_name": "Odyssey",
+  "windows": [
+    {
+      "window_name": "Dev",
+      "layout": "even-horizontal",
+      "panes": [
+        {
+          "shell_command": ["nvim"],
+          "focus": true
+        },
+        {
+          "shell_command": ["nvim"]
+        }
+      ]
+    },
+    {
+      "window_name": "Server",
+      "layout": "even-horizontal",
+      "panes": [
+        {
+          "shell_command": ["npm run dev"]
+        },
+        {
+          "shell_command": ["lazygit"]
+        }
+      ]
+    }
+  ]
+}
